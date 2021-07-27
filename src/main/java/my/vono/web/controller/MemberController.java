@@ -48,9 +48,4 @@ public class MemberController {
 //		return
 //	}
 	
-	
-	
-	
-	
-	
 }
