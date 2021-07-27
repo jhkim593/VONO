@@ -3,14 +3,12 @@ package my.vono.web.service;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import my.vono.web.model.meeting.MeetingDAO;
+import my.vono.web.model.folder.FolderDAO;
 
 @Service
 @RequiredArgsConstructor
-public class MeetingService {
+public class FolderService {
+	private final FolderDAO folderDAO;
 
-	
-	private final MeetingDAO meetingDAO;
-	
 	
 }
