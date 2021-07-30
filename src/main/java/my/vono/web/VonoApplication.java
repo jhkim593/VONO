@@ -9,5 +9,4 @@ public class VonoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(VonoApplication.class, args);
 	}
-
 }
