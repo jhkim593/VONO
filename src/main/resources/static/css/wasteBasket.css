@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+#txt_line {
+	width: 120px;
+	padding: 0 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.card {
+	margin-bottom: 20px !important;
+}
