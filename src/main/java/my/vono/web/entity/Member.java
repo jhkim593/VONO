@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import com.sun.istack.NotNull;
 
 import lombok.AccessLevel;
@@ -34,7 +36,7 @@ public class Member {
 	@Column(nullable = false)
     private String pw;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String provider;
     
     @Column(nullable = false)
@@ -48,7 +50,7 @@ public class Member {
     
     private String job;
     
-    private String profile;
+//    private String profile;
     
     @OneToMany(mappedBy = "member")    //member와 folder 일대 다 관계 설정
     private List<Folder>folders=new ArrayList<>();
@@ -56,7 +58,8 @@ public class Member {
     public static Member createMemeber(String name) {
     	Member m=new Member();
     	m.email=name;
-		return m;    }
+		return m;    
+	}
     
     
 }
