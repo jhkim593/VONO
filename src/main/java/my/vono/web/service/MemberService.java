@@ -18,12 +18,17 @@ public class MemberService {
 	private final MemberDAO memberDAO;
 	
 	
-	public Long defaultSignUp(Member member) {
-		System.out.println("서비스");
+	public Member defaultSignUp(Member member) {
+		
 
 		return memberDAO.save(member);
 	}
 	
+	public Member login(String login_Id, String pw) {
+		
+		return null;
+		
+	}
 //	public void inser(Member m) {
 //		memberDAO.delete(m);
 //		memberDAO.save()

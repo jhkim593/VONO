@@ -5,21 +5,11 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.config.JpaRepositoryConfigExtension;
 import org.springframework.stereotype.Repository;
 
 import my.vono.web.entity.Member;
 
-@Repository
-public class MemberDAO{
+public interface MemberDAO extends JpaRepository<Member,Long>{
 	
-	@PersistenceContext
-	EntityManager em;
-	
-	public Long save(Member member) {
-		System.out.println("DAO");
-
-		em.persist(member);
-		return member.getId();
-	}
-
 }
