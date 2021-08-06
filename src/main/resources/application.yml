@@ -7,7 +7,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-    password: 8834
+#    password: 8834
+    password: ENC(AHFKZyD2RWvz/PjjUMdghQ)
     url: jdbc:mysql://localhost:3308/vono?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
 #  
