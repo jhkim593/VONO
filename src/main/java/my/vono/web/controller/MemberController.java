@@ -30,7 +30,12 @@ public class MemberController {
 	
 	@PostMapping("signUp")
 	public String memberSignUp(@ModelAttribute("memberJoinForm") Member member) {
-		Member memberId = memberService.defaultSignUp(member);
+
+		System.out.println("컨트롤러");
+//		Long memberId = memberService.defaultSignUp(member);
+=======
+		
+
 		
 		return "redirect:/";
 	}
