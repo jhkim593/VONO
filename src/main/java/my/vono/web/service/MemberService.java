@@ -35,15 +35,15 @@ public class MemberService {
 	}
 	
 
-    public Boolean login(MemberVO memberVO) {
-    	Optional<Member> findMember=memberDAO.findByMemberWithLoginIdAndPw(memberVO.getLogin_id(),memberVO.getPw());
-    	if(findMember.isPresent()) {
-    		return true;
-    		
-    	}
-    	return false;
-    	
-    }
+//    public Boolean login(MemberVO memberVO) {
+//    	Optional<Member> findMember=memberDAO.findByMemberWithLoginIdAndPw(memberVO.getLogin_id(),memberVO.getPw());
+//    	if(findMember.isPresent()) {
+//    		return true;
+//    		
+//    	}
+//    	return false;
+//    	
+//    }
     
     public MemberVO detailMember(Long id) {
     	Optional<Member>findMember=memberDAO.findById(id);

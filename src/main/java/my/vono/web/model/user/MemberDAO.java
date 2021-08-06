@@ -12,9 +12,9 @@ import my.vono.web.entity.Member;
 
 public interface MemberDAO extends JpaRepository<Member,Long>{
 	
-	@Query("select * from Member where id=:login_id and pw=:pw" )
-	Optional<Member>findByMemberWithLoginIdAndPw(@Param("login_id")String login_id,@Param("pw")String pw);
-	
+//	@Query("select m from Member m where m.=:lo")
+//	Optional<Member>findByMemberWithLoginIdAndPw(@Param("login_id")String login_id,@Param("pw")String pw);
+//	
 
 
 }
