@@ -1,10 +1,13 @@
 package my.vono.web.model.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import my.vono.web.entity.Member;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class MemberVO {
 
 	private Long id;
@@ -24,4 +27,9 @@ public class MemberVO {
 	private String job;
 	
 	private String profile;
+	
+	public static MemberVO createMemberVO(Member member) {
+		return new MemberVO(member.getId(),member.getLogin_id(),member.getPw(),member.getName(),member.getProvider(),
+				member.getEmail(),member.getPhone(),member.getJob(),member.getProfile());
+	}
 }
