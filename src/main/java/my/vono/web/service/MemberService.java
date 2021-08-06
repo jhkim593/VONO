@@ -19,6 +19,7 @@ public class MemberService {
 	private final MemberDAO memberDAO;
 	
 	
+
 	public Member defaultSignUp(MemberVO memberVO) {
 		
 		Member member=Member.createMemeber(memberVO.getLogin_id(), memberVO.getPw(), null,
@@ -26,9 +27,14 @@ public class MemberService {
 				 memberVO.getPhone(), memberVO.getJob());
 	    
 
+
+		
+
+
 		return memberDAO.save(member);
 	}
 	
+
     public Boolean login(MemberVO memberVO) {
     	Optional<Member> findMember=memberDAO.findByMemberWithLoginIdAndPw(memberVO.getLogin_id(),memberVO.getPw());
     	if(findMember.isPresent()) {
@@ -72,6 +78,7 @@ public class MemberService {
     }
     
 	
+
 
 	
 
