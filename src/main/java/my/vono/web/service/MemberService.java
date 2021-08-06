@@ -7,7 +7,9 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import my.vono.web.entity.Folder;
 import my.vono.web.entity.Member;
+import my.vono.web.model.folder.FolderDAO;
 import my.vono.web.model.user.MemberDAO;
 import my.vono.web.model.user.MemberVO;
 
@@ -17,21 +19,21 @@ import my.vono.web.model.user.MemberVO;
 public class MemberService {
 	
 	private final MemberDAO memberDAO;
+	private final FolderDAO folderDAO;
 	
 	
 
-	public Member defaultSignUp(MemberVO memberVO) {
+	public void defaultSignUp(MemberVO memberVO) {
 		
 		Member member=Member.createMemeber(memberVO.getLogin_id(), memberVO.getPw(), null,
 				memberVO.getName(),memberVO.getEmail(),
 				 memberVO.getPhone(), memberVO.getJob());
 	    
 
-
-		
-
-
-		return memberDAO.save(member);
+        Folder folder=Folder.createFolder("기본폴더", member, null);
+        
+	    memberDAO.save(member);
+	    folderDAO.save(folder);
 	}
 	
 
