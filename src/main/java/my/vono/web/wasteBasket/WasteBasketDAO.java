@@ -1,5 +1,14 @@
 package my.vono.web.wasteBasket;
 
-public interface WasteBasketDAO {
-//마지막 작업 백업 확인용8시36분
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface WasteBasketDAO extends JpaRepository<WasteBasket, Long> {
+
+	List<WasteBasket> findAll();
+	
+	List<WasteBasket> findAllByOrderByDateDesc();
+	
+	Long deleteById(long id);
 }

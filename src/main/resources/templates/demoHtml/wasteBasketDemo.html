@@ -16,7 +16,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+<!--     <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <link href="css/ver1.0.css" rel="stylesheet">
     
     <!-- favicon  -->
     <link rel="shortcut icon" size="16x16 32x32 64x64"  href="img/vonoIcon.png" />
@@ -178,7 +179,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">포로리</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../static/img/undraw_profile.svg">
+                                    src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -203,7 +204,7 @@
                 <!-- Begin Page Content -->
                 <!-- 여기서부터 content 작성 시작 -->
                 <div class="container-fluid">
-                <div class="dropdown" style="float: right;">
+                <div class="dropdown" id="floatRight">
                  <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)'/> <b>전체선택</b>
             <button type="button" class="btn btn-default dropdown toggle" data-toggle="dropdown"><b>옵션 </b><i class="fas fa-angle-down"></i><span class="caret"></span></button>
              
@@ -219,14 +220,15 @@
       <div class="row">
        
         <table>
-        <tr th:each="vo : ${FileVo}">
+        <tr th:each="list : ${fileList}">
         <div class="col-2">
          <div class="card">
             <div class="card-body">
-            <input type='checkbox' name='checkAll' th:value="${vo.fileTestName}" onclick='checkSelectAll()' style="float: right;"/>
+            <input type='checkbox' name='checkAll' th:value="${list.fileTestName}" onclick='checkSelectAll()' style="float: right;"/>
             <br>
-             <p class="card-text" id="txt_line"><b><a th:text="${vo.fileTestName}" href="viewFiles"  onclick="window.open(this.href, '_blank', 'width=600, height=400'); return false;" style="text-decoration: none;color: gray;" ></a></b></p>
-              <p class="card-text" th:text="${#temporals.format(vo.fileTestTime, 'yyyy-MM-dd')}"></p>
+             <p class="card-text" id="txt_line"><b><a th:text="${list.name}" href="viewFiles"  onclick="window.open(this.href, '_blank', 'width=600, height=400'); return false;" style="text-decoration: none;color: gray;" ></a></b></p>
+             <p class="card-text" id="txt_line"><b><a th:text="${list.date}" href="#" style="text-decoration: none;color: gray;" ></a></b></p>
+<!--               <p class="card-text" th:text="${#temporals.format(list.date, 'yyyy-MM-dd')}"></p> -->
             </div>
          </div>
         </div>
