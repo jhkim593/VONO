@@ -19,10 +19,13 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
 @AllArgsConstructor
+//@Builder
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
@@ -50,16 +53,29 @@ public class Member {
     
     private String job;
     
-//    private String profile;
+    private String profile;
     
     @OneToMany(mappedBy = "member")    //member와 folder 일대 다 관계 설정
     private List<Folder>folders=new ArrayList<>();
     
-    public static Member createMemeber(String name) {
+    public static Member createMemeber(String login_id,String pw,
+    		String provider,String name,String email,String phone,String job) {
     	Member m=new Member();
-    	m.email=name;
+    	m.login_id=login_id;
+    	m.pw=pw;
+    	m.provider=provider;
+    	m.name=name;
+    	m.email=email;
+    	m.phone=phone;
+    	m.job=job;
 		return m;    
 	}
+    public void changeEmail(String email) {
+    	if(email!=null) {
+    	this.email=email;
+    	}
+    
+    }
     
     
 }
