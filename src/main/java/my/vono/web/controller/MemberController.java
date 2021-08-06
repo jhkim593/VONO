@@ -33,7 +33,7 @@ public class MemberController {
 
 		System.out.println("컨트롤러");
 //		Long memberId = memberService.defaultSignUp(member);
-=======
+
 		
 
 		
