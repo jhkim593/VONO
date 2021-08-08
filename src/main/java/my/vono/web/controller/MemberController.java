@@ -29,28 +29,20 @@ public class MemberController {
 	}
 	
 	@PostMapping("signUp")
-	public String memberSignUp(@ModelAttribute("memberJoinForm") Member member) {
+	public String memberSignUp(@ModelAttribute("memberJoinForm") MemberVO memberVO) {
 
-		System.out.println("컨트롤러");
-//		Long memberId = memberService.defaultSignUp(member);
-
-		
-
+		memberService.defaultSignUp(memberVO);
 		
 		return "redirect:/";
 	}
+
 	
 //	@PostMapping("/member/login")
 //	public String memberLogin() {
 //		
 //		return "ok"
 //	} 
-	
-//	@PostMapping("/member/signUp")
-//	public String memberSignUp() {
-//		
-//		return 
-//	} 
+
 //	@PostMapping("/member/logout")
 //	public String memberLogout(HttpServletRequest request,MemberVO vo) {
 //		
