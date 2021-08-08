@@ -11,11 +11,11 @@ spring:
     
 
     #huk en nu jae nu
-    #password: ENC(6nNOh/3sDxI0zH52ghe2Wg==)
+    password: ENC(6nNOh/3sDxI0zH52ghe2Wg==)
     #doo
     #password: ENC(rIX7PfoYjAAuS5PbbI0v/RYIkFjBeN9i)
     #jin
-    password: ENC(3F1eltMp3xhu5T+HyPoTIg==)
+    #password: ENC(3F1eltMp3xhu5T+HyPoTIg==)
     url: ENC(Sop4X6qZnES4rPtOOytaLW2G/Wl22e86XygKZuMFt3U84ZdYNu35NTcSS+Nom+hj2/WcvUccki4j4u4jQ1OI1KzhoysRpcZLKWPlQH4nW9+JbUmY1FF9MWXrbDtCq+Dq2n0+zvPrG0U=)
     username: ENC(tJcVF6BtGG3Tn29MBGMYig==)
 #  

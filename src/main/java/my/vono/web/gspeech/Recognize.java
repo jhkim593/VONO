@@ -55,6 +55,7 @@ public class Recognize {
 
   /** Run speech recognition tasks. */
   public static void main(String... args) throws Exception {
+	  System.out.println("Recognize start");
     if (args.length < 1) {
       System.out.println("Usage:");
       System.out.printf(
@@ -135,7 +136,8 @@ public class Recognize {
       RecognitionConfig config =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              //.setLanguageCode("ko-KR")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .build();
       RecognitionAudio audio = RecognitionAudio.newBuilder().setContent(audioBytes).build();
@@ -169,7 +171,8 @@ public class Recognize {
       RecognitionConfig config =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .setEnableWordTimeOffsets(true)
               .build();
@@ -210,7 +213,7 @@ public class Recognize {
       RecognitionConfig config =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.FLAC)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .build();
       RecognitionAudio audio = RecognitionAudio.newBuilder().setUri(gcsUri).build();
@@ -248,7 +251,7 @@ public class Recognize {
       RecognitionConfig config =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .build();
       RecognitionAudio audio = RecognitionAudio.newBuilder().setContent(audioBytes).build();
@@ -289,7 +292,7 @@ public class Recognize {
       RecognitionConfig config =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.FLAC)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .setEnableWordTimeOffsets(true)
               .build();
@@ -338,7 +341,7 @@ public class Recognize {
       RecognitionConfig config =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.FLAC)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .build();
       RecognitionAudio audio = RecognitionAudio.newBuilder().setUri(gcsUri).build();
@@ -380,7 +383,7 @@ public class Recognize {
       RecognitionConfig recConfig =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .setModel("default")
               .build();
@@ -465,7 +468,7 @@ public class Recognize {
       RecognitionConfig recConfig =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .setEnableAutomaticPunctuation(true)
               .build();
@@ -502,7 +505,7 @@ public class Recognize {
       RecognitionConfig config =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.FLAC)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .setEnableAutomaticPunctuation(true)
               .build();
@@ -549,7 +552,7 @@ public class Recognize {
       RecognitionConfig recConfig =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .setEnableAutomaticPunctuation(true)
               .build();
@@ -657,7 +660,7 @@ public class Recognize {
       RecognitionConfig recognitionConfig =
           RecognitionConfig.newBuilder()
               .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(16000)
               .build();
       StreamingRecognitionConfig streamingRecognitionConfig =
@@ -731,7 +734,7 @@ public class Recognize {
       RecognitionConfig config =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(8000)
               .setUseEnhanced(true)
               // A model must be specified to use enhanced model.
@@ -768,7 +771,7 @@ public class Recognize {
           RecognitionConfig.newBuilder()
               // encoding may either be omitted or must match the value in the file header
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               // sample rate hertz may be either be omitted or must match the value in the file
               // header
               .setSampleRateHertz(16000)
@@ -803,7 +806,7 @@ public class Recognize {
           RecognitionConfig.newBuilder()
               // encoding may either be omitted or must match the value in the file header
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               // sample rate hertz may be either be omitted or must match the value in the file
               // header
               .setSampleRateHertz(16000)
@@ -852,7 +855,7 @@ public class Recognize {
       RecognitionConfig config =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(44100)
               .setAudioChannelCount(2)
               .setEnableSeparateRecognitionPerChannel(true)
@@ -887,7 +890,7 @@ public class Recognize {
       RecognitionConfig config =
           RecognitionConfig.newBuilder()
               .setEncoding(AudioEncoding.LINEAR16)
-              .setLanguageCode("en-US")
+              .setLanguageCode("ko-KR")
               .setSampleRateHertz(44100)
               .setAudioChannelCount(2)
               .setEnableSeparateRecognitionPerChannel(true)

@@ -39,6 +39,7 @@ public class ExportToStorageBeta {
     String encoding = "LINEAR16"; // encoding of the audio
     int sampleRateHertz = 8000;
     String languageCode = "en-US"; // language code BCP-47_LANGUAGE_CODE_OF_AUDIO
+    //String languageCode = "ko-KR";
     exportToStorage(inputUri, outputStorageUri, encoding, sampleRateHertz, languageCode);
   }
 
