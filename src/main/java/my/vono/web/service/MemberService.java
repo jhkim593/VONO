@@ -20,22 +20,19 @@ public class MemberService {
 	
 	private final MemberDAO memberDAO;
 	private final FolderDAO folderDAO;
-	
-	
 
 	public void defaultSignUp(MemberVO memberVO) {
 		
 		Member member=Member.createMemeber(memberVO.getLogin_id(), memberVO.getPw(), null,
 				memberVO.getName(),memberVO.getEmail(),
 				 memberVO.getPhone(), memberVO.getJob());
-	    
 
         Folder folder=Folder.createFolder("기본폴더", member, null);
         
 	    memberDAO.save(member);
 	    folderDAO.save(folder);
+	    
 	}
-	
 
 //    public Boolean login(MemberVO memberVO) {
 //    	Optional<Member> findMember=memberDAO.findByMemberWithLoginIdAndPw(memberVO.getLogin_id(),memberVO.getPw());
@@ -63,8 +60,6 @@ public class MemberService {
     		Member member=findMember.get();
     		
     		member.changeEmail(memberVO.getEmail());
-    		
-    		
     		
     	}
     	
