@@ -42,7 +42,7 @@ public class Folder {
 	@JoinColumn(name="parent_id")
 	private Folder folder;
 	
-	@OneToMany(mappedBy = "folder")
+	@OneToMany(mappedBy = "folder",cascade = CascadeType.ALL)
 	private List<Folder>folders=new ArrayList<>();
 	
 	private Boolean is_trash;
@@ -57,7 +57,7 @@ public class Folder {
 		if(parent!=null) {
 			folder.addParent(folder);
 		}
-		folder.folder=null;
+		
 		folder.is_trash=false;
 		return folder;
 		
@@ -78,6 +78,10 @@ public class Folder {
 	
 	public void changeFolderName(String name) {
 		this.name=name;
+	}
+
+	public void changeIs_trash() {
+		this.is_trash=true;
 	}
 	
 	

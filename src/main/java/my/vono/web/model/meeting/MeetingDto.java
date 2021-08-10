@@ -7,10 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MeetingVO {
+public class MeetingDto {
 	private Long id;
 	
 	private String name;
+	
+	private Long folder_id;
 	
 	private LocalDateTime create_date;
 	
