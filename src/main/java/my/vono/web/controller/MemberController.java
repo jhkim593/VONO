@@ -23,12 +23,12 @@ public class MemberController {
 	/**
 	 *	회원가입 
 	 */
-	@GetMapping("signUp")
+	@GetMapping("/member/signUp")
 	public String SignUpForm() {
 		return "user/signUpForm";
 	}
 	
-	@PostMapping("signUp")
+	@PostMapping("/signUp")
 	public String memberSignUp(@ModelAttribute("memberJoinForm") MemberVO memberVO) {
 
 		memberService.defaultSignUp(memberVO);
