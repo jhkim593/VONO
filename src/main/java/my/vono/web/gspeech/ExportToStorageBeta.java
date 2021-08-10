@@ -35,10 +35,10 @@ public class ExportToStorageBeta {
 
   public static void main(String[] args) throws Exception {
     String inputUri = "gs://YOUR_BUCKET_ID/path/to/your/audio_file.wav";
-    String outputStorageUri = "gs://YOUR_BUCKET_ID/output_dir_prefix/";
+    String outputStorageUri = "c://abc.txt";
     String encoding = "LINEAR16"; // encoding of the audio
     int sampleRateHertz = 8000;
-    String languageCode = "en-US"; // language code BCP-47_LANGUAGE_CODE_OF_AUDIO
+    String languageCode = "ko-KR"; // language code BCP-47_LANGUAGE_CODE_OF_AUDIO
     //String languageCode = "ko-KR";
     exportToStorage(inputUri, outputStorageUri, encoding, sampleRateHertz, languageCode);
   }

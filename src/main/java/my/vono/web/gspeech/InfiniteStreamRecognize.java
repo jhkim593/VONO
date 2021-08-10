@@ -31,6 +31,7 @@ import com.google.cloud.speech.v1p1beta1.StreamingRecognizeResponse;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Duration;
 import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -40,6 +41,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.DataLine.Info;
 import javax.sound.sampled.TargetDataLine;
+
+import org.hibernate.internal.build.AllowSysOut;
 
 public class InfiniteStreamRecognize {
 
@@ -66,7 +69,7 @@ public class InfiniteStreamRecognize {
   private static StreamController referenceToStreamController;
   private static ByteString tempByteString;
 
-  public static void main(String... args) {
+  public static void StreamStart(String... args) {
     InfiniteStreamRecognizeOptions options = InfiniteStreamRecognizeOptions.fromFlags(args);
     if (options == null) {
       // Could not parse.
@@ -80,6 +83,20 @@ public class InfiniteStreamRecognize {
       System.out.println("Exception caught: " + e);
     }
   }
+  public static void StreamEnd(String... args) {
+	  InfiniteStreamRecognizeOptions options = InfiniteStreamRecognizeOptions.fromFlags(args);
+	  if (options != null) {
+		  // Could not parse.
+		  System.out.println("Failed to parse options.");
+		  System.exit(1);
+	  }
+	  try {
+		  infiniteStreamingRecognize(options.langCode);
+	  } catch (Exception e) {
+		  System.out.println("Exception caught: " + e);
+	  }
+  }
+  
 
   public static String convertMillisToDate(double milliSeconds) {
     long millis = (long) milliSeconds;
@@ -145,21 +162,24 @@ public class InfiniteStreamRecognize {
                   resultEndTimeInMS - bridgingOffset + (STREAMING_LIMIT * restartCounter);
 
               SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
+              
+              //여기에서 바로 res를 웹에다가 띄우는 방법 설계
               if (result.getIsFinal()) {
                 System.out.print(GREEN);
                 System.out.print("\033[2K\r");
-                System.out.printf(
-                    "%s: %s [confidence: %.2f]\n",
-                    convertMillisToDate(correctedTime),
-                    alternative.getTranscript(),
-                    alternative.getConfidence());
+            	  String res=convertMillisToDate(correctedTime)+": "+alternative.getTranscript()+"\n";
+            	  System.out.print(res);
+//                System.out.printf(
+//                    "%s: %s \n",
+//                    convertMillisToDate(correctedTime),
+//                    alternative.getTranscript());
                 isFinalEndTime = resultEndTimeInMS;
                 lastTranscriptWasFinal = true;
               } else {
-                System.out.print(RED);
-                System.out.print("\033[2K\r");
-                System.out.printf(
-                    "%s: %s", convertMillisToDate(correctedTime), alternative.getTranscript());
+//                System.out.print(RED);
+//                System.out.print("\033[2K\r");
+//                System.out.printf(
+//                    "%s: %s", convertMillisToDate(correctedTime), alternative.getTranscript());
                 lastTranscriptWasFinal = false;
               }
             }

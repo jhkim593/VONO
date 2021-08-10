@@ -49,7 +49,6 @@
                     <i class="fa fa-plus"></i>
                     <span>새 회의록 생성</span></a>
             </li>
-            
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -186,31 +185,21 @@
                 <!-- End of Topbar -->
                 
                 <!-- Begin Page Content -->
-                <!-- 여기서부터 content 작성 시작 -->
+                <!-- 여기서부터 content 작성 시작 , 메인공간 -->
                 <div class="container-fluid">
             		<div id="formContent">
 				    	<!-- Tabs Titles -->
 				
-		    			<!-- Icon -->
 					    <div class="fadeIn first">
-			    			<h2><span>로그인</span></h2>
+			    			<h2><span>여긴 startMeeting</span></h2>
 			    		</div>
 				
-			    		<!-- Login Form -->
-			    		<form>
-				    		<input type="text" id="login" class="fadeIn second" name="login" placeholder="email">
-				    		<input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
-				    		<input type="submit" class="fadeIn fourth" value="Log In">
+			    		<form id="m_form2" method="post" action="endMeeting">
+				    		
+				    		<input type="button" value="녹음 중지" >
 						</form>
 						
-						<div class="form-group z">
-							<div class="or-seperator"><b>or</b></div>
-						</div>
-				
-						<!-- Remind Passowrd -->
-						<div id="formFooter">
-							<a class="underlineHover" href="signUp">회원이 아니십니까?</a>
-						</div>
+						
 				
 					</div>
                 </div>
