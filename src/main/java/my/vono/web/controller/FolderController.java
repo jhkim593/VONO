@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.RequiredArgsConstructor;
 import my.vono.web.exception.FolderNotFoundException;
-import my.vono.web.model.folder.FolderVO;
+import my.vono.web.model.folder.FolderDto;
 import my.vono.web.service.FolderService;
 
 @Controller
@@ -15,7 +15,7 @@ public class FolderController {
 	private final FolderService folderService;
 	
 	@PostMapping("/folder")
-	public void renameFolder(FolderVO folderVO){
+	public void renameFolder(FolderDto folderVO){
 		try {
 			
 			folderService.renameFolder(folderVO);

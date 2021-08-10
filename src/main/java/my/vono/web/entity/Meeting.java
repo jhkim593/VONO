@@ -1,10 +1,10 @@
 package my.vono.web.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,11 +14,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Meeting {
 	
 	@Id
@@ -44,12 +48,28 @@ public class Meeting {
 	private Folder folder;
     
 	
-	@OneToMany(mappedBy = "meeting")
+	@OneToMany(mappedBy = "meeting" ,cascade = CascadeType.ALL)
 	private List<RecToText> recToTexts=new ArrayList<>();
 	
-	@OneToMany(mappedBy = "meeting")
+	@OneToMany(mappedBy = "meeting",cascade = CascadeType.ALL)
 	private List<RecFile>recFiles=new ArrayList<>();
 	
+	public static Meeting createMeeting(String name,String content,Folder folder) {
+		Meeting meeting=new Meeting();
+		meeting.name=name;
+		meeting.content=content;
+		if(folder!=null) {
+		meeting.addFolder(folder);
+		
+		}
+		//참석자
+		return meeting;
+		
+	}
 	
+	public void addFolder(Folder folder) {
+		this.folder=folder;
+		folder.getMeetings().add(this);
+	}
 
 }
