@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 import my.vono.web.entity.Member;
-import my.vono.web.model.user.MemberDAO;
-import my.vono.web.model.user.MemberVO;
+import my.vono.web.model.member.MemberDAO;
+import my.vono.web.model.member.MemberVO;
 import my.vono.web.service.MemberService;
 
 @Controller

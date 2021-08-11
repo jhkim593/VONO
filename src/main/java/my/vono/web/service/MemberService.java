@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 import my.vono.web.entity.Folder;
 import my.vono.web.entity.Member;
 import my.vono.web.model.folder.FolderDAO;
-import my.vono.web.model.user.MemberDAO;
-import my.vono.web.model.user.MemberVO;
+import my.vono.web.model.member.MemberDAO;
+import my.vono.web.model.member.MemberVO;
 
 @Service
 @Transactional
@@ -27,7 +27,7 @@ public class MemberService {
 				memberVO.getName(),memberVO.getEmail(),
 				 memberVO.getPhone(), memberVO.getJob());
 
-        Folder folder=Folder.createFolder("기본폴더", member, null);
+        Folder folder=Folder.createFolder("기본폴더", member);
         
 	    memberDAO.save(member);
 	    folderDAO.save(folder);

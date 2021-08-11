@@ -1,4 +1,4 @@
-package my.vono.web.model.user;
+package my.vono.web.model.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
