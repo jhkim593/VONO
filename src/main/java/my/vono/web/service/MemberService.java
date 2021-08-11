@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 import my.vono.web.entity.Folder;
 import my.vono.web.entity.Member;
 import my.vono.web.model.folder.FolderDAO;
-import my.vono.web.model.member.MemberDAO;
-import my.vono.web.model.member.MemberVO;
+import my.vono.web.model.user.MemberDAO;
+import my.vono.web.model.user.MemberVO;
 
 @Service
 @Transactional

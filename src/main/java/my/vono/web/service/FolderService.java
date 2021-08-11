@@ -19,7 +19,7 @@ import my.vono.web.exception.MemberNotFoundException;
 import my.vono.web.model.folder.FolderDAO;
 import my.vono.web.model.folder.FolderDto;
 import my.vono.web.model.folder.FolderSimpleDto;
-import my.vono.web.model.member.MemberDAO;
+import my.vono.web.model.user.MemberDAO;
 
 @Service
 @RequiredArgsConstructor
