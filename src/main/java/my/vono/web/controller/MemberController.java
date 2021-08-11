@@ -2,6 +2,7 @@ package my.vono.web.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,12 +31,18 @@ public class MemberController {
 	
 	@PostMapping("/signUp")
 	public String memberSignUp(@ModelAttribute("memberJoinForm") MemberVO memberVO) {
-
+		
+		System.out.println(memberVO);
 		memberService.defaultSignUp(memberVO);
 		
 		return "redirect:/";
 	}
 
+	@PostMapping("/login")
+	public String login() {
+		
+		return null;
+	}
 	
 //	@PostMapping("/member/login")
 //	public String memberLogin() {
