@@ -11,5 +11,6 @@ public interface MemberDAO extends JpaRepository<Member,Long>{
 //	Optional<Member>findByMemberWithLoginIdAndPw(@Param("login_id")String login_id,@Param("pw")String pw);
 //	
 
+	
 
 }
