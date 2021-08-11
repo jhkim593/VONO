@@ -24,5 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout()
 				.permitAll();
 		
+		
 	}
 }
