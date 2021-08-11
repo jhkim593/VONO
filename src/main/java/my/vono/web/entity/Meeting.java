@@ -35,7 +35,7 @@ public class Meeting {
 	
 	private LocalDateTime edit_date;
 	
-//	private String participant;
+	private String participant;
 	
 	private String content;
 	
@@ -54,17 +54,28 @@ public class Meeting {
 	@OneToMany(mappedBy = "meeting",cascade = CascadeType.ALL)
 	private List<RecFile>recFiles=new ArrayList<>();
 	
-	public static Meeting createMeeting(String name,String content,Folder folder) {
+
+	
+	public static Meeting createMeeting(String name,String content,String participant,Folder folder) {
 		Meeting meeting=new Meeting();
 		meeting.name=name;
 		meeting.content=content;
+		meeting.participant=participant;
 		if(folder!=null) {
 		meeting.addFolder(folder);
+		meeting.is_trash=false;
 		
 		}
 		//참석자
 		return meeting;
 		
+	}
+	
+	public void changeIs_trash() {
+		if(this.is_trash)
+			this.is_trash=false;
+			else
+				this.is_trash=true;
 	}
 	
 	public void addFolder(Folder folder) {

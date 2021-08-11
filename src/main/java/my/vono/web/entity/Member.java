@@ -25,7 +25,6 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 //@Builder
-
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
@@ -55,6 +54,8 @@ public class Member {
     
     private String profile;
     
+    private String role;
+    
     @OneToMany(mappedBy = "member")    //member와 folder 일대 다 관계 설정
     private List<Folder>folders=new ArrayList<>();
     
@@ -68,6 +69,7 @@ public class Member {
     	m.email=email;
     	m.phone=phone;
     	m.job=job;
+    	m.role="user";
 		return m;    
 	}
     public void changeEmail(String email) {
