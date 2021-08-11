@@ -1,17 +1,24 @@
 package my.vono.web.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import my.vono.web.entity.Folder;
+import my.vono.web.entity.Meeting;
 import my.vono.web.entity.Member;
+import my.vono.web.exception.BasicFolderRenameException;
+import my.vono.web.exception.FolderAlreadyExistException;
+import my.vono.web.exception.FolderIsNotTrashException;
 import my.vono.web.exception.FolderNotFoundException;
 import my.vono.web.exception.MemberNotFoundException;
 import my.vono.web.model.folder.FolderDAO;
-import my.vono.web.model.folder.FolderDetailDto;
 import my.vono.web.model.folder.FolderDto;
+import my.vono.web.model.folder.FolderSimpleDto;
 import my.vono.web.model.user.MemberDAO;
 
 @Service
@@ -20,51 +27,99 @@ import my.vono.web.model.user.MemberDAO;
 public class FolderService {
 	private final FolderDAO folderDAO;
 	private final MemberDAO memberDAO;
-
-	public void createFolder(FolderDto folderVO) {
-		folderVO.getMember_id();
-		Member member=memberDAO.findById(folderVO.getMember_id()).orElseThrow(MemberNotFoundException::new);
-		
-		Folder parentFolder=null;
-		
-		//확인
-		if(folderVO.getParent_id()!=null) {
-		
-	      parentFolder=folderDAO.findById(folderVO.getParent_id()).orElseThrow(FolderNotFoundException::new);
-		
-		}
 	
-		folderDAO.save(Folder.createFolder(folderVO.getName(),member ,parentFolder));
-		
-		
-	}
+	//기본폴더 안지워 지게 설정?
 
-	public void deleteFolder(FolderDto folderVO) {
-		
-		Folder folder = folderDAO.findById(folderVO.getId()).orElseThrow(FolderNotFoundException::new);
-//		folderDAO.delete(folder);
-		
-	   
-	}
+	public void createFolder(FolderDto folderDto) {
 
-	public void renameFolder(FolderDto folderVO) {
+		if (validFolder(folderDto.getName())) {
+			throw new FolderAlreadyExistException();
+		}
 
-		Folder folder = folderDAO.findById(folderVO.getId()).orElseThrow(FolderNotFoundException::new);
-		folder.changeFolderName(folderVO.getName());
+		folderDto.getMember_id();
+		Member member = memberDAO.findById(folderDto.getMember_id()).orElseThrow(MemberNotFoundException::new);
+
+		// 확인
+
+		folderDAO.save(Folder.createFolder(folderDto.getName(), member));
 
 	}
 
-	public void moveFolder(FolderDto folderVO) {
-//		Folder folder = folderDAO.findById(folderVO.getId()).orElseThrow(FolderNotFoundException::new);
-//		folder.
+	// 폴더 이름 중복확인
+	public Boolean validFolder(String name) {
+		if (folderDAO.findFolderByName(name).isPresent()) {
+			return true;
+		}
+		return false;
+
+	}
+
+	public void trashFolder(FolderDto folderDto) {
+
+		Folder folder = folderDAO.findById(folderDto.getId()).orElseThrow(FolderNotFoundException::new);
+		folder.changeIs_trash();
+		for (Meeting meeting : folder.getMeetings()) {
+			meeting.changeIs_trash();
+		}
+
+	}
+
+	public List<FolderSimpleDto> findFolders(Long member_id) {
+		return folderDAO.findFolderByMemberId(member_id).stream().map(f -> new FolderSimpleDto(f))
+				.collect(Collectors.toList());
+
+	}
+
+	public void renameFolder(FolderDto folderDto) {
+
+		Folder folder = folderDAO.findById(folderDto.getId()).orElseThrow(FolderNotFoundException::new);
+		if(folder.getName().equals("기본폴더")) {
+			throw new BasicFolderRenameException();
+		}
+
+		if (validFolder(folderDto.getName())) {
+			throw new FolderAlreadyExistException();
+		}
+
+		folder.changeFolderName(folderDto.getName());
+
+	}
+
+//	public void moveFolder(FolderMoveRequestDto requestDto) {
+//	
+//		Folder folder=folderDAO.findById(requestDto.getId()).orElseThrow(FolderNotFoundException::new);
+//		Folder wantFolder=folderDAO.findFolderByName(requestDto.getName()).orElseThrow(FolderNotFoundException::new);
+//		
+//		
+//		
+//
+//		
+//	}
+
+	public FolderDto detailFolder(Long folderId) {
+		Folder folder = folderDAO.findById(folderId).orElseThrow(FolderNotFoundException::new);
+		return new FolderDto(folder);
+
+	}
+	
+
+//휴지통 기능
+
+	public List<FolderDto> trashFolders(Long member_id) {
+
+		return folderDAO.findTrashFolderByMemberId(member_id).stream().map(tf->new FolderDto(tf)).collect(Collectors.toList());
 		
 
 	}
 
-	public FolderDetailDto detailFolder(FolderDto folderVO) {
-		Folder folder = folderDAO.findById(folderVO.getId()).orElseThrow(FolderNotFoundException::new);
-		return new FolderDetailDto(folder);
-		
+	public void permanentlyDeleteFolder(Long folderId) {
+		Folder folder = folderDAO.findById(folderId).orElseThrow(FolderNotFoundException::new);
+		if (folder.getIs_trash()) {
+			folderDAO.delete(folder);
+		} else {
+			throw new FolderIsNotTrashException();
+		}
+
 	}
 
 }
