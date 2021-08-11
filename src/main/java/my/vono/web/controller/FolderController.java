@@ -1,7 +1,5 @@
 package my.vono.web.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,7 +16,6 @@ import my.vono.web.exception.BasicFolderRenameException;
 import my.vono.web.exception.FolderAlreadyExistException;
 import my.vono.web.exception.FolderNotFoundException;
 import my.vono.web.model.folder.FolderDto;
-import my.vono.web.model.folder.FolderSimpleDto;
 import my.vono.web.model.response.DefaultResponseDto;
 import my.vono.web.service.FolderService;
 
@@ -27,7 +24,9 @@ import my.vono.web.service.FolderService;
 public class FolderController {
 
 	private final FolderService folderService;
-
+	
+	
+	
 	@ResponseBody
 	@GetMapping("/folders")
 	public ResponseEntity<?> folders(@RequestParam Long id) {
