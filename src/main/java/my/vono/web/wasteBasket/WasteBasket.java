@@ -27,7 +27,9 @@ public class WasteBasket {
     private String name;
     
     @Column(nullable = true)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDate date;
     
+    @Column
+    private Boolean is_trash;
 }
