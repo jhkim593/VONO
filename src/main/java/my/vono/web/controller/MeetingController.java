@@ -23,7 +23,7 @@ public class MeetingController {
 	@RequestMapping("newMeeting")
 	public String newMeeting(){
 		System.out.println("newMeeting호출");
-		return "newMeeting";
+		return "meeting/newMeeting";
 	}
 	
 	@ResponseBody
@@ -36,7 +36,7 @@ public class MeetingController {
 		//InfiniteStreamRecognize.StreamStart("");
 		
 		//화면 넘어가서 녹음시작으로 바꿔보자
-		return "startMeeting";
+		return "meeting/startMeeting";
 	}
 	
 	@RequestMapping("endMeeting")
