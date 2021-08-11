@@ -32,4 +32,5 @@ public class MemberVO {
 		return new MemberVO(member.getId(),member.getLogin_id(),member.getPw(),member.getName(),member.getProvider(),
 				member.getEmail(),member.getPhone(),member.getJob(),member.getProfile());
 	}
+	
 }
