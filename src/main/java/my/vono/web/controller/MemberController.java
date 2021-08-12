@@ -37,12 +37,6 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
-
-	@PostMapping("/login")
-	public String login() {
-		
-		return null;
-	}
 	
 //	@PostMapping("/member/login")
 //	public String memberLogin() {
