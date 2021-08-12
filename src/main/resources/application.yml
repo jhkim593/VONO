@@ -30,8 +30,8 @@ spring:
       hibernate:
         format_sql: true
           security:    oauth2:      client:        registration:          google:
-            client-id: 68624915764-rtgrpn4738ochpqtishc1fvgg7buejo2.apps.googleusercontent.com
-            client-secret: XUEjp3JMUCeR5F5lvAPEM0fN
+            client-id: ENC(KJXlcCvgkC3f9ht3+4LVqHDmC3ybSLJPomvbICG17nbH1Do6DeZrx3Lk7qvUIguuMydHLm83t3GilixHH+BJGwd8oOE473ctQTxx+ltXeCM=)
+            client-secret: ENC(WfyQ4B3Auj+4kMB1T/hdDBsG9ITHEzvfn6us0SSNppzPHIjcODFRIg==)
             scope:            - email
             - profile
       
