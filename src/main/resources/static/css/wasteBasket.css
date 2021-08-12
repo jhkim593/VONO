@@ -7,11 +7,41 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-
+#txt_line2 {
+	width: 300px;
+	padding: 0 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 .card {
 	margin-bottom: 20px !important;
 }
 
 #floatRight{
 float: right;
+}
+
+#container-f {
+  width: 70%;
+  padding: 20px;
+}
+#chat {
+	padding-top: 100px;
+	padding-left: 65px;
+	color: white;
+}
+#vonoLogo{
+	font-size: 50px;
+}
+#folderCard{
+	background-color:transparent;
+	border: none;
+}
+a{
+	text-decoration: none;
+	color: gray;
+}
+a:hover {
+	text-decoration: none;
 }

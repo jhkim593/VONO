@@ -25,83 +25,89 @@ function checkSelectAll() {
 //영구 삭제
 function deleteFile() {
 	var count = 0;
-	var fileName = [];
+	var fileId = [];
 
 	$("input[name='checkAll']:checked").each(function(i) {
 		count++;
-		fileName.push($(this).val());
+		fileId.push($(this).val());
 	});
-	console.log("fileName: " + fileName);
+	console.log("fileName: " + fileId);
 
 	if (count < 1) {
 		alert("삭제할 파일을 선택해 주세요.");
 	} else {
 		var redo = confirm(count + "개의 항목을 영구 삭제 하시겠습니까?");
 
-
 		if (redo == true) {
-			alert(fileName);
-			//alert("삭제 되었습니다.");
-
-			/*$.post("deleteWB",
-				{
-					fileName
-				},
-				function(data, status) {
-					alert("data: " + data + "\n status: " + status);
-				});
-*/
-
-
+			//alert(fileId);
+			alert("삭제 되었습니다.");
 
 			$.ajax({
 				url: 'deleteWB',
-				data: fileName,
+				data: "id="+fileId,
 				type: 'POST',
 				success: function onData(data) {
 					console.log("data: "+data);
+					location.reload(true);
 				},
 				error: function onError(error) {
 					console.error("error: "+error);
 				}
 			});
-
-
-
-
-			//window.location.href="wasteBasketDemo";
-			//location.reload(true);
-
+			
 		} else {
 			alert("삭제가 취소 되었습니다.");
 		}
-	}
+	}//count(if-else)
 
 }
 
 //복구
 function restoreFile() {
 	var count = 0;
-	var obj_length = document.getElementsByName("checkAll").length;
-	const checked = document.querySelectorAll('input[name="checkAll"]:checked');
+	var fileId = [];
 
-	if (checked) {
-		for (var i = 0; i < obj_length; i++) {
-			if (document.getElementsByName("checkAll")[i].checked == true) {
-				count++;
-				//파일이름 확인 console.log(document.getElementsByName("checkAll")[i].value);
-			}
-		}
+	$("input[name='checkAll']:checked").each(function(i) {
+		count++;
+		fileId.push($(this).val());
+	});
+	console.log("fileName: " + fileId);
 
-		if (count < 1) {
-			alert("복구할 파일을 선택해 주세요.");
+	if (count < 1) {
+		alert("복구할 파일을 선택해 주세요.");
+	} else {
+		var redo = confirm(count + "개의 항목을 복구 하시겠습니까?");
+
+		if (redo == true) {
+			//alert(fileId);
+			alert("복구 되었습니다.");
+
+			$.ajax({
+				url: 'redoWB',
+				data: "id="+fileId,
+				type: 'POST',
+				success: function onData(data) {
+					console.log("data: "+data);
+					location.href="wasteBasket";
+				},
+				error: function onError(error) {
+					console.error("error: "+error);
+				}
+			});
+			
 		} else {
-			var redo = confirm(count + "개의 항목을 복구 하시겠습니까?");
-			if (redo == true) {
-				//복구 쿼리
-			}
+			alert("복구가 취소 되었습니다.");
 		}
-
-	}
+	}//count(if-else)
 
 }
+
+
+
+
+
+
+
+
+
+

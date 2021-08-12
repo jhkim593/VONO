@@ -16,10 +16,11 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+<!--  검색창, div css 조절x   <link href="css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <link href="css/ver1.0.css" rel="stylesheet">
     
     <!-- favicon  -->
-    <link rel="shortcut icon" size="16x16 32x32 64x64"  href="img/vonoIcon.png" />
+    <link rel="shortcut icon" size="16x16 32x32 64x64"  href="img/bono.jpg" />
     
     <!-- 드롭다운css -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -29,7 +30,7 @@
     <!-- 은경추가 -->
     <link href="css/wasteBasket.css" rel="stylesheet">
     <script src="js/wasteBasket.js"></script>
-
+    
 </head>
 
 <body id="page-top">
@@ -42,16 +43,14 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-                <!-- <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div> -->
-                <div class="sidebar-brand-text mx-3">Vono</div>
+              
+                <div id="vonoLogo" class="sidebar-brand-text mx-3">VONO</div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
+             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="index.html">
                     <i class="fa fa-plus"></i>
@@ -61,17 +60,13 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                회의록
-            </div>
+           <!-- Heading -->
+            <div class="sidebar-heading">회의록</div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>내 회의록</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-folder"></i><span>내 회의록</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -85,25 +80,18 @@
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <div class="sidebar-heading">
-                삭제
-            </div>
+            <div class="sidebar-heading">삭제</div>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="wasteBasket">
-                    <i class="fas fa-fw fa-trash-alt"></i>
-                    <span>휴지통</span></a>
+              <a class="nav-link" href="wasteBasket"><i class="fas fa-fw fa-trash-alt"></i><span>휴지통</span></a>
             </li>
 
  			<!-- 나중에 삭제하자 -->
             <li class="nav-item">
-                <a class="nav-link" href="wasteBasketDemo">
-                    <i class="fas fa-fw fa-trash-alt"></i>
-                    <span>휴지통 파일이동용 페이지</span></a>
+               <a class="nav-link" href="wasteBasketDemo"><i class="fas fa-list-ul"></i><span>폴더 목록</span></a>
             </li>
-            
-            
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -129,134 +117,130 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                     <!-- Topbar Search -->
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="검색"
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" id="vonobotMsg" class="form-control bg-light border-0 small" placeholder="보노봇에게 질문해 보세요!" aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
+                                    <i class="fas fa-robot"></i>
                                 </button>
                             </div>
                         </div>
                     </form>
-
+                    
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
+                    	<li class="nav-item dropdown no-arrow mx-1" id="chatFaQ">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-robot"></i>
+                                <span class="badge badge-danger badge-counter">?</span>
                             </a>
+                            
                             <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                                <h4 class="dropdown-header">FaQ</h4>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <div class="text-truncate"><b> <i class="far fa-comment-dots"></i> 보노봇이 뭐야</b></div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <div class="text-truncate"><b> <i class="far fa-lightbulb"></i> VONO가 뭐야</b></div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="text-truncate"><b> <i class="far fa-lightbulb"></i> VONO 이용 방법 알려줘</b></div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="text-truncate"><b> <i class="far fa-lightbulb"></i>  VONO는 누가 만들었어?</b></div>
+                                </a>
+                               
                             </div>
                         </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
-                        <!-- Nav Item - User Information -->
+                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">포로리</span>
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">보노보노</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../static/img/undraw_profile.svg">
+                                    src="img/bono.jpg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    My Page
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>My Page
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout
                                 </a>
                             </div>
                         </li>
-
                     </ul>
 
                 </nav>
                 <!-- End of Topbar -->
-                
+
                 <!-- Begin Page Content -->
                 <!-- 여기서부터 content 작성 시작 -->
                 <div class="container-fluid">
-                <div class="dropdown" style="float: left;">
-                 <input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)'/> <b>전체선택</b>
-            <button type="button" class="btn btn-default dropdown toggle" data-toggle="dropdown"><b>옵션 </b><i class="fas fa-angle-down"></i><span class="caret"></span></button>
+ 					<div class="dropdown" id="floatRight">
+                 		<b><input type='checkbox' id="ckAll" name='selectall' value='selectall' style="cursor:pointer" onclick='selectAll(this)'/><label for="ckAll">&nbsp;전체선택</label></b>
+           			    <button type="button" class="btn btn-default dropdown toggle" data-toggle="dropdown"><b>옵션 </b>
+           			    <i class="fas fa-angle-down"></i><span class="caret"></span></button>
              
-               
-            <ul class="dropdown-menu" role="menu">
-                <li></li>
-                <li><a href="#" style="text-decoration: none;">&nbsp;&nbsp;&nbsp;<i class="fas fa-redo"></i>&nbsp;복구</a></li>
-                <li><a href="deleteWB" style="text-decoration: none;">&nbsp;&nbsp;&nbsp;<i class="fas fa-trash-alt"></i>&nbsp;영구삭제</a></li>
-            </ul>
-        </div>
-        <br><br>
-     <div class="container">
-      <div class="row">
-       
-        <table>
-        <tr th:each="vo : ${FileVo}">
-        <div class="col-2">
-         <div class="card">
-            <div class="card-body">
-            <input type='checkbox' name='checkAll' value=''onclick='checkSelectAll()' style="float: right;"/>
-            <br>
-             <p class="card-text" id="txt_line"><b><a th:text="${vo.fileTestName}" href="viewFiles"  onclick="window.open(this.href, '_blank', 'width=600, height=400'); return false;" style="text-decoration: none;color: gray;" ></a></b></p>
-              <p class="card-text" th:text="${#temporals.format(vo.fileTestTime, 'yyyy-MM-dd')}"></p>
-            </div>
-         </div>
-        </div>
-        
-        </tr>
-        </table>
+            			<ul class="dropdown-menu" role="menu">
+                			<li><a href="#" onclick="restoreFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-redo"></i>&nbsp;복구</a></li>
+               				<li><a href="#" onclick="deleteFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-trash-alt"></i>&nbsp;영구삭제</a></li>
+          				</ul>
+        		</div><br><br>
+        		
+      				<div class="row" >
+      					<table>
+      					
+        			 	<tr th:each="list : ${wbList}">
+      						<div class="card" id="folderCard"><!-- is_trash 값이 true인 것만 list -->
+								<div class="card-body" th:if="${list.is_trash}">
+								
+      					 	<!-- <i class="far fa-folder fa-6x" style="color: #4E73DF;"></i><br> -->
+      					 		 <a href="folderView">&nbsp;<img width="90px" src="img/trash_folder.png" th:title="${list.name}"></a>
+      					 		 <br>
+								 <p id="txt_line" class="card-text"><input type='checkbox' th:value="${list.id}" style="cursor:pointer" name='checkAll' onclick='checkSelectAll()'/>&nbsp;
+         				 		 <b><a th:text="${list.name}" href="folderView" th:title="${list.name}"></a></b></p>
+         				 		  <!-- trash 값 확인용!
+         				 		 <p><b>id:</b> <span th:text="${list.id}"></span></p>
+         				 		 <div th:switch="${list.is_trash}">
+									<p><b>is_trash:</b>
+									<span th:case="true"> true(1)</span>
+									<span th:case="false"> false(0)</span></p>
+								</div> -->
+         				   		</div>
+         				   	</div>
+        			 	</tr>
+        			 	
+					</table>
+					
+      			</div>
 
-      </div>
-      <!-- 
-      <br>
-      <table class="table table-striped">
-      <thead><tr><th colspan="4" style="text-align: center;">게시판 스타일로 구현해 볼까여</th></tr></thead>
-       	<tr>
-      	 	<td><input type='checkbox' name='selectall' value='selectall' onclick='selectAll(this)'/></td>
-      	 	<td><b>File</b></td>
-      	 	<td><b>Date</b></td>
-      	 	<td><b>타임리프 예제</b></td>
-      	 </tr>
-       
-	 	 <tr th:each="vo : ${FileVo}">
-	 	 <td><input type='checkbox' name='checkAll' value=''onclick='checkSelectAll()' /></td>
-       		<td th:text="${vo.fileTestName}"></td>
-       		<td><span th:text="${#temporals.format(vo.fileTestTime, 'yyyy-MM-dd')}"></span></td>
-       		<td>타임리프 예제</td>
-       	</tr>
-       </table>
-       -->
-    </div>
-                
-    </div>
+                </div><!-- End of container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            
+ 			<!-- Scroll to Top Button-->
+    		<a class="scroll-to-top rounded" href="#page-top">
+       			 <i class="fas fa-angle-up"></i>
+    		</a>
+    		
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto"> <span>Copyright &copy; VONO 2021</span></div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->
@@ -271,16 +255,10 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">로그아웃 하시겠습니까?</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                    <a class="btn btn-primary" href="/">확인</a>
                 </div>
             </div>
         </div>
@@ -302,7 +280,6 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
-  
 
 </body>
 
