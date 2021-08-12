@@ -1,5 +1,7 @@
 package my.vono.web.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import my.vono.web.model.meeting.MeetingDto;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MeetingService {
 
 	
@@ -32,10 +35,10 @@ public class MeetingService {
 		
 	}
 	
-	public void updateMeeting(MeetingDto meetingDto) {
-		
-		
-	}
+//	public void updateMeeting(MeetingDto meetingDto) {
+//		Meeting meeting = meetingDAO.findById(meetingDto.getId()).orElseThrow(MeetingNotFoundException::new);
+//		meeting.
+//	}
 	public void deleteMeeting(Long id) {
 		Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
 		meeting.changeIs_trash();
@@ -50,6 +53,12 @@ public class MeetingService {
     	return new MeetingDto(meeting);
     	
     	
+    }
+    public void moveMeeting(String name,Long id) {
+    	Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
+    	meeting.getFolder().getMeetings().remove(meeting);
+    	Folder folder=folderDAO.findFolderByName(name).orElseThrow(FolderNotFoundException::new);
+    	meeting.addFolder(folder);
     }
 	
 	

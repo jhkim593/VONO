@@ -82,5 +82,10 @@ public class Meeting {
 		this.folder=folder;
 		folder.getMeetings().add(this);
 	}
+	public void changeName(String name) {
+		if(name!=null) {
+			
+		}
+	}
 
 }
