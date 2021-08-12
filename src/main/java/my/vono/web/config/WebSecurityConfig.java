@@ -3,12 +3,17 @@ package my.vono.web.config;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import my.vono.web.config.auth.CustomUserDetails;
+import my.vono.web.config.auth.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       http.csrf().disable();
       http
          .authorizeRequests()
-            .antMatchers("/user/**", "/**").authenticated()
+            .antMatchers("/user/**").authenticated()
             .anyRequest().permitAll()
             .and()
          .formLogin()
@@ -33,8 +38,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // form action /login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행해줌
             .loginProcessingUrl("/login")
             // 로그인 성공시 돌아가는 url
-            .defaultSuccessUrl("/")
+            .defaultSuccessUrl("/loginHome")
+            .usernameParameter("name")
             .permitAll()
+            .and()
+          .oauth2Login()
+            .loginPage("/home")
             .and()
          .logout()
             .permitAll();
@@ -43,8 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    // 패스워드 암호화
    // 해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다
    @Bean
-   public PasswordEncoder passwordEncoder() {
-      return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-   }
+   public BCryptPasswordEncoder encode() {
+		return new BCryptPasswordEncoder();
+	}
    
 }

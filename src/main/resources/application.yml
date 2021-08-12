@@ -29,10 +29,18 @@ spring:
     properties:
       hibernate:
         format_sql: true
+          security:    oauth2:      client:        registration:          google:
+            client-id: 68624915764-rtgrpn4738ochpqtishc1fvgg7buejo2.apps.googleusercontent.com
+            client-secret: XUEjp3JMUCeR5F5lvAPEM0fN
+            scope:            - email
+            - profile
       
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
+    
+
+
     
 
 
