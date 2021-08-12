@@ -1,18 +1,20 @@
 $("#meeting_start").click(function(){
-	const meeting_name=$("#meeting_name").val();
-	const meeting_date=$("#meeting_date").val();
-	const meeting_party=$("#meeting_party").val();
-	const meeting_context=$("#meeting_context").val();
-	const meeting_ref=$("#meeting_ref").val();
-	alert(meeting_name);
+	const name=$("#meeting_name").val();
+	const date=$("#meeting_date").val();
+	const participant=$("#meeting_party").val();
+	const content=$("#meeting_content").val();
+	const reference=$("#meeting_ref").val();
+	//alert(name);
 	$.post('startMeeting',
-		{meeting_name,
-		meeting_date,
-		meeting_party,
-		meeting_context,
-		meeting_ref},
+		{name,
+		date,
+		participant,
+		content,
+		reference},
 		function(data){
 			alert(data);
+			//data=JSON.parse(data);
+			//alert(data);
 		}
 		
 	);
