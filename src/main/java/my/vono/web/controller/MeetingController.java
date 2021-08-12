@@ -5,20 +5,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.JsonObject;
 
 import lombok.RequiredArgsConstructor;
+import my.vono.web.entity.Meeting;
 import my.vono.web.gspeech.InfiniteStreamRecognize;
+import my.vono.web.model.meeting.MeetingDto;
 import my.vono.web.service.MeetingService;
 @Controller
 @RequiredArgsConstructor
 public class MeetingController {
 	
-	
 	private final MeetingService meetingService;
-	
 	
 	@RequestMapping("newMeeting")
 	public String newMeeting(){
@@ -26,17 +31,26 @@ public class MeetingController {
 		return "meeting/newMeeting";
 	}
 	
-	@ResponseBody
+	
 	@RequestMapping("startMeeting")
-	public String startMeeting(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("startMeeting호출, 본격적인 녹음 시작");
-		String test = request.getParameter("meeting_name");
-		System.out.println(test);
-		//녹화 핵심기능, 근데 키면 녹음되면서 다음걸로 안넘어가짐
-		//InfiniteStreamRecognize.StreamStart("");
-		
-		//화면 넘어가서 녹음시작으로 바꿔보자
+	public String startMeeting(HttpServletRequest request, HttpServletResponse response, Model model) {
+		System.out.println("startMeeting호출");
+//		String name = request.getParameter("name");
+//		String date = request.getParameter("date");
+//		String participant = request.getParameter("participant");
+//		String content = request.getParameter("content");
+//		String reference = request.getParameter("reference");
+//		
+//		Meeting.createMeeting(name, content, participant, null);
+//		model.addAttribute("name", name);
+//		System.out.println(model);
 		return "meeting/startMeeting";
+	}
+	
+	@RequestMapping("startRecording")
+	public String startRecording(HttpServletRequest request, HttpServletResponse response, Model model) {
+		InfiniteStreamRecognize.StreamStart("");
+		return null;
 	}
 	
 	@RequestMapping("endMeeting")
