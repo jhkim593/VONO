@@ -20,6 +20,8 @@ public class MemberVO {
 	
 	private String provider;
 	
+	private String providerId;
+	
 	private String email;
 	
 	private String phone;
@@ -30,7 +32,7 @@ public class MemberVO {
 	
 	public static MemberVO createMemberVO(Member member) {
 		return new MemberVO(member.getId(),member.getLogin_id(),member.getPw(),member.getName(),member.getProvider(),
-				member.getEmail(),member.getPhone(),member.getJob(),member.getProfile());
+				member.getProvider(), member.getEmail(),member.getPhone(),member.getJob(),member.getProfile());
 	}
 	
 }
