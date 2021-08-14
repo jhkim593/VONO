@@ -1,21 +1,19 @@
-$("#meeting_start").click(function(){
-	const name=$("#meeting_name").val();
-	const date=$("#meeting_date").val();
-	const participant=$("#meeting_party").val();
-	const content=$("#meeting_content").val();
-	const reference=$("#meeting_ref").val();
-	//alert(name);
-	$.post('startMeeting',
+/*$("#meeting_start").click(function(){
+	const name=$("#mt_name").val();
+	const date=$("#mt_date").val();
+	const participant=$("#mt_participant").val();
+	const content=$("#mt_content").val();
+	const reference=$("#mt_reference").val();
+	alert("content : "+content);
+	$.get('startMeeting',
 		{name,
 		date,
 		participant,
 		content,
 		reference},
-		function(data){
+		function(data,status){
 			alert(data);
-			//data=JSON.parse(data);
-			//alert(data);
 		}
 		
 	);
-});
+});*/

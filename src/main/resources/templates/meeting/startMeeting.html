@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 
 <head>
 
@@ -192,12 +192,16 @@
 				
 					    <div class="fadeIn first">
 			    			<h2><span>여긴 startMeeting</span></h2>
+			    			<h2><span th:text="${test}">{test}</span></h2>
+			    			<h3 th:text="${name}">{name}</h3>
+			    			<h3 th:text="${name}">{name}</h3>
 			    			
 			    		</div>
 				
-			    		<form id="m_form2" method="post" action="endMeeting">
+			    		<form name="meeting_form" id="m_form2" method="post" action="startRecording">
 				    		
-				    		<input type="button" value="녹음 중지" >
+				    		<input type="submit" name="record_start" id="record_start" value="녹음 시작" >
+				    		<input type="submit" name="record_end" id="record_start" value="녹음 중지" >
 						</form>
 						
 						
