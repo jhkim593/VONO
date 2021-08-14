@@ -92,11 +92,14 @@ public class Folder {
 		this.name=name;
 	}
 
-	public void changeIs_trash() {
-		if(this.is_trash)
+	public void changeIs_trashTrue() {
+		this.is_trash=true;
+		
+	}
+	
+	public void changeIs_trashFalse() {
 		this.is_trash=false;
-		else
-			this.is_trash=true;
+		
 	}
 	public void changeEdit_date() {
 		this.edit_date=LocalDateTime.now();

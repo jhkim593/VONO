@@ -29,4 +29,7 @@ public interface FolderDAO extends JpaRepository<Folder, Long> {
 	
 	@Query("select f from Folder f where f.member.id=:id and f.is_trash=true")
 	List<Folder>findTrashFolderByMemberId(@Param("id")Long id);
+	
+
+	
 }
