@@ -14,4 +14,9 @@ public interface WasteBasketService {
 	
 	//파일 수정(이동_파일 목록으로 이동)
 	void redoById(@Param("id") List<Long> id);
+	
+	//검색
+	//List<WasteBasket> findByNameContaining();
+
+	//List<WasteBasket> findByNameContaining(@Param("name") List<String> name);
 }

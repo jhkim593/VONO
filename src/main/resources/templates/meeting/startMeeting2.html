@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout/defaultNoChat}">
+
+<th:block layout:fragment="content">
+ <link th:href="@{css/sb-admin-2.min.css}" rel="stylesheet">
+ 
+	<!-- Begin Page Content -->
+	<!-- 여기서부터 작성 시작 -->
+    <div class="container-fluid">
+    <div id="formContent">
+		<!-- Tabs Titles -->
+		<div class="fadeIn first">
+			<h2><span>여긴 startMeeting</span></h2>
+		</div>
+				
+		<form id="m_form2" method="post" action="endMeeting">
+			<input type="button" value="녹음 중지" >
+		</form>
+						
+	</div>
+    </div>
+    
+   
+    
+</th:block>
+</html>
