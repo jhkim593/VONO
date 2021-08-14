@@ -15,10 +15,12 @@ import my.vono.web.exception.BasicFolderRenameException;
 import my.vono.web.exception.FolderAlreadyExistException;
 import my.vono.web.exception.FolderIsNotTrashException;
 import my.vono.web.exception.FolderNotFoundException;
+import my.vono.web.exception.MeetingNotFoundException;
 import my.vono.web.exception.MemberNotFoundException;
 import my.vono.web.model.folder.FolderDAO;
 import my.vono.web.model.folder.FolderDto;
 import my.vono.web.model.folder.FolderSimpleDto;
+import my.vono.web.model.meeting.MeetingDAO;
 import my.vono.web.model.user.MemberDAO;
 
 @Service
@@ -27,6 +29,7 @@ import my.vono.web.model.user.MemberDAO;
 public class FolderService {
 	private final FolderDAO folderDAO;
 	private final MemberDAO memberDAO;
+	private final MeetingDAO meetingDAO;
 	
 	//기본폴더 안지워 지게 설정?
 
@@ -57,9 +60,9 @@ public class FolderService {
 	public void trashFolder(FolderDto folderDto) {
 
 		Folder folder = folderDAO.findById(folderDto.getId()).orElseThrow(FolderNotFoundException::new);
-		folder.changeIs_trash();
+		folder.changeIs_trashTrue();
 		for (Meeting meeting : folder.getMeetings()) {
-			meeting.changeIs_trash();
+			meeting.changeIs_trashTrue();
 		}
 
 	}
@@ -103,23 +106,14 @@ public class FolderService {
 	}
 	
 
-//휴지통 기능
-
-	public List<FolderDto> trashFolders(Long member_id) {
-
-		return folderDAO.findTrashFolderByMemberId(member_id).stream().map(tf->new FolderDto(tf)).collect(Collectors.toList());
-		
-
-	}
-
-	public void permanentlyDeleteFolder(Long folderId) {
-		Folder folder = folderDAO.findById(folderId).orElseThrow(FolderNotFoundException::new);
-		if (folder.getIs_trash()) {
-			folderDAO.delete(folder);
-		} else {
-			throw new FolderIsNotTrashException();
-		}
-
-	}
-
+    //휴지통 기능
+//
+//	public List<FolderDto> trashFolders(Long member_id) {
+//
+//		return folderDAO.findTrashFolderByMemberId(member_id).stream().map(tf->new FolderDto(tf)).collect(Collectors.toList());
+//		
+//
+//	}
+// 
+	
 }

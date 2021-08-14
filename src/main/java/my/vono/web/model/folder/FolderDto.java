@@ -25,13 +25,14 @@ public class FolderDto {
 	
 	private Boolean is_trash;
 	
-	private List<MeetingDto>meetigs;
+	private List<MeetingDto>meetings;
 	
 	public FolderDto(Folder folder) {
 	  this.id=folder.getId();
 	  this.name=folder.getName();
 	  this.member_id=folder.getMember().getId();
-	  folder.getMeetings().stream().map(m->new MeetingDto(m)).collect(Collectors.toList());
+	
+	  this.meetings=folder.getMeetings().stream().map(m->new MeetingDto(m)).collect(Collectors.toList());
 	 
 	  this.is_trash=folder.getIs_trash();
 	  

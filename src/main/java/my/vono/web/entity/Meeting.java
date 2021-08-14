@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.internal.build.AllowSysOut;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,6 +48,10 @@ public class Meeting {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="folder_id")
 	private Folder folder;
+	
+	@ManyToOne(fetch= FetchType.LAZY)
+	@JoinColumn(name="member_id")
+	private Member member;
     
 	
 	@OneToMany(mappedBy = "meeting" ,cascade = CascadeType.ALL)
@@ -62,30 +68,48 @@ public class Meeting {
 		meeting.content=content;
 		meeting.participant=participant;
 		if(folder!=null) {
+		
 		meeting.addFolder(folder);
-		meeting.is_trash=false;
+		
 		
 		}
-		//참석자
+		meeting.is_trash=false;
+		meeting.member=folder.getMember();
+	
+		meeting.create_Date=LocalDateTime.now();
+		meeting.edit_date=LocalDateTime.now();
 		return meeting;
 		
 	}
 	
-	public void changeIs_trash() {
-		if(this.is_trash)
-			this.is_trash=false;
-			else
-				this.is_trash=true;
+	public void changeIs_trashTrue() {
+		this.is_trash=true;
+	}
+	public void changeIs_trashFalse() {
+		this.is_trash=false;
 	}
 	
 	public void addFolder(Folder folder) {
+		
 		this.folder=folder;
+		
 		folder.getMeetings().add(this);
+	    
 	}
 	public void changeName(String name) {
 		if(name!=null) {
 			
 		}
+	}
+	public void removeFolder() {
+		this.folder=null;
+	}
+
+	public void addMember(Member member) {
+		this.member=member;
+	}
+	public void removeMember() {
+		this.member=null;
 	}
 
 }
