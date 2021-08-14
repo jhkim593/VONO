@@ -21,6 +21,7 @@ package my.vono.web.gspeech;
 import com.google.api.gax.rpc.ClientStream;
 import com.google.api.gax.rpc.ResponseObserver;
 import com.google.api.gax.rpc.StreamController;
+import com.google.cloud.speech.v1.SpeakerDiarizationConfig;
 import com.google.cloud.speech.v1p1beta1.RecognitionConfig;
 import com.google.cloud.speech.v1p1beta1.SpeechClient;
 import com.google.cloud.speech.v1p1beta1.SpeechRecognitionAlternative;
@@ -31,7 +32,6 @@ import com.google.cloud.speech.v1p1beta1.StreamingRecognizeResponse;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Duration;
 import java.text.DecimalFormat;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -42,7 +42,6 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.DataLine.Info;
 import javax.sound.sampled.TargetDataLine;
 
-import org.hibernate.internal.build.AllowSysOut;
 
 public class InfiniteStreamRecognize {
 
@@ -167,7 +166,11 @@ public class InfiniteStreamRecognize {
               if (result.getIsFinal()) {
                 System.out.print(GREEN);
                 System.out.print("\033[2K\r");
-            	  String res=convertMillisToDate(correctedTime)+": "+alternative.getTranscript()+"\n";
+            	  String res= 
+            			  convertMillisToDate(correctedTime)+
+            			  "화자"+ alternative.getWords(0).getSpeakerTag()+
+            			  " :" + alternative.getTranscript();
+            	  
             	  System.out.print(res);
 //                System.out.printf(
 //                    "%s: %s \n",
@@ -189,13 +192,37 @@ public class InfiniteStreamRecognize {
             public void onError(Throwable t) {}
           };
       clientStream = client.streamingRecognizeCallable().splitCall(responseObserver);
-
+      
+      
+      
+      //화자 구분위해 추가
+//      SpeakerDiarizationConfig speakerDiarizationConfig =
+//    	        SpeakerDiarizationConfig.newBuilder()
+//    	            .setEnableSpeakerDiarization(true)
+//    	            .setMinSpeakerCount(2)
+//    	            .setMaxSpeakerCount(5)
+//    	            .build();
+      
+      //베타버전으로 해야 적용됨
+      com.google.cloud.speech.v1p1beta1.SpeakerDiarizationConfig speakerDiarizationConfig2 =
+    		  com.google.cloud.speech.v1p1beta1.SpeakerDiarizationConfig.newBuilder()
+    		  .setEnableSpeakerDiarization(true)
+    		  .setMinSpeakerCount(2)
+    		  .setMaxSpeakerCount(5)
+    		  .build();
+      
+      
+      //공식문서에서도 enableSpeakerDiarization과 diarizationSpeakerCount이 deprecated 되어있음
+      //대신 diarizationConfig 사용할 것을 권장
+      //https://cloud.google.com/speech-to-text/docs/reference/rest/v1p1beta1/RecognitionConfig?hl=ko
       RecognitionConfig recognitionConfig =
-          RecognitionConfig.newBuilder()
-              .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
-              .setLanguageCode(languageCode)
-              .setSampleRateHertz(16000)
-              .build();
+              RecognitionConfig.newBuilder()
+                  .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
+                  .setLanguageCode(languageCode)
+                  .setSampleRateHertz(16000)
+                  .setDiarizationConfig(speakerDiarizationConfig2)
+                  .build();
+
 
       StreamingRecognitionConfig streamingRecognitionConfig =
           StreamingRecognitionConfig.newBuilder()
