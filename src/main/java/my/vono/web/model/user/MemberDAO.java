@@ -16,5 +16,7 @@ public interface MemberDAO extends JpaRepository<Member,Long>{
 //
 	@Query("select m from Member m where m.login_id=:LoginId")
 	Optional<Member> findByLoginId(@Param("LoginId")String LoginId);
+	
+	Optional<Member> findByEmail(String email);
 }
 

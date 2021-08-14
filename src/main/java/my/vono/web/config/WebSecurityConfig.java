@@ -9,20 +9,28 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import my.vono.web.config.auth.CustomUserDetails;
+import lombok.RequiredArgsConstructor;
 import my.vono.web.config.auth.CustomUserDetailsService;
+import my.vono.web.config.oauth.CustomOAuth2UserService;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    
+	private final CustomUserDetailsService customUserDetailsService;
+	private final CustomOAuth2UserService customOAuth2UserService;
+	
    @Override
    public void configure(WebSecurity web) {
       web
       .ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+   }
+   
+   @Override
+   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+       auth.userDetailsService(customUserDetailsService);
    }
    
    @Override
@@ -34,19 +42,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().permitAll()
             .and()
          .formLogin()
-            .loginPage("/home")
+            .loginPage("/")
             // form action /login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행해줌
             .loginProcessingUrl("/login")
             // 로그인 성공시 돌아가는 url
-            .defaultSuccessUrl("/loginHome")
+            .defaultSuccessUrl("/newMeeting")
+            .failureUrl("/?error=true")// 로그인 실패 후 이동 페이지
             .usernameParameter("name")
+            .passwordParameter("pw")
             .permitAll()
             .and()
+          .logout()
+          	.logoutSuccessUrl("/")
+          	.and()
           .oauth2Login()
             .loginPage("/home")
-            .and()
-         .logout()
-            .permitAll();
+            // 구글 로그인이 완료된 뒤의 후처리
+            .userInfoEndpoint()
+            .userService(customOAuth2UserService);
+         
    }
    
    // 패스워드 암호화

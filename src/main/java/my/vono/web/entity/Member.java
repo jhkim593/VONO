@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -54,7 +55,7 @@ public class Member {
     private List<Folder>folders=new ArrayList<>();
     
     public static Member createMemeber(String login_id,String pw,
-    		String provider,String name,String email,String phone,String job) {
+    		String provider, String name,String email,String phone,String job) {
     	Member m=new Member();
     	m.login_id=login_id;
     	m.pw=pw;
@@ -73,5 +74,16 @@ public class Member {
     
     }
     
+    @Builder
+    public Member(String name, String email, String role) {
+    	this.name = name;
+    	this.email = email;
+    	this.role = role;
+    }
     
+    public Member update(String name) {
+    	this.name = name;
+    	
+    	return this;
+    }
 }

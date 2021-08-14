@@ -2,6 +2,7 @@ package my.vono.web.service;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,9 +32,7 @@ public class MemberService {
 		memberVO.setPw(encPassword);
 		
 		Member member=Member.createMemeber(memberVO.getLogin_id(), memberVO.getPw(), null,
-				memberVO.getName(),memberVO.getEmail(),
-
-				 memberVO.getPhone(), memberVO.getJob());
+				memberVO.getName(),memberVO.getEmail(), memberVO.getPhone(), memberVO.getJob());
 
         Folder folder=Folder.createFolder("기본폴더", member);
 

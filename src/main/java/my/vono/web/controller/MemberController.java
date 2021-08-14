@@ -2,14 +2,17 @@ package my.vono.web.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
+import my.vono.web.config.auth.CustomUserDetails;
 import my.vono.web.entity.Member;
 import my.vono.web.model.user.MemberDAO;
 import my.vono.web.model.user.MemberVO;
@@ -37,6 +40,8 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
+	
+	
 	
 //	@PostMapping("/member/login")
 //	public String memberLogin() {
