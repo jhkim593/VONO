@@ -68,53 +68,71 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/com.google.api/gax-grpc -->
 		<dependency>
-		    <groupId>com.google.api</groupId>
-		    <artifactId>gax-grpc</artifactId>
-		    <version>2.0.0</version>
+			<groupId>com.google.api</groupId>
+			<artifactId>gax-grpc</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-speech -->
 		<dependency>
-		    <groupId>com.google.cloud</groupId>
-		    <artifactId>google-cloud-speech</artifactId>
-		    <version>1.29.5</version>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-speech</artifactId>
+			<version>1.29.5</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
 		<dependency>
-		    <groupId>commons-cli</groupId>
-		    <artifactId>commons-cli</artifactId>
-		    <version>1.4</version>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>1.4</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.github.ulisesbocchio</groupId>
 			<artifactId>jasypt-spring-boot-starter</artifactId>
 			<version>3.0.3</version>
 		</dependency>
-		
+
 		<dependency>
-		  	<groupId>org.springframework.boot</groupId>
-		  	<artifactId>spring-boot-starter-security</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		
+
 		<dependency>
-		  	<groupId>org.springframework.security</groupId>
-		  	<artifactId>spring-security-test</artifactId>
-		  	<scope>test</scope>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 		<dependency>
-		    <groupId>io.jsonwebtoken</groupId>
-		    <artifactId>jjwt</artifactId>
-		    <version>0.9.1</version>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		
+		<!-- json dependency 추가-->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180813</version>
+		</dependency>
+		<dependency>
+			<groupId>net.morimekta.utils</groupId>
+			<artifactId>android-util</artifactId>
+			<version>2.7.1</version>
+		</dependency>
+		
+		<!-- thymeleaf layout -->
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
 		
 	</dependencies>

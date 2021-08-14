@@ -44,19 +44,20 @@ function deleteFile() {
 
 			$.ajax({
 				url: 'deleteWB',
-				data: "id="+fileId,
+				data: "id=" + fileId,
 				type: 'POST',
 				success: function onData(data) {
-					console.log("data: "+data);
+					console.log("data: " + data);
 					location.reload(true);
 				},
 				error: function onError(error) {
-					console.error("error: "+error);
+					console.error("error: " + error);
 				}
 			});
-			
+
 		} else {
 			alert("삭제가 취소 되었습니다.");
+			location.reload(true);
 		}
 	}//count(if-else)
 
@@ -84,17 +85,17 @@ function restoreFile() {
 
 			$.ajax({
 				url: 'redoWB',
-				data: "id="+fileId,
+				data: "id=" + fileId,
 				type: 'POST',
 				success: function onData(data) {
-					console.log("data: "+data);
-					location.href="wasteBasket";
+					console.log("data: " + data);
+					location.href = "wasteBasket";
 				},
 				error: function onError(error) {
-					console.error("error: "+error);
+					console.error("error: " + error);
 				}
 			});
-			
+
 		} else {
 			alert("복구가 취소 되었습니다.");
 		}
@@ -102,11 +103,26 @@ function restoreFile() {
 
 }
 
+//검색창
 
+//$("#searchBtn2").click(function() {});
+function searchBtn() {
+	var searchName = $('#searchMsg').val();
+	alert("찾기 완료: " + searchName);
 
-
-
-
+	$.ajax({
+		url: 'searchMsg',
+		data: "searchName=" + searchName,
+		type: 'POST',
+		success: function onData(data) {
+			console.log("성공");
+			location.href = "searchView";
+		},
+		error: function onError(error) {
+			console.error("error: " + error);
+		}
+	});
+}
 
 
 
