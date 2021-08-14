@@ -13,7 +13,10 @@ spring:
     #doo
     #password: ENC(rIX7PfoYjAAuS5PbbI0v/RYIkFjBeN9i)
     #jin
+
+
     #password: ENC(3F1eltMp3xhu5T+HyPoTIg==)
+
     url: ENC(Sop4X6qZnES4rPtOOytaLW2G/Wl22e86XygKZuMFt3U84ZdYNu35NTcSS+Nom+hj2/WcvUccki4j4u4jQ1OI1KzhoysRpcZLKWPlQH4nW9+JbUmY1FF9MWXrbDtCq+Dq2n0+zvPrG0U=)
     username: ENC(tJcVF6BtGG3Tn29MBGMYig==)
 #  
@@ -29,10 +32,16 @@ spring:
     properties:
       hibernate:
         format_sql: true
-          security:    oauth2:      client:        registration:          google:
+        
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
             client-id: ENC(KJXlcCvgkC3f9ht3+4LVqHDmC3ybSLJPomvbICG17nbH1Do6DeZrx3Lk7qvUIguuMydHLm83t3GilixHH+BJGwd8oOE473ctQTxx+ltXeCM=)
             client-secret: ENC(WfyQ4B3Auj+4kMB1T/hdDBsG9ITHEzvfn6us0SSNppzPHIjcODFRIg==)
-            scope:            - email
+            scope:
+            - email
             - profile
       
 jasypt:

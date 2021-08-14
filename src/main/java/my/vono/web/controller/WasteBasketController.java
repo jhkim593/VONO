@@ -24,10 +24,15 @@ public class WasteBasketController {
 //	}
 	
 //	@RequestMapping("test")
-//	public String gettest() {
+//	public String gettest(Model m) {
+//		m.addAttribute("wbList",wbService.getAllFiles());
+//		System.out.println("wbList: "+wbService.getAllFiles());
 //		return "demohtml/test";
 //	}
-
+	@RequestMapping("ex")
+	public String gettest() {
+		return "template";
+	}
 	// 휴지통목록 > 폴더 > 파일목록 (조회)
 	@RequestMapping("folderView")
 	public String getmyFolder(Model m) {
