@@ -13,41 +13,30 @@ import my.vono.web.entity.Meeting;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MeetingDto {
-	private Long id;
-	
-	private String name;
-	
-	private String folderName;
-	
-	private Long folder_id;
-	
-	private LocalDateTime create_date;
-	
-	private LocalDateTime edit_date;
-	
-	private String participant;
-	
-	private String content;
-	
-	private Boolean is_trash;
-	
-	public MeetingDto(Meeting meeting) {
-		
-	   this.id=meeting.getId();
-	   this.name=meeting.getName();
-	   this.folder_id=meeting.getFolder().getId();
-	   this.create_date=meeting.getCreate_Date();
-	   this.edit_date=meeting.getEdit_date();
-	   this.participant=meeting.getParticipant();
-	   this.content=meeting.getContent();
-	   this.is_trash=meeting.getIs_trash();
-		
-	}
-	
-	
-	
-	
-	
+public class MeetingSimpleDto {
 
+	private Long id;
+
+	private String name;
+
+	private LocalDateTime create_date;
+
+	private LocalDateTime edit_date;
+
+	private String participant;
+
+	private String content;
+
+	private Boolean is_trash;
+
+	public MeetingSimpleDto(Meeting meeting) {
+		this.id = meeting.getId();
+		this.name = meeting.getName();
+	
+		this.create_date = meeting.getCreate_Date();
+		this.edit_date = meeting.getEdit_date();
+		this.participant = meeting.getParticipant();
+		this.content = meeting.getContent();
+		this.is_trash = meeting.getIs_trash();
+	}
 }

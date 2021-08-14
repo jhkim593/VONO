@@ -28,4 +28,11 @@ public class WBServiceImp implements WasteBasketService {
 		//wbRepository.saveAll(id);
 	}
 
+//	@Override
+//	public List<WasteBasket> findByNameContaining(List<String> name) {
+//		System.out.println("findByNameContaining: "+name);
+//		return wbRepository.findByNameContaining(name);
+//	}
+
+
 }

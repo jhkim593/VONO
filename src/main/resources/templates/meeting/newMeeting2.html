@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout/defaultNoChat}">
+
+<th:block layout:fragment="content">
+	<!-- Begin Page Content -->
+	<!-- 여기서부터 작성 시작 -->
+    <div class="container-fluid">
+    <div id="formContent">
+		<!-- Tabs Titles -->
+		<div class="fadeIn first">
+			<h2><span>새 회의록 생성</span></h2>
+		</div>
+				
+		<form id="meeting_form" method="post" action="startMeeting">
+		<!-- <form id="meeting_form" > -->
+			<input type="text" id="meeting_name" placeholder="회의명">
+			<input type="text" id="meeting_date"  placeholder="회의 날짜">
+			<input type="text" id="meeting_party"  placeholder="회의 참가자">
+			<input type="text" id="meeting_content"  placeholder="회의 내용">
+			<input type="text" id="meeting_ref"  placeholder="회의자료 첨부">
+			<input type="submit" id="meeting_start" value="회의 시작" >
+		</form>
+						
+						
+				
+	</div>
+    </div>
+                
+    <!-- 추가 -->
+    <script th:src="@{js/newMeeting.js}"></script>
+    <link th:href="@{css/sb-admin-2.min.css}" rel="stylesheet">
+    
+</th:block>
+</html>

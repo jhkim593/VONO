@@ -7,17 +7,10 @@
 	<!-- Begin Page Content -->
 	<!-- 여기서부터 작성 시작 -->
     <div class="container-fluid">
-      <div class="dropdown" id="floatRight">
-                 		<b><input type='checkbox' id="ckAll" name='selectall' value='selectall' style="cursor:pointer" onclick='selectAll(this)'/><label for="ckAll">&nbsp;전체선택</label></b>
-           			    <button type="button" class="btn btn-default dropdown toggle" data-toggle="dropdown"><b>옵션 </b>
-           			    <i class="fas fa-angle-down"></i><span class="caret"></span></button>
-             
-            			<ul class="dropdown-menu" role="menu">
-                			<li><a href="#" onclick="restoreFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-redo"></i>&nbsp;복구</a></li>
-               				<li><a href="#" onclick="deleteFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-trash-alt"></i>&nbsp;영구삭제</a></li>
-          				</ul>
-        		</div><br><br>
-        		
+     <br>
+ 					&nbsp;&nbsp;<p>" <b><span th:text="${param.searchText}"></span></b> "의 검색 결과는 다음과 같습니다.</p>
+        		<p>아직 기능 구현x 그냥 화면 어떻게 나오는지 리스트 조회만 해둔거에요!</p>
+        		<br>
       				<div class="row" >
       					<table>
       					
@@ -32,8 +25,7 @@
 									<span th:case="false"><a href="viewFiles" onclick="window.open(this.href, '_blank', 'width=600, height=400, top=100, left=100'); return false;">&nbsp;<img width="90px" src="img/file.png" th:title="${list.name}"></a></span>
 								</div>
       					 		
-								 <p id="txt_line" class="card-text"><input type='checkbox' th:value="${list.id}" style="cursor:pointer" name='checkAll' onclick='checkSelectAll()'/>&nbsp;
-         				 		 <b><a th:text="${list.name}" href="folderView" th:title="${list.name}"></a></b></p>
+								 <p id="txt_line" class="card-text"><b><a th:text="${list.name}" href="folderView" th:title="${list.name}"></a></b></p>
       					 		    
 								</div>
       					 		
@@ -52,8 +44,6 @@
 					</table>
 					
       			</div>
-
-
     </div>
      <!-- 드롭다운css -->
     <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">

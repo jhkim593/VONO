@@ -62,7 +62,7 @@ public class FolderController {
 	}
 	
 	@ResponseBody
-	@PutMapping("/folder/trash")
+	@PostMapping("/folder/trash")
 	public ResponseEntity<?> trashFolder(@RequestBody FolderDto folderDto) {
 
 		try {
@@ -80,7 +80,7 @@ public class FolderController {
 	
 	
 
-	@PutMapping("/folder")
+	@PostMapping("/folder/rename")
 	@ResponseBody
 	public ResponseEntity<?> renameFolder(@RequestBody FolderDto folderDto){
 		try {
