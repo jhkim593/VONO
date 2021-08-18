@@ -57,8 +57,6 @@ public class ExcelReader {
 	                    	vo.setTime(value);
 	                    	list.add(vo);
 	                    }
-	                    System.out.println(columnindex);
-	                    System.out.println(value);
 	                }
 
 	                }
