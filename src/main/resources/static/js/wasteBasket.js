@@ -25,13 +25,21 @@ function checkSelectAll() {
 //영구 삭제
 function deleteFile() {
 	var count = 0;
-	var fileId = [];
+	var meetingId = [];
+	var folderId = [];
 
-	$("input[name='checkAll']:checked").each(function(i) {
+	$("input[name='checkAll']:checked").each(function() {
 		count++;
-		fileId.push($(this).val());
 	});
-	console.log("fileName: " + fileId);
+	$("input[class='folder']:checked").each(function() {
+		folderId.push($(this).val());
+	});
+	$("input[class='meeting']:checked").each(function() {
+		meetingId.push($(this).val());
+	});
+
+	//alert("회의록: "+meetingId+"\n폴더: "+folderId);
+
 
 	if (count < 1) {
 		alert("삭제할 파일을 선택해 주세요.");
@@ -39,26 +47,29 @@ function deleteFile() {
 		var redo = confirm(count + "개의 항목을 영구 삭제 하시겠습니까?");
 
 		if (redo == true) {
-			//alert(fileId);
-			alert("삭제 되었습니다.");
-
 			$.ajax({
-				url: 'deleteWB',
-				data: "id=" + fileId,
+				url: 'deleteDemo',
 				type: 'POST',
-				success: function onData(data) {
-					console.log("data: " + data);
+				data: {
+					"meetingId": meetingId,
+					"folderId": folderId
+				},
+				dataType: "text",
+				traditional: true,
+				success: function(data) {
+					alert("삭제 되었습니다.");
 					location.reload(true);
 				},
-				error: function onError(error) {
-					console.error("error: " + error);
+				error: function(request, error) {
+					alert("fail");
+					console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 				}
 			});
 
 		} else {
 			alert("삭제가 취소 되었습니다.");
-			location.reload(true);
 		}
+
 	}//count(if-else)
 
 }
@@ -66,13 +77,21 @@ function deleteFile() {
 //복구
 function restoreFile() {
 	var count = 0;
-	var fileId = [];
+	var meetingId = [];
+	var folderId = [];
 
-	$("input[name='checkAll']:checked").each(function(i) {
+	$("input[name='checkAll']:checked").each(function() {
 		count++;
-		fileId.push($(this).val());
 	});
-	console.log("fileName: " + fileId);
+	$("input[class='folder']:checked").each(function() {
+		folderId.push($(this).val());
+	});
+	$("input[class='meeting']:checked").each(function() {
+		meetingId.push($(this).val());
+	});
+
+	alert("회의록: " + meetingId + "\n폴더: " + folderId);
+
 
 	if (count < 1) {
 		alert("복구할 파일을 선택해 주세요.");
@@ -80,50 +99,29 @@ function restoreFile() {
 		var redo = confirm(count + "개의 항목을 복구 하시겠습니까?");
 
 		if (redo == true) {
-			//alert(fileId);
-			alert("복구 되었습니다.");
-
 			$.ajax({
 				url: 'redoWB',
-				data: "id=" + fileId,
 				type: 'POST',
-				success: function onData(data) {
-					console.log("data: " + data);
-					location.href = "wasteBasket";
+				data: {
+					"meetingId": meetingId,
+					"folderId": folderId
 				},
-				error: function onError(error) {
-					console.error("error: " + error);
+				dataType: "text",
+				traditional: true,
+				success: function(data) {
+					alert("복구 되었습니다.");
+					location.href = 'listDemo';
+				},
+				error: function(request, error) {
+					alert("fail");
+					console.log("code:" + request.status + "\n" +  "message:" + request.responseText + "\n" + "error:" + error);
 				}
 			});
 
 		} else {
 			alert("복구가 취소 되었습니다.");
 		}
+
 	}//count(if-else)
 
 }
-
-//검색창
-
-//$("#searchBtn2").click(function() {});
-function searchBtn() {
-	var searchName = $('#searchMsg').val();
-	alert("찾기 완료: " + searchName);
-
-	$.ajax({
-		url: 'searchMsg',
-		data: "searchName=" + searchName,
-		type: 'POST',
-		success: function onData(data) {
-			console.log("성공");
-			location.href = "searchView";
-		},
-		error: function onError(error) {
-			console.error("error: " + error);
-		}
-	});
-}
-
-
-
-

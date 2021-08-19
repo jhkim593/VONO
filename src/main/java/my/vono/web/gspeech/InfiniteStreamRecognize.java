@@ -31,7 +31,11 @@ import com.google.cloud.speech.v1p1beta1.StreamingRecognizeRequest;
 import com.google.cloud.speech.v1p1beta1.StreamingRecognizeResponse;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Duration;
+
+import my.vono.web.controller.MeetingController;
+
 import java.text.DecimalFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -41,6 +45,27 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.DataLine.Info;
 import javax.sound.sampled.TargetDataLine;
+
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.springframework.ui.Model;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.hibernate.internal.build.AllowSysOut;
 
 
 public class InfiniteStreamRecognize {
@@ -68,34 +93,33 @@ public class InfiniteStreamRecognize {
   private static StreamController referenceToStreamController;
   private static ByteString tempByteString;
 
-  public static void StreamStart(String... args) {
+  //계속 써져야 하는 자원 밖으로(여기) 꺼내보기
+	//.xlsx 확장자 지원
+	static XSSFWorkbook xssfWb = new XSSFWorkbook(); // .xlsx
+	static XSSFSheet xssfSheet = xssfWb.createSheet("VONO_1"); // 워크시트 생성
+	static XSSFRow xssfRow = null; // .xlsx
+	static XSSFCell xssfCell = null;// .xlsx
+	static int rowNo = 1; // 행 갯수
+	static String localFile="C:\\" + "VONO_테스트_엑셀" + ".xlsx";
+	static File file = new File(localFile);
+    
+  public static void StreamStart(Model model, String... args ) {
     InfiniteStreamRecognizeOptions options = InfiniteStreamRecognizeOptions.fromFlags(args);
     if (options == null) {
       // Could not parse.
       System.out.println("Failed to parse options.");
       System.exit(1);
     }
-
+    
     try {
-      infiniteStreamingRecognize(options.langCode);
+//		infiniteStreamingRecognize(options.langCode);
+//    	infiniteStreamingRecognize("en-US");
+    	infiniteStreamingRecognize("ko-KR", model);
+      
     } catch (Exception e) {
       System.out.println("Exception caught: " + e);
-    }
+    }  
   }
-  public static void StreamEnd(String... args) {
-	  InfiniteStreamRecognizeOptions options = InfiniteStreamRecognizeOptions.fromFlags(args);
-	  if (options != null) {
-		  // Could not parse.
-		  System.out.println("Failed to parse options.");
-		  System.exit(1);
-	  }
-	  try {
-		  infiniteStreamingRecognize(options.langCode);
-	  } catch (Exception e) {
-		  System.out.println("Exception caught: " + e);
-	  }
-  }
-  
 
   public static String convertMillisToDate(double milliSeconds) {
     long millis = (long) milliSeconds;
@@ -110,15 +134,27 @@ public class InfiniteStreamRecognize {
   }
 
   /** Performs infinite streaming speech recognition */
-  public static void infiniteStreamingRecognize(String languageCode) throws Exception {
+  public static void infiniteStreamingRecognize(String languageCode, Model model) throws Exception {
 
     // Microphone Input buffering
     class MicBuffer implements Runnable {
 
       @Override
       public void run() {
-        System.out.println(YELLOW);
+        //System.out.println(YELLOW);
         System.out.println("Start speaking...Press Ctrl-C to stop");
+        
+        //한번만 실행되는 구문
+        xssfSheet.setColumnWidth(2, (xssfSheet.getColumnWidth(2))+(short)10240); // 2번째 컬럼 넓이 조절
+		xssfRow = xssfSheet.createRow(0);	//0번째 row는 헤더
+		xssfCell = xssfRow.createCell((short) 0);
+		xssfCell.setCellValue("시간");
+		xssfCell = xssfRow.createCell((short) 1);
+		xssfCell.setCellValue("화자구분");
+		xssfCell = xssfRow.createCell((short) 2);
+		xssfCell.setCellValue("내용");
+		
+        
         targetDataLine.start();
         byte[] data = new byte[BYTES_PER_BUFFER];
         while (targetDataLine.isOpen()) {
@@ -130,7 +166,19 @@ public class InfiniteStreamRecognize {
             sharedQueue.put(data.clone());
           } catch (InterruptedException e) {
             System.out.println("Microphone input buffering interrupted : " + e.getMessage());
-          }
+          } finally {
+        	  
+			//여기서 저장하면 어떨까??, 재시작, 일시중지 관련한 설정 여기서 해결해보기
+        	File file = new File(localFile);
+			FileOutputStream fos = null;
+				try {
+					fos = new FileOutputStream(file);
+					xssfWb.write(fos);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+		}
         }
       }
     }
@@ -162,27 +210,57 @@ public class InfiniteStreamRecognize {
 
               SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
               
+              
               //여기에서 바로 res를 웹에다가 띄우는 방법 설계
               if (result.getIsFinal()) {
-                System.out.print(GREEN);
-                System.out.print("\033[2K\r");
-            	  String res= 
-            			  convertMillisToDate(correctedTime)+
-            			  "화자"+ alternative.getWords(0).getSpeakerTag()+
-            			  " :" + alternative.getTranscript();
-            	  
-            	  System.out.print(res);
-//                System.out.printf(
-//                    "%s: %s \n",
-//                    convertMillisToDate(correctedTime),
-//                    alternative.getTranscript());
+                String res= 
+//                		alternative.toString();
+          			  convertMillisToDate(correctedTime)+
+          			  "화자"+ alternative.getWords(0).getSpeakerTag()+
+          			  " :" + alternative.getTranscript()+
+          			  "\n";
+                
+        		model.addAttribute("time", convertMillisToDate(correctedTime).split(" ")[0]) 
+        			.addAttribute("speaker", alternative.getWords(0).getSpeakerTag())
+        			.addAttribute("transcript", alternative.getTranscript());
+        		System.out.println(model);
+//        			{time=00:05, speaker=1, transcript=난 더 더 더 더 크게 되어} //예시
+//        			{time=00:14, speaker=1, transcript= 널 가득 안고 싶고 그래요}
+        			
+        		// 엑셀 임포트 구문
+    			try {
+    				
+    				
+    				System.out.println("rowNo : "+rowNo);
+    				xssfRow = xssfSheet.createRow(rowNo++);
+    				xssfCell = xssfRow.createCell((short) 0);
+    				xssfCell.setCellValue(convertMillisToDate(correctedTime).split(" ")[0]); //시간
+    				xssfCell = xssfRow.createCell((short) 1);
+    				xssfCell.setCellValue("화자 "+alternative.getWords(0).getSpeakerTag()); //화자
+    				xssfCell = xssfRow.createCell((short) 2);
+    				xssfCell.setCellValue(alternative.getTranscript()); //내용
+    				localFile = "C:\\" + "VONO_테스트_엑셀" + ".xlsx";
+    				
+//    				File file = new File(localFile);
+//    				FileOutputStream fos = null;
+//    				fos = new FileOutputStream(file);
+//    				xssfWb.write(fos);
+    				
+    				//계속 엑셀에 써야하므로 끄면 안됨
+//        				if (xssfWb != null)	xssfWb.close();
+//        				if (fos != null) fos.close();
+    			
+    			}catch(Exception e){
+    	        	System.out.println("row 생성에 실패");
+    			}finally{
+    				
+    		    }
+                
+        		
+        		
                 isFinalEndTime = resultEndTimeInMS;
                 lastTranscriptWasFinal = true;
               } else {
-//                System.out.print(RED);
-//                System.out.print("\033[2K\r");
-//                System.out.printf(
-//                    "%s: %s", convertMillisToDate(correctedTime), alternative.getTranscript());
                 lastTranscriptWasFinal = false;
               }
             }

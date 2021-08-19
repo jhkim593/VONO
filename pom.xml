@@ -123,12 +123,17 @@
 			<artifactId>json</artifactId>
 			<version>20180813</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 		<dependency>
 			<groupId>net.morimekta.utils</groupId>
 			<artifactId>android-util</artifactId>
 			<version>2.7.1</version>
 		</dependency>
-		
 		<!-- thymeleaf layout -->
 		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
@@ -136,11 +141,26 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 		<dependency>
-    		<groupId>org.apache.poi</groupId>
-    		<artifactId>poi-ooxml</artifactId>
-    		<version>5.0.0</version>
+
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>5.0.0</version>
 		</dependency>
-			
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>5.0.0</version>
+		</dependency>
+	
+		<dependency>
+    <groupId>com.googlecode.json-simple</groupId>
+    <artifactId>json-simple</artifactId>
+    <version>1.1.1</version>
+</dependency>
+		
+
 	</dependencies>
 
 	<build>

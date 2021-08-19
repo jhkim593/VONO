@@ -24,7 +24,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 public class InfiniteStreamRecognizeOptions {
-  String langCode = "ko-KR"; // by default english US
+  //String langCode = "ko-KR"; // by default english US
+  String langCode = "en-US"; // by default english US
 
   /** Construct an InfiniteStreamRecognizeOptions class from command line flags. */
   public static InfiniteStreamRecognizeOptions fromFlags(String[] args) {
