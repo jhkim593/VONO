@@ -24,15 +24,13 @@ import my.vono.web.service.FolderService;
 public class FolderController {
 
 	private final FolderService folderService;
-	
-	
-	
+
 	@ResponseBody
 	@GetMapping("/folders")
 	public ResponseEntity<?> folders(@RequestParam Long id) {
-		
 
-		return new ResponseEntity<>(new DefaultResponseDto<>(true,"폴더 리스트 조회 성공",folderService.findFolders(id)),HttpStatus.OK);
+		return new ResponseEntity<>(new DefaultResponseDto<>(true, "폴더 리스트 조회 성공", folderService.findFolders(id)),
+				HttpStatus.OK);
 	}
 
 	@ResponseBody
@@ -40,67 +38,61 @@ public class FolderController {
 	public ResponseEntity<?> detailFolder(@PathVariable("id") Long id) {
 		try {
 			FolderDto folderDto = folderService.detailFolder(id);
-			return new ResponseEntity<>(new DefaultResponseDto<>(true,"폴더 조회 성공",folderDto),HttpStatus.OK);
+			return new ResponseEntity<>(new DefaultResponseDto<>(true, "폴더 조회 성공", folderDto), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(new DefaultResponseDto<>(false,"폴더 조회 실패",null),HttpStatus.OK);
+			return new ResponseEntity<>(new DefaultResponseDto<>(false, "폴더 조회 실패", null), HttpStatus.OK);
 
 		}
 
 	}
+
 	@ResponseBody
 	@PostMapping("/folder")
 	public ResponseEntity<?> createFolder(@RequestBody FolderDto folderDto) {
 
 		try {
-	        folderService.createFolder(folderDto);
-	        return new ResponseEntity<>(new DefaultResponseDto<>(true,"폴더 생성 성공",null),HttpStatus.CREATED);
+			folderService.createFolder(folderDto);
+			return new ResponseEntity<>(new DefaultResponseDto<>(true, "폴더 생성 성공", null), HttpStatus.CREATED);
 		} catch (Exception e) {
-			 return new ResponseEntity<>(new DefaultResponseDto<>(false,"폴더 생성 실패",null),HttpStatus.OK);
+			return new ResponseEntity<>(new DefaultResponseDto<>(false, "폴더 생성 실패", null), HttpStatus.OK);
 
 		}
 
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/folder/trash")
 	public ResponseEntity<?> trashFolder(@RequestBody FolderDto folderDto) {
 
 		try {
-	        folderService.trashFolder(folderDto);
-	        return new ResponseEntity<>(new DefaultResponseDto<>(true,"휴지통 이동 성공",null),HttpStatus.OK);
+			folderService.trashFolder(folderDto);
+			return new ResponseEntity<>(new DefaultResponseDto<>(true, "휴지통 이동 성공", null), HttpStatus.OK);
 		} catch (Exception e) {
-			 return new ResponseEntity<>(new DefaultResponseDto<>(false,"휴지통 이동 실패",null),HttpStatus.OK);
+			return new ResponseEntity<>(new DefaultResponseDto<>(false, "휴지통 이동 실패", null), HttpStatus.OK);
 
 		}
 
 	}
-	
-	
-	
-	
-	
 
 	@PostMapping("/folder/rename")
 	@ResponseBody
-	public ResponseEntity<?> renameFolder(@RequestBody FolderDto folderDto){
+	public ResponseEntity<?> renameFolder(@RequestBody FolderDto folderDto) {
 		try {
-			
+
 			folderService.renameFolder(folderDto);
-			 return new ResponseEntity<>(new DefaultResponseDto<>(true,"폴더 이름 변경 성공",null),HttpStatus.OK);
-			
+			return new ResponseEntity<>(new DefaultResponseDto<>(true, "폴더 이름 변경 성공", null), HttpStatus.OK);
+
 		} catch (FolderNotFoundException e) {
-			
-			 return new ResponseEntity<>(new DefaultResponseDto<>(false,"폴더를 찾을 수 없습니다.",null),HttpStatus.OK);
+
+			return new ResponseEntity<>(new DefaultResponseDto<>(false, "폴더를 찾을 수 없습니다.", null), HttpStatus.OK);
+		} catch (FolderAlreadyExistException e) {
+
+			return new ResponseEntity<>(new DefaultResponseDto<>(false, "같은 이름의 폴더가 이미 존재합니다.", null), HttpStatus.OK);
+		} catch (BasicFolderRenameException e) {
+
+			return new ResponseEntity<>(new DefaultResponseDto<>(false, "기본폴더의 이름을 바꿀 수없습니다.", null), HttpStatus.OK);
 		}
-       catch (FolderAlreadyExistException e) {
-			
-    	   return new ResponseEntity<>(new DefaultResponseDto<>(false,"같은 이름의 폴더가 이미 존재합니다.",null),HttpStatus.OK);
-		}
-    catch (BasicFolderRenameException e) {
-			
-    	 return new ResponseEntity<>(new DefaultResponseDto<>(false,"기본폴더의 이름을 바꿀 수없습니다.",null),HttpStatus.OK);
-		}
-		
+
 	}
 
 }
