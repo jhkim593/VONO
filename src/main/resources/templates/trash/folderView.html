@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="~{layout/default}">
-
-<th:block layout:fragment="content">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:fragment="folderFragment">
 <head>
   <!-- 드롭다운css -->
     <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
@@ -18,59 +16,41 @@
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 <body>
-	<!-- Begin Page Content -->
-	<!-- 여기서부터 작성 시작 -->
-    <div class="container-fluid">
-       <div class="card shadow mb-4" style="width: 80%;" >
-                	<div class="card-header py-3">
-                		<h4 class="m-0 font-weight-bold text-primary">
-                		<a href="wasteBasket"><i class="far fa-folder-open"></i> 휴지통</a>
-                		<a  href="#"><i class="fas fa-chevron-right"></i></a>
-                		<a href="javascript:location.reload()">폴더 이름</a></h4>
-                            
-                    </div>
-                    
-                    <div class="card-body">
-                    	
-                    	<div class="dropdown" id="floatRight">
-                 		<input type='checkbox' id="ckAll" name='selectall' value='selectall' onclick='selectAll(this)'/> <b><label for="ckAll">&nbsp;전체선택</label></b>
-           			    <button type="button" class="btn btn-default dropdown toggle" data-toggle="dropdown"><b>옵션 </b>
-           			    <i class="fas fa-angle-down"></i><span class="caret"></span></button>
-             
-            			<ul class="dropdown-menu" role="menu">
-                			<li><a href="#" onclick="restoreFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-redo"></i>&nbsp;복구</a></li>
-               				<li><a href="#" onclick="deleteFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-trash-alt"></i>&nbsp;영구삭제</a></li>
-          				</ul>
-        		</div>
-        		<div class="table-responsive">
-                    	 <table class="table table-bordered" id="dataTable"  cellspacing="0">
-                    	 	<thead>
-                    	 		<tr>
-                                    <th width="5%"><input type='checkbox' id="ckAll" name='selectall'  style="cursor:pointer; visibility: hidden;" value='selectall' onclick='selectAll(this)'/></th>
-                                    <th width="40%">FileName</th>
-                                    <th width="20%">Date</th>
-                                    <th width="20%">Edit Date</th>
-                                    <th width="5%"><i class="fas fa-paperclip"></i></th>
-                                 </tr>
-                            </thead>
-                            
-                            <tbody>
-                            	
-       							<tr th:each="list : ${wbList}">
- 	 	 							<td width="5%"><input type='checkbox' name='checkAll'  style="cursor:pointer" value=''onclick='checkSelectAll()' /></td>
-       								<td width="40%"><p id="txt_line2"><a th:text="${list.name}" href="viewFiles"  onclick="window.open(this.href, '_blank', 'width=600, height=400, top=100, left=100'); return false;" style="text-decoration: none;color: gray;" ></a></p></td>
-       								<td width="20%"><span th:text="${list.date}"></span></td>
-       								<td width="20%"><span th:text="${#temporals.format(list.date, 'yy-MM-dd hh:mm:ss')}"></span></td>
-       								<td width="5%" ><i th:if="${list.is_trash}" class="far fa-save"></i></td>
-       							</tr>
-       						</tbody>
-                        </table>
-                       </div>
-                     </div>
-                 </div>
-    </div>
-    
-  
-
+	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="folderModalLabel">
+				<span class="far fa-folder-open"> folders.name</span></h5>
+				<a class="btn-close" style="cursor:pointer" data-dismiss="modal" aria-label="Close"><i class="material-icons">close</i></a>
+			</div>
+			
+			<div class="modal-body">
+	        	<div class="table-responsive">
+				<table class="table table-bordered" id="dataTable"  cellspacing="0">
+					<thead>
+						<tr>
+							<th width="5%">No.</th>
+					         <th width="30%">파일이름</th>
+					         <th width="20%">메모</th>
+					         <th width="15%">참가자</th>
+					         <th width="30%">생성일/수정일</th>
+				    	</tr>
+				 	</thead>
+	 				<tbody>
+						<tr  th:each="list,num : ${listName.meeting}">
+							<td width="5%"><p th:text="${num.count}"></p></td>
+							<td width="30%"><p id="txt_line"><a data-toggle="modal" data-target="#fileModal" style="cursor: pointer"  th:text="${list.name}"></a></p></td>
+							<td width="20%"><span th:text="${list.content}"></span></td>
+							<td width="15%"><p id="txt_line"><span th:text="${list.participant}"></span></p></td>
+							<td width="30%"><p th:text="${#temporals.format(list.create_date, 'yy-MM-dd hh:mm:ss')}"></p>/ <span th:text="${#temporals.format(list.edit_date, 'yy-MM-dd hh:mm:ss')}"></span></td>
+						</tr>
+	 				</tbody>
+				</table>
+                </div>	
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+	</body>
 </th:block>
 </html>

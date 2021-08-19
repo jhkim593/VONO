@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{layout/defaultNoChat}">
+
 <script src="js/newMeeting.js"></script>
 <th:block layout:fragment="content">
  <link th:href="@{css/sb-admin-2.min.css}" rel="stylesheet">
@@ -16,7 +17,7 @@
 </form>
 
 <h4 th:text="${time}">{time}</h4>
-						
+
     
 </th:block>
 </html>

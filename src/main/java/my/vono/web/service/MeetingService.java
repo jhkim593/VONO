@@ -76,6 +76,11 @@ public class MeetingService {
         return meetingDAO.findMeetingWithNameAndMemberId(memberId, name).stream().map(m->new MeetingSimpleDto(m)).collect(Collectors.toList());
     	
     }
+    
+    //폴더 속 회의록 조회
+	public Object findFolerView() {
+		return null;
+	}
 	
 	
 	
