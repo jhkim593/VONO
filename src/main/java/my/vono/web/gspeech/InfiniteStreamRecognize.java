@@ -166,7 +166,19 @@ public class InfiniteStreamRecognize {
             sharedQueue.put(data.clone());
           } catch (InterruptedException e) {
             System.out.println("Microphone input buffering interrupted : " + e.getMessage());
-          }
+          } finally {
+        	  
+			//여기서 저장하면 어떨까??, 재시작, 일시중지 관련한 설정 여기서 해결해보기
+        	File file = new File(localFile);
+			FileOutputStream fos = null;
+				try {
+					fos = new FileOutputStream(file);
+					xssfWb.write(fos);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+		}
         }
       }
     }
@@ -229,10 +241,10 @@ public class InfiniteStreamRecognize {
     				xssfCell.setCellValue(alternative.getTranscript()); //내용
     				localFile = "C:\\" + "VONO_테스트_엑셀" + ".xlsx";
     				
-    				File file = new File(localFile);
-    				FileOutputStream fos = null;
-    				fos = new FileOutputStream(file);
-    				xssfWb.write(fos);
+//    				File file = new File(localFile);
+//    				FileOutputStream fos = null;
+//    				fos = new FileOutputStream(file);
+//    				xssfWb.write(fos);
     				
     				//계속 엑셀에 써야하므로 끄면 안됨
 //        				if (xssfWb != null)	xssfWb.close();
