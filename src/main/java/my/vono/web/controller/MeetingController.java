@@ -31,6 +31,7 @@ import my.vono.web.service.WasteBasketService;
 @RequiredArgsConstructor
 public class MeetingController {
 
+
 	private final MeetingService meetingService;
 	private final WasteBasketService wasteBasketService;
 
