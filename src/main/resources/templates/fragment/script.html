@@ -25,6 +25,12 @@
 
     <!-- DataTables custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+    
+    <!-- searchText 엔터처리 -->
+   	<script type="text/javascript">
+		$("#btnKey").click(function(){ });
+		$("#searchText").keydown(function(keyNum){ if(keyNum.keyCode == 13){ $("#btnKey").click() } });
+	</script>
 </body>
 </th:block>
 </html>

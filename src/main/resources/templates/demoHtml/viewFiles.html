@@ -1,17 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:fragment="fileFragment">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
-	<p>표지 페이지</p>
-	
-	<ol start="1">
-	<li>휴지통은 폴더 자체 복구/삭제만 가능</li>
-	<li>휴지통은 폴더 자체 복구/삭제만 가능</li>
-	<li>휴지통은 폴더 자체 복구/삭제만 가능</li>
-	<li>휴지통은 폴더 자체 복구/삭제만 가능</li>
-	</ol>
-</body>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+         <h5 class="modal-title" id="folderViewLabel"><span class="far fa-file"> meeting.name</span></h5>
+        <a class="btn-close" style="cursor:pointer" data-dismiss="modal" aria-label="Close"><i class="material-icons">close</i></a>
+      </div>
+      
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            회의명:
+            <span style="float: right;">21-08-18</span>
+            <input type="text" class="form-control" id="#" value="오늘의 회의 제목" disabled>
+          </div>
+           <div class="mb-3">
+            회의참가자:<input type="text" class="form-control" id="#" value="사원1, 대리1, 대리2, 팀장" disabled>
+          </div>
+          <div class="mb-3">
+            회의내용:<textarea class="form-control" id="message-text" disabled>뭐더라</textarea>
+          </div>
+          <div class="mb-3">
+            메모: <textarea class="form-control" disabled>잠온다</textarea>
+          </div>
+        </form>
+        <span  style="font-size: 10px;">※ 휴지통 탭에선 수정 불가</span>
+      </div>
+      <div class="modal-footer">
+       
+      </div>
+    </div>
+  </div>
+	</body>
+</th:block>
 </html>

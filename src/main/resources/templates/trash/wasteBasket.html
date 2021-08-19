@@ -7,51 +7,56 @@
 	<!-- Begin Page Content -->
 	<!-- 여기서부터 작성 시작 -->
     <div class="container-fluid">
-     <div class="dropdown" id="floatRight">
-                 		<b><input type='checkbox' id="ckAll" name='selectall' value='selectall' style="cursor:pointer" onclick='selectAll(this)'/><label for="ckAll">&nbsp;전체선택</label></b>
-           			    <button type="button" class="btn btn-default dropdown toggle" data-toggle="dropdown"><b>옵션 </b>
-           			    <i class="fas fa-angle-down"></i><span class="caret"></span></button>
-             
-            			<ul class="dropdown-menu" role="menu">
-                			<li><a href="#" onclick="restoreFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-redo"></i>&nbsp;복구</a></li>
-               				<li><a href="#" onclick="deleteFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-trash-alt"></i>&nbsp;영구삭제</a></li>
-          				</ul>
-        		</div><br><br>
-        		
-      				<div class="row" >
-      					<table>
-      					
-        			 	<tr th:each="list : ${wbList}">
-      						<div class="card" id="folderCard"><!-- is_trash 값이 true인 것만 list -->
-								<!-- <div class="card-body" th:if="${list.is_trash}"> -->
-								<div class="card-body">
-      					 		<!--  <a href="folderView">&nbsp;<img width="90px" src="img/folder.png" th:title="${list.name}"></a> -->
-      					 		
-      					 		<div th:switch="${list.is_trash}"><!-- 파일 어떻게 나오나 확인용 -->
-									<span th:case="true"><a href="folderView">&nbsp;<img width="90px" src="img/trash_folder.png" th:title="${list.name}"></a></span>
-									<span th:case="false"><a href="viewFiles" onclick="window.open(this.href, '_blank', 'width=600, height=400, top=100, left=100'); return false;">&nbsp;<img width="90px" src="img/trash_file.png" th:title="${list.name}"></a></span>
-								</div>
-      					 		
-								 <p id="txt_line" class="card-text"><input type='checkbox' th:value="${list.id}" style="cursor:pointer" name='checkAll' onclick='checkSelectAll()'/>&nbsp;
-         				 		 <b><a th:text="${list.name}" href="folderView" th:title="${list.name}"></a></b></p>
-         				 		 <!-- trash 값 확인용! -->
-         				 		 <!--<p><b>id:</b> <span th:text="${list.id}"></span></p>
-         				 		  <div th:switch="${list.is_trash}">
-									<p><b>is_trash:</b>
-									<span th:case="true"> true(1)</span>
-									<span th:case="false"> false(0)</span></p>
-								</div> -->
-         				   		</div>
-         				   	</div>
-        			 	</tr>
-        			 	
-					</table>
-					
-      			</div>
+		<div class="dropdown" id="floatRight">
+		<b><input type='checkbox' id="ckAll" name='selectall' value='selectall' style="cursor:pointer" onclick='selectAll(this)'/>
+		<label for="ckAll">&nbsp;전체선택</label></b>
+        
+        <button type="button" class="btn btn-default dropdown toggle" data-toggle="dropdown"><b>옵션 </b>
+        <i class="fas fa-angle-down"></i><span class="caret"></span></button>
+	    	<ul class="dropdown-menu" role="menu">
+            	<li><a href="#" onclick="restoreFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-redo"></i>&nbsp;복구</a></li>
+             	<li><a href="#" onclick="deleteFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-trash-alt"></i>&nbsp;영구삭제</a></li>
+          	</ul>
+		</div><br><br>
+
+      	 <div class="row" >
+			<table>
+			<tr th:each="list : ${listName.meeting}">
+ 					<div class="card" id="folderCard">
+						<div class="card-body">
+ 							<a data-toggle="modal" data-target="#fileModal">&nbsp;<img width="90px" src="img/trash_file.png" th:title="${list.name}"  style="cursor:pointer"></a>
+							<p id="txt_line" class="card-text">
+							<input type='checkbox' class="meeting" th:value="${list.id}" style="cursor:pointer" name='checkAll' onclick='checkSelectAll()'/>&nbsp;
+         				 	<b><a th:text="${list.name}" style="cursor:pointer" th:title="${list.name}" data-toggle="modal" data-target="#fileModal"></a></b></p>
+						</div>
+					</div>
+ 				</tr> 
+ 				
+				<tr th:each="list : ${listName.folders}">
+					<div class="card" id="folderCard">
+						<div class="card-body">
+ 							<a data-toggle="modal" data-target="#folderModal">&nbsp;<img width="90px" src="img/trash_folder.png" th:title="${list.name}"  style="cursor:pointer"></a>
+							<p id="txt_line" class="card-text">
+							<input type='checkbox' class="folder" th:value="${list.id}" style="cursor:pointer" name='checkAll' onclick='checkSelectAll()'/>&nbsp;
+         				 	<b><a th:text="${list.name}" style="cursor:pointer" th:title="${list.name}" data-toggle="modal" data-target="#folderModal"></a></b></p>
+						</div>
+					</div>
+				</tr>
+			</table>
+			
+			
+      	</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="folderModal" tabindex="-1" aria-labelledby="folderModalLabel" aria-hidden="true">
+			<th:block th:replace="trash/folderView :: folderFragment"></th:block>
+		</div>
+		<div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
+			<th:block th:replace="demohtml/viewFiles :: fileFragment"></th:block>
+		</div> 
+      
     </div>
-    
-   
-    <!-- 드롭다운css -->
+     <!-- 드롭다운css -->
     <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
     <script th:src="@{js/jquery-2.1.3.min.js}"></script>
     <script th:src="@{js/bootstrap.min.js}"></script>

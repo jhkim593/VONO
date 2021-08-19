@@ -62,6 +62,13 @@ public class MeetingController {
 		return "meeting/startMeeting";
 	}
 
+//		return "meeting/startMeeting";
+//	}
+
+
+	
+
+
 
 	@RequestMapping("startRecording")
 	public String startRecording(HttpServletRequest request, HttpServletResponse response, Model model) {

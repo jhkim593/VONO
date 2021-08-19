@@ -2,103 +2,76 @@ package my.vono.web.controller;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
-import my.vono.web.wasteBasket.WasteBasketService;
+import my.vono.web.service.FolderService;
+import my.vono.web.service.WasteBasketService;
 
 @Controller
 @RequiredArgsConstructor
 public class WasteBasketController {
 
-	private final WasteBasketService wbService;
-	
-//	@RequestMapping("ch")
-//	public String getchat() {
-//		return "demohtml/chatbot";
-//	}
-	
-//	@RequestMapping("test")
-//	public String gettest(Model m) {
-//		m.addAttribute("wbList",wbService.getAllFiles());
-//		System.out.println("wbList: "+wbService.getAllFiles());
-//		return "demohtml/test";
-//	}
-	@RequestMapping("ex")
-	public String gettest() {
-		return "template";
-	}
-	// 휴지통목록 > 폴더 > 파일목록 (조회)
-	@RequestMapping("folderView")
-	public String getmyFolder(Model m) {
-		try {
-			m.addAttribute("wbList",wbService.getAllFiles());
-			System.out.println("viewFiles도착: "+wbService.getAllFiles());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	
-		return "trash/folderView";
-	}
-
-	// 폴더>파일클릭> 해당 파일 표지
-	@RequestMapping("viewFiles")
-	public String getviewFiles() {
-		System.out.println("viewFiles도착");
-		return "demohtml/viewFiles";
-	}
-
-	//영구삭제
-	@RequestMapping(value = "deleteWB", method = { RequestMethod.POST })
-	public String deleteWasteBasket(@RequestParam(value="id") List<Long> id) {
-		try {
-			System.out.println("List<Long> id: "+id);
-			wbService.deleteAllById(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return "demohtml/wasteBasketDemo";
-	}
-	//복구
-		@RequestMapping(value = "redoWB", method = { RequestMethod.POST })
-		public String redoWasteBasket(@RequestParam(value="id") List<Long> id) {
-			try {
-				System.out.println("List<Long> id: "+id);
-				wbService.redoById(id);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			return "demohtml/wasteBasketDemo";
-		}
-	
+	private final WasteBasketService wasteBasketService;
 
 	// 휴지통 > 삭제 폴더 모음(조회)
 	@RequestMapping("wasteBasket")
 	public String getAllFolders(Model m) {
 		try {
-			m.addAttribute("wbList",wbService.getAllFiles());
-			System.out.println("wbList: "+wbService.getAllFiles());
+			Long memberId = 1L;
+			System.out.println("getTrash: " + wasteBasketService.findWasteBasket(memberId));
+
+			m.addAttribute("listName", wasteBasketService.findWasteBasket(memberId));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return "trash/wasteBasket";
 	}
-	
-	
-	// 휴지통 > 삭제 폴더 모음(조회)_데모 페이지
-	@RequestMapping("wasteBasketDemo")
-	public String getAllFiles(Model m) {
-		m.addAttribute("wbList",wbService.getAllFiles());
-		System.out.println("wbList: "+wbService.getAllFiles());
+
+
+	// 영구삭제
+	@RequestMapping(value = "deleteWB", method = { RequestMethod.POST })
+	public String deleteWasteBasket(@RequestParam(value = "meetingId") List<Long> meetingId) {
+		try {
+			System.out.println("List<Long> id: " + meetingId);
+			// wbService.deleteAllById(id);
+			// wasteBasketService.de
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return "demohtml/wasteBasketDemo";
 	}
-	
+
+	// 복구
+	@RequestMapping(value = "redoWB", method = { RequestMethod.POST })
+	@ResponseBody
+	public String redoWasteBasket(@RequestParam(value = "meetingId", required = false) List<Long> meetingId,
+			@RequestParam(value = "folderId", required = false) List<Long> folderId) {
+
+		try {
+			System.out.println("meetingIdList----->" + meetingId);
+			System.out.println("folderIdList----->" + folderId);
+
+			if (meetingId != null) {
+				wasteBasketService.recoverMeeting(meetingId);
+			}
+			if (folderId != null) {
+				wasteBasketService.recoverFolder(folderId);
+			}
+
+			System.out.println("복구완료");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "success";
+	}
+
 }
