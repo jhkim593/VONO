@@ -21,7 +21,6 @@ package my.vono.web.gspeech;
 import com.google.api.gax.rpc.ClientStream;
 import com.google.api.gax.rpc.ResponseObserver;
 import com.google.api.gax.rpc.StreamController;
-import com.google.cloud.speech.v1.SpeakerDiarizationConfig;
 import com.google.cloud.speech.v1p1beta1.RecognitionConfig;
 import com.google.cloud.speech.v1p1beta1.SpeechClient;
 import com.google.cloud.speech.v1p1beta1.SpeechRecognitionAlternative;
@@ -32,10 +31,7 @@ import com.google.cloud.speech.v1p1beta1.StreamingRecognizeResponse;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Duration;
 
-import my.vono.web.controller.MeetingController;
-
 import java.text.DecimalFormat;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -46,26 +42,14 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.DataLine.Info;
 import javax.sound.sampled.TargetDataLine;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.ui.Model;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.hibernate.internal.build.AllowSysOut;
 
 
 public class InfiniteStreamRecognize {
@@ -168,7 +152,8 @@ public class InfiniteStreamRecognize {
             System.out.println("Microphone input buffering interrupted : " + e.getMessage());
           } finally {
         	  
-			//여기서 저장하면 어떨까??, 재시작, 일시중지 관련한 설정 여기서 해결해보기
+			//여기서 저장하면 어떨까??
+        	localFile = "C:\\" + "VONO_테스트_엑셀" + ".xlsx";
         	File file = new File(localFile);
 			FileOutputStream fos = null;
 				try {
@@ -177,7 +162,15 @@ public class InfiniteStreamRecognize {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+			
+			//재시작, 일시중지 관련한 설정 여기서 해결해보기, 스레드 초기화?
+			restartCounter = 0;
+			resultEndTimeInMS = 0;
+			isFinalEndTime = 0;
+			finalRequestEndTime = 0;
+			newStream = true;
+			bridgingOffset = 0;
+			lastTranscriptWasFinal = false;	
 		}
         }
       }
@@ -239,7 +232,7 @@ public class InfiniteStreamRecognize {
     				xssfCell.setCellValue("화자 "+alternative.getWords(0).getSpeakerTag()); //화자
     				xssfCell = xssfRow.createCell((short) 2);
     				xssfCell.setCellValue(alternative.getTranscript()); //내용
-    				localFile = "C:\\" + "VONO_테스트_엑셀" + ".xlsx";
+//    				localFile = "C:\\" + "VONO_테스트_엑셀" + ".xlsx";
     				
 //    				File file = new File(localFile);
 //    				FileOutputStream fos = null;
