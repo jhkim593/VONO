@@ -32,6 +32,7 @@ public class ExcelPoi {
 		// 쎌 생성
 		HSSFCell cell;
 
+		
 		// 헤더 정보 구성
 		cell = row.createCell(0);
 		cell.setCellValue("화자");
