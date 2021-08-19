@@ -85,8 +85,8 @@ public class MeetingController {
 //			.addAttribute("reference", reference);
 //		System.out.println(model);
 
-		return "meeting/startMeeting";
-	}
+//		return "meeting/startMeeting";
+//	}
 
 //		
 //	}
