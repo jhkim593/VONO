@@ -3,26 +3,21 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{layout/defaultNoChat}">
 
+<script src="js/newMeeting.js"></script>
 <th:block layout:fragment="content">
  <link th:href="@{css/sb-admin-2.min.css}" rel="stylesheet">
  
-	<!-- Begin Page Content -->
-	<!-- 여기서부터 작성 시작 -->
-    <div class="container-fluid">
-    <div id="formContent">
-		<!-- Tabs Titles -->
-		<div class="fadeIn first">
-			<h2><span>여긴 startMeeting</span></h2>
-		</div>
 				
-		<form id="m_form2" method="post" action="endMeeting">
-			<input type="button" value="녹음 중지" >
-		</form>
-						
-	</div>
-    </div>
-    
-   
+<form name="meeting_form" id="m_form2" method="post" action="startRecording">
+	<h3 th:text="${name} +' / '+ ${date}">{name/date}</h3>
+	<h4 th:text="'참가자 : '+${participant}">{participant}</h4>
+	<h4 th:text="'회의 내용 : '+${content}">{content}</h4>
+	<input type="submit" name="record_start" id="record_start" value="녹음 시작" >
+	<input type="submit" name="record_end" id="record_end" value="녹음 중지" >
+</form>
+
+<h4 th:text="${time}">{time}</h4>
+
     
 </th:block>
 </html>

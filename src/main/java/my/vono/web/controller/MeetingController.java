@@ -36,13 +36,9 @@ public class MeetingController {
 
 	@RequestMapping("newMeeting")
 	public String newMeeting(){
-		
-
 		System.out.println("newMeeting호출");
-		
 		return "meeting/newMeeting";
 	}
-
 
 
 	@RequestMapping("startMeeting")
@@ -61,51 +57,35 @@ public class MeetingController {
 		model.addAttribute("name", name)  //-> th:text="${name}" 로 사용
 			.addAttribute("date", date)
 			.addAttribute("participant", participant)
-			.addAttribute("content", content)
-			.addAttribute("test", "testValue");
+			.addAttribute("content", content);
 		System.out.println(model);
 		return "meeting/startMeeting";
-		//return new ModelAndView("startMeeting2"); //페이지 이동
 	}
-//	@RequestMapping("startMeeting2")
-//	public void startMeeting2(HttpServletRequest request, HttpServletResponse response, Model model) {
-//		System.out.println("startMeeting2호출");
-//		//데이터 처리 , 여기서 thymeleaf를 이용하여 startMeeting.html을 연결할 수 있는가?
-//		//가능하다면 1,2 합치기 https://sidepower.tistory.com/145
-//		String name = request.getParameter("name");
-//		String date = request.getParameter("date");
-//		String participant = request.getParameter("participant");
-//		String content = request.getParameter("content");
-//		String reference = request.getParameter("reference");
-//		Meeting.createMeeting(name, content, participant, null);
-//		model.addAttribute("name", name)  //-> th:text="${name}" 로 사용
-//			.addAttribute("date", date)
-//			.addAttribute("participant", participant)
-//			.addAttribute("content", content)
-//			.addAttribute("reference", reference);
-//		System.out.println(model);
 
 //		return "meeting/startMeeting";
 //	}
 
-//		
-//	}
+
 	
+
+
 
 	@RequestMapping("startRecording")
 	public String startRecording(HttpServletRequest request, HttpServletResponse response, Model model) {
 		System.out.println("startRecording호출");
-		InfiniteStreamRecognize.StreamStart("");
+		InfiniteStreamRecognize.StreamStart(model,"");
 		//받고 비동기처리 출력까지 이어져야함
-		return null;
+		return "meeting/startMeeting";
 	}
 
 	@RequestMapping("endMeeting")
-	public void endMeeting() {
+	public String endMeeting() {
 		System.out.println("endMeeting호출");
-		InfiniteStreamRecognize.StreamStart(null);
-//		return "startMeeting";
+		return "meeting/startMeeting";
 	}
+	
+	
+	
 
 //	@GetMapping("/meeting/insert")
 //	public String meetingInsert(){
