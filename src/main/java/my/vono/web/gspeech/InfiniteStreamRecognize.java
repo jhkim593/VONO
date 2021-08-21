@@ -16,6 +16,28 @@
 
 package my.vono.web.gspeech;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.DataLine.Info;
+import javax.sound.sampled.TargetDataLine;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.ui.Model;
+
 // [START speech_transcribe_infinite_streaming]
 
 import com.google.api.gax.rpc.ClientStream;
@@ -30,26 +52,6 @@ import com.google.cloud.speech.v1p1beta1.StreamingRecognizeRequest;
 import com.google.cloud.speech.v1p1beta1.StreamingRecognizeResponse;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Duration;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.DataLine.Info;
-import javax.sound.sampled.TargetDataLine;
-
-import org.springframework.ui.Model;
-import java.io.File;
-import java.io.FileOutputStream;
-
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 public class InfiniteStreamRecognize {
@@ -76,17 +78,19 @@ public class InfiniteStreamRecognize {
   private static boolean lastTranscriptWasFinal = false;
   private static StreamController referenceToStreamController;
   private static ByteString tempByteString;
-
+  public static StreamingRecognitionResult result;
+  public static String res;
   //계속 써져야 하는 자원 밖으로(여기) 꺼내보기
 	//.xlsx 확장자 지원
 	static XSSFWorkbook xssfWb = new XSSFWorkbook(); // .xlsx
 	static XSSFSheet xssfSheet = xssfWb.createSheet("VONO_1"); // 워크시트 생성
+	
 	static XSSFRow xssfRow = null; // .xlsx
 	static XSSFCell xssfCell = null;// .xlsx
 	static int rowNo = 1; // 행 갯수
 	static String localFile="C:\\" + "VONO_테스트_엑셀" + ".xlsx";
 	static File file = new File(localFile);
-    
+	
   public static void StreamStart(Model model, String... args ) {
     InfiniteStreamRecognizeOptions options = InfiniteStreamRecognizeOptions.fromFlags(args);
     if (options == null) {
@@ -94,17 +98,64 @@ public class InfiniteStreamRecognize {
       System.out.println("Failed to parse options.");
       System.exit(1);
     }
-    
     try {
-//		infiniteStreamingRecognize(options.langCode);
-//    	infiniteStreamingRecognize("en-US");
-    	infiniteStreamingRecognize("ko-KR", model);
-      
+    	//한번만 하는 코드 여기로 이사
+    	if(targetDataLine==null || !targetDataLine.isRunning()) {
+    		infiniteStreamingRecognize("en-US", model);
+//			infiniteStreamingRecognize(options.langCode);
+//   		infiniteStreamingRecognize("ko-KR", model);
+    		
+    		
+    	} else {
+    		System.err.println(" targetDataLine.isRunning() is true");
+    	}
     } catch (Exception e) {
       System.out.println("Exception caught: " + e);
     }  
   }
+  
+  public static void StreamPause(Model model, String... args ) {
+	  targetDataLine.stop();
+  }
+  
+  public static void StreamRestart(Model model, String... args ) {
+	  targetDataLine.start();
+  }
+  
+  public static String StreamEnd(Model model, List<String> strMemo, String... args) {
+	  
+	  XSSFSheet sheet=xssfWb.createSheet("메모"); // 워크시트 생성
+	  sheet.setColumnWidth(0, (xssfSheet.getColumnWidth(0))+(short)10240); // 0번째 컬럼 넓이 조절
+	  XSSFRow curRow;
+	    
+		int row = strMemo.size();    // list 크기
+		for (int i = 0; i < row; i++) {
+			curRow = sheet.createRow(i);    // row 생성
+			curRow.createCell(0).setCellValue(strMemo.get(i));    // row에 각 cell 저장
+		}
+	  
+	  
+	  
+	  
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyyMMddHHmmss");
+		String format_time1 = "VONO_" + format1.format (System.currentTimeMillis()) + ".xlsx";
+		
+	  localFile = "C:\\" +  format_time1;
+	  File file = new File(localFile);
+	  FileOutputStream fos = null;
+	  try {
+		  fos = new FileOutputStream(file);
+		  xssfWb.write(fos);
+	  } catch (Exception e) {
+		  e.printStackTrace();
+	  }
+	  targetDataLine.close();
+	  return format_time1;
+  }
+  
 
+  
+  
   public static String convertMillisToDate(double milliSeconds) {
     long millis = (long) milliSeconds;
     DecimalFormat format = new DecimalFormat();
@@ -120,28 +171,27 @@ public class InfiniteStreamRecognize {
   /** Performs infinite streaming speech recognition */
   public static void infiniteStreamingRecognize(String languageCode, Model model) throws Exception {
 
+	  
     // Microphone Input buffering
     class MicBuffer implements Runnable {
 
+    	
+    	
       @Override
       public void run() {
-        //System.out.println(YELLOW);
         System.out.println("Start speaking...Press Ctrl-C to stop");
         
         //한번만 실행되는 구문
+        
         xssfSheet.setColumnWidth(2, (xssfSheet.getColumnWidth(2))+(short)10240); // 2번째 컬럼 넓이 조절
-		xssfRow = xssfSheet.createRow(0);	//0번째 row는 헤더
-		xssfCell = xssfRow.createCell((short) 0);
-		xssfCell.setCellValue("시간");
-		xssfCell = xssfRow.createCell((short) 1);
-		xssfCell.setCellValue("화자구분");
-		xssfCell = xssfRow.createCell((short) 2);
-		xssfCell.setCellValue("내용");
 		
         
         targetDataLine.start();
         byte[] data = new byte[BYTES_PER_BUFFER];
+        
+        
         while (targetDataLine.isOpen()) {
+        	
           try {
             int numBytesRead = targetDataLine.read(data, 0, data.length);
             if ((numBytesRead <= 0) && (targetDataLine.isOpen())) {
@@ -150,32 +200,31 @@ public class InfiniteStreamRecognize {
             sharedQueue.put(data.clone());
           } catch (InterruptedException e) {
             System.out.println("Microphone input buffering interrupted : " + e.getMessage());
-          } finally {
-        	  
-			//여기서 저장하면 어떨까??
-        	localFile = "C:\\" + "VONO_테스트_엑셀" + ".xlsx";
-        	File file = new File(localFile);
-			FileOutputStream fos = null;
-				try {
-					fos = new FileOutputStream(file);
-					xssfWb.write(fos);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+          }
+        }// while end
+    
+  	  
+//		//여기서 저장하면 어떨까??
+//    	localFile = "C:\\" + "VONO_테스트_엑셀" + ".xlsx";
+//    	File file = new File(localFile);
+//		FileOutputStream fos = null;
+//			try {
+//				fos = new FileOutputStream(file);
+//				xssfWb.write(fos);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+		
+		//재시작, 일시중지 관련한 설정 여기서 해결해보기, 스레드 초기화?
 			
-			//재시작, 일시중지 관련한 설정 여기서 해결해보기, 스레드 초기화?
-			restartCounter = 0;
-			resultEndTimeInMS = 0;
-			isFinalEndTime = 0;
-			finalRequestEndTime = 0;
-			newStream = true;
-			bridgingOffset = 0;
-			lastTranscriptWasFinal = false;	
-		}
-        }
+      
+    
+        
       }
     }
 
+    
+    
     // Creating microphone input buffer thread
     MicBuffer micrunnable = new MicBuffer();
     Thread micThread = new Thread(micrunnable);
@@ -193,8 +242,11 @@ public class InfiniteStreamRecognize {
 
             public void onResponse(StreamingRecognizeResponse response) {
               responses.add(response);
-              StreamingRecognitionResult result = response.getResultsList().get(0);
+              result = response.getResultsList().get(0);
+              
+              //System.out.println(result.getIsFinal());//확인용
               Duration resultEndTime = result.getResultEndTime();
+              
               resultEndTimeInMS =
                   (int)
                       ((resultEndTime.getSeconds() * 1000) + (resultEndTime.getNanos() / 1000000));
@@ -206,25 +258,29 @@ public class InfiniteStreamRecognize {
               
               //여기에서 바로 res를 웹에다가 띄우는 방법 설계
               if (result.getIsFinal()) {
-                String res= 
+            	  
+                res= 
 //                		alternative.toString();
-          			  convertMillisToDate(correctedTime)+
-          			  "화자"+ alternative.getWords(0).getSpeakerTag()+
-          			  " :" + alternative.getTranscript()+
-          			  "\n";
+          			  convertMillisToDate(correctedTime)+  // "00:24 /"
+          			  + alternative.getWords(0).getSpeakerTag()+ //"1"
+          			  "/" + alternative.getTranscript();	//"내용"
                 
         		model.addAttribute("time", convertMillisToDate(correctedTime).split(" ")[0]) 
         			.addAttribute("speaker", alternative.getWords(0).getSpeakerTag())
         			.addAttribute("transcript", alternative.getTranscript());
-        		System.out.println(model);
+        		System.out.println(res);
+        		
+        		//뷰에서 요청이 오면 뿌리는 방법
+        		
+        		
+        		
+        		
 //        			{time=00:05, speaker=1, transcript=난 더 더 더 더 크게 되어} //예시
 //        			{time=00:14, speaker=1, transcript= 널 가득 안고 싶고 그래요}
         			
         		// 엑셀 임포트 구문
     			try {
-    				
-    				
-    				System.out.println("rowNo : "+rowNo);
+    				//System.out.println("rowNo : "+rowNo);
     				xssfRow = xssfSheet.createRow(rowNo++);
     				xssfCell = xssfRow.createCell((short) 0);
     				xssfCell.setCellValue(convertMillisToDate(correctedTime).split(" ")[0]); //시간
@@ -232,12 +288,6 @@ public class InfiniteStreamRecognize {
     				xssfCell.setCellValue("화자 "+alternative.getWords(0).getSpeakerTag()); //화자
     				xssfCell = xssfRow.createCell((short) 2);
     				xssfCell.setCellValue(alternative.getTranscript()); //내용
-//    				localFile = "C:\\" + "VONO_테스트_엑셀" + ".xlsx";
-    				
-//    				File file = new File(localFile);
-//    				FileOutputStream fos = null;
-//    				fos = new FileOutputStream(file);
-//    				xssfWb.write(fos);
     				
     				//계속 엑셀에 써야하므로 끄면 안됨
 //        				if (xssfWb != null)	xssfWb.close();
@@ -309,7 +359,7 @@ public class InfiniteStreamRecognize {
       clientStream.send(request);
 
       try {
-        // SampleRate:16000Hz, SampleSizeInBits: 16, Number of channels: 1, Signed: true,
+        // SampleRate:16000Hz = 16kHz, SampleSizeInBits: 16, Number of channels: 1, Signed: true,
         // bigEndian: false
         AudioFormat audioFormat = new AudioFormat(16000, 16, 1, true, false);
         DataLine.Info targetInfo =
@@ -362,8 +412,8 @@ public class InfiniteStreamRecognize {
                     .setStreamingConfig(streamingRecognitionConfig)
                     .build();
 
-            System.out.println(YELLOW);
-            System.out.printf("%d: RESTARTING REQUEST\n", restartCounter * STREAMING_LIMIT);
+            //System.out.println(YELLOW);
+            //System.out.printf("%d: RESTARTING REQUEST\n", restartCounter * STREAMING_LIMIT);
 
             startTime = System.currentTimeMillis();
 
