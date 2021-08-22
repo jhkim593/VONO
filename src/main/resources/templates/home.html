@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{layout/defaultHome}">
 
 <th:block layout:fragment="content">
-	<!-- Begin Page Content -->
-	<!-- �뿬湲곗꽌遺��꽣 �옉�꽦 �떆�옉 -->
+   <!-- Begin Page Content -->
+   <!-- 여기서부터 작성 시작 -->
     <div class="container-fluid">
- 	<div id="formContent">
-		<!-- Tabs Titles -->
+    <div id="formContent">
+      <!-- Tabs Titles -->
 
-		<!-- Icon -->
-		<div class="fadeIn first">
-			<h2><span>濡쒓렇�씤</span></h2>
-		</div>
+      <!-- Icon -->
+      <div class="fadeIn first">
+         <h2><span>Sign In</span></h2>
+      </div>
 
-		<!-- Login Form -->
-		<form action="/login" method="POST">
-			<input type="text" id="login" class="fadeIn second" name="name" placeholder="email">
-			<input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
-			<input type="submit" class="fadeIn fourth" value="Log In">
-		</form>
+      <!-- Login Form -->
+      <form action="/login" method="POST">
+         <input type="text" id="login" class="fadeIn second" name="name" placeholder="email">
+         <input type="text" id="password" class="fadeIn third" name="pw" placeholder="password">
+         <input type="submit" class="fadeIn fourth" value="Log In">
+      </form>
 
-		<div class="form-group z">
-			<div class="or-seperator"><b>or</b></div>
-		</div>
-						
-		<a href="/oauth2/authorization/google">援ш�濡쒓렇�씤</a>
-		<br />
-		
-		<!-- Remind Passowrd -->
-		<div id="formFooter">
-			<a class="underlineHover" href="/member/signUp">�쉶�썝�씠 �븘�땲�떗�땲源�?</a>
-		</div>
-				
-	</div>
+      <div class="form-group z">
+         <div class="or-seperator"><b>or</b></div>
+      </div>
+                  
+      <a href="/oauth2/authorization/google">google login</a>
+      <br />
+      
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        Create an account →<a class="underlineHover" href="/member/signUp">Sign up</a>
+      </div>
+            
+   </div>
     </div>
     
 </th:block>

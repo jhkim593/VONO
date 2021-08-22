@@ -1,11 +1,8 @@
-package my.vono.web.wasteBasket;
+package my.vono.web.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,48 +11,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
-import my.vono.web.service.FolderService;
+import my.vono.web.config.auth.CustomUserDetails;
 import my.vono.web.service.WasteBasketService;
 
 @Controller
 @RequiredArgsConstructor
-public class DemoController {
+public class WasteBasketController {
 
 	private final WasteBasketService wasteBasketService;
-	private final FolderService folderService;
-	private final WBService wbService;
 
-	// 휴지통 조회 (데모 페이지)
-	@RequestMapping("wasteBasketDemo")
-	public String getTrash(Model m) {
-
+	// 휴지통 > 삭제 폴더 모음(조회)
+	@RequestMapping("wasteBasket")
+	public String getAllFolders(Model m, @AuthenticationPrincipal CustomUserDetails custom) {
 		try {
-			Long memberId = 1L;
-			System.out.println("getTrash: " + wasteBasketService.findWasteBasket(memberId));
-
+			Long memberId=custom.getMember().getId();
+			// 휴지통 목록 조회
 			m.addAttribute("listName", wasteBasketService.findWasteBasket(memberId));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "demohtml/wasteBasketDemo";
-	}
-
-	// 폴더 조회 (데모 페이지)
-	@RequestMapping("listDemo")
-	public String getList(Model m) {
-		try {
-			Long memberId = 1L;
-			System.out.println("getList: " + folderService.findFolders(memberId));
-			m.addAttribute("listName", folderService.findFolders(memberId));
+			System.out.println("getTrash: " + wasteBasketService.findWasteBasket(memberId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return "demohtml/listDemo";
+		return "trash/wasteBasket";
 	}
 
-	// 영구삭제(기능 테스트)
-	@RequestMapping(value = "deleteDemo", method = { RequestMethod.POST })
+	// 영구삭제
+	@RequestMapping(value = "deleteWB", method = { RequestMethod.POST })
 	@ResponseBody
 	public String deleteWasteBasket(@RequestParam(value = "meetingId", required = false) List<Long> meetingId,
 			@RequestParam(value = "folderId", required = false) List<Long> folderId) {
@@ -78,19 +59,28 @@ public class DemoController {
 		return "success";
 	}
 
-	// 휴지통 > 파일 보기
-	@RequestMapping("folderView")
-	public String getmyFolder(Model m) {
-		try {
-			Long memberId = 1L;
-			// 폴더 아이디값, 이름값줘서 해당 내용 나오도록
-			System.out.println("getList: " + folderService.findFolders(memberId));
-			//m.addAttribute("listName", folderService.findFolders(memberId));
+	// 복구
+	@RequestMapping(value = "redoWB", method = { RequestMethod.POST })
+	@ResponseBody
+	public String redoWasteBasket(@RequestParam(value = "meetingId", required = false) List<Long> meetingId,
+			@RequestParam(value = "folderId", required = false) List<Long> folderId) {
 
+		try {
+			System.out.println("meetingIdList----->" + meetingId);
+			System.out.println("folderIdList----->" + folderId);
+
+			if (meetingId != null) {
+				wasteBasketService.recoverMeeting(meetingId);
+			}
+			if (folderId != null) {
+				wasteBasketService.recoverFolder(folderId);
+			}
+
+			System.out.println("복구완료");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return "trash/folderView";
+		return "success";
 	}
+
 }

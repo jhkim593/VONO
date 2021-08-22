@@ -1,5 +1,7 @@
 @charset "UTF-8";
-
+a{
+	cursor:pointer;
+}
 #txt_line {
 	width: 120px;
 	padding: 0 5px;
@@ -8,7 +10,7 @@
 	white-space: nowrap;
 }
 #txt_line2 {
-	width: 300px;
+	width: 100px;
 	padding: 0 5px;
 	overflow: hidden;
 	text-overflow: ellipsis;
