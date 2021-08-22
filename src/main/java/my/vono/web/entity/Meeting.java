@@ -54,15 +54,20 @@ public class Meeting {
 	private Member member;
     
 	
-	@OneToMany(mappedBy = "meeting" ,cascade = CascadeType.ALL)
-	private List<RecToText> recToTexts=new ArrayList<>();
+//	@OneToMany(mappedBy = "meeting" ,cascade = CascadeType.ALL)
+//	private List<RecToText> recToTexts=new ArrayList<>();
+//	
+//	@OneToMany(mappedBy = "meeting",cascade = CascadeType.ALL)
+//	private List<RecFile>recFiles=new ArrayList<>();
 	
-	@OneToMany(mappedBy = "meeting",cascade = CascadeType.ALL)
-	private List<RecFile>recFiles=new ArrayList<>();
+	private String recToTextUrl;
+	
+	private String recFileUrl;
 	
 
 	
-	public static Meeting createMeeting(String name,String content,String participant,Folder folder) {
+	public static Meeting createMeeting(String name,String content,String participant,Folder folder
+			,String recToTextUrl,String recFileUrl) {
 		Meeting meeting=new Meeting();
 		meeting.name=name;
 		meeting.content=content;
@@ -78,6 +83,8 @@ public class Meeting {
 	
 		meeting.create_Date=LocalDateTime.now();
 		meeting.edit_date=LocalDateTime.now();
+		meeting.recToTextUrl=recToTextUrl;
+		meeting.recFileUrl=recFileUrl;
 		return meeting;
 		
 	}

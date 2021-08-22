@@ -67,10 +67,16 @@ public class Member {
     	m.role="user";
 		return m;    
 	}
-    public void changeEmail(String email) {
-    	if(email!=null) {
-    	this.email=email;
+    public void updateMember(String name,String phone,String job) {
+    	if(name!=null) {
+    	this.name=name;
     	}
+    	if(phone!=null) {
+        	this.phone=phone;
+        	}
+    	if(job!=null) {
+        	this.job=job;
+        	}
     
     }
     
