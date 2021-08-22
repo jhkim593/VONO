@@ -10,13 +10,13 @@
     <div class="container-fluid">
 		<div class="dropdown" id="floatRight">
 		<b><input type='checkbox' id="ckAll" name='selectall' value='selectall' style="cursor:pointer" onclick='selectAll(this)'/>
-		<label for="ckAll">&nbsp;전체선택</label></b>
+		<label for="ckAll">&nbsp;Select All</label></b>
         
-        <button type="button" class="btn btn-default dropdown toggle" data-toggle="dropdown"><b>옵션 </b>
+        <button type="button" class="btn btn-default dropdown toggle" data-toggle="dropdown"><b>Options </b>
         <i class="fas fa-angle-down"></i><span class="caret"></span></button>
 	    	<ul class="dropdown-menu" role="menu">
-            	<li><a href="#" onclick="restoreFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-redo"></i>&nbsp;복구</a></li>
-             	<li><a href="#" onclick="deleteFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-trash-alt"></i>&nbsp;영구삭제</a></li>
+            	<li><a href="#" onclick="restoreFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-redo"></i>&nbsp;Restore</a></li>
+             	<li><a href="#" onclick="deleteFile()">&nbsp;&nbsp;&nbsp;<i class="fas fa-trash-alt"></i>&nbsp;Delete</a></li>
           	</ul>
 		</div><br><br>
 
@@ -69,6 +69,7 @@
     <!-- 은경추가 -->
     <link th:href="@{css/wasteBasket.css}" rel="stylesheet">
     <script th:src="@{js/wasteBasket.js}"></script>
+    
     
 </th:block>
 </html>
