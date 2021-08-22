@@ -44,7 +44,7 @@ public class FolderService {
 
 		// 확인
 
-		folderDAO.save(Folder.createFolder(folderName, member));
+		folderDAO.save(Folder.createFolder(folderDto.getName(), member));
 
 	}
 

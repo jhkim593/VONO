@@ -38,7 +38,7 @@ public class WasteBasketService {
 				Long id = listId.get(i);
 				Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
 				meeting.changeIs_trashFalse();
-				Folder folder = folderDAO.findFolderByName("기본폴더" ,memberId).orElseThrow(FolderNotFoundException::new);
+				Folder folder = folderDAO.findFolderByName("기본폴더").orElseThrow(FolderNotFoundException::new);
 				meeting.removeMember();
 				meeting.addFolder(folder);
 			}
