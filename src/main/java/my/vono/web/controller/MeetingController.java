@@ -135,7 +135,8 @@ public class MeetingController {
 			 @RequestParam ("mt_name") String mt_name, 
 			 @RequestParam ("mt_date") String mt_date, 
 			 @RequestParam ("mt_participant") String mt_participant, 
-			 @RequestParam ("mt_content") String mt_content) 
+			 @RequestParam ("mt_content") String mt_content,
+			 @AuthenticationPrincipal CustomUserDetails custom) 
 	{
 		System.out.println(inputHidden);
 		
@@ -167,7 +168,7 @@ public class MeetingController {
 	         }
 	         String filename= InfiniteStreamRecognize.StreamEnd(model,memoStr,"");
 	         meetingDto.setRecToTextUrl(filename);
-	         meetingService.createMeeting(meetingDto);
+	         meetingService.createMeeting(meetingDto, custom.getMember().getId());
 	         
 	         
 	      } catch (Exception e) {
@@ -234,17 +235,17 @@ public class MeetingController {
          return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 삭제에 실패하였습니다.", null), HttpStatus.OK);
       }
    }
-   //회의록 조회
-   @ResponseBody
-   @GetMapping("/meeting")
-   public ResponseEntity<?>detailMeeting(@RequestParam("meetingId") Long meetingId){
-      try {
-         
-         return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 조회 성공", meetingService.detailMeeting(meetingId)), HttpStatus.OK);
-      } catch (Exception e) {
-         return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록이 존재 하지 않습니다.", null), HttpStatus.OK);
-      }
-   }
+//   //회의록 조회
+//   @ResponseBody
+//   @GetMapping("/meeting")
+//   public ResponseEntity<?>detailMeeting(@RequestParam("meetingId") Long meetingId){
+//      try {
+//         
+//         return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 조회 성공", meetingService.detailMeeting(meetingId)), HttpStatus.OK);
+//      } catch (Exception e) {
+//         return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록이 존재 하지 않습니다.", null), HttpStatus.OK);
+//      }
+//   }
    
    
    @ResponseBody
@@ -288,9 +289,9 @@ public class MeetingController {
    //회의록 복구
    @ResponseBody
    @PostMapping("/meeting/recover")
-   public ResponseEntity<?>recoverMeeting(@RequestParam("id") List<Long> id ,@AuthenticationPrincipal CustomUserDetails custom){
+   public ResponseEntity<?>recoverMeeting(@RequestParam("id") List<Long> id){
       try {
-         wasteBasketService.recoverMeeting(id,custom.getMember().getId());
+         wasteBasketService.recoverMeeting(id);
          return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 복구 성공", null), HttpStatus.OK);
       } catch (Exception e) {
          return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 복구 실패", null), HttpStatus.OK);
@@ -320,10 +321,7 @@ public class MeetingController {
       }
    }
    
-   
       
-   }
-   
 
 
 	@GetMapping("meeting")
@@ -389,80 +387,5 @@ public class MeetingController {
 		return "수정에 성공 하였습니다.";
 	}
 
-	@ResponseBody
-	@PostMapping("/meeting/move")
-	public ResponseEntity<?> MoveMeeting(@RequestBody MeetingDto meetingDto) {
-		try {
-			System.out.println(meetingDto.getFolderName());
-			meetingService.moveMeeting(meetingDto.getFolderName(), meetingDto.getId());
-			return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 이동 성공", null), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 이동 실패", null), HttpStatus.OK);
-		}
-	}
-
-//======================================   
-
-	// 휴지통 폴더 목록 조회
-	@ResponseBody
-	@GetMapping("/trash")
-	public ResponseEntity<?> trash(@RequestParam("id") Long id) {
-		try {
-
-			return new ResponseEntity<>(
-					new DefaultResponseDto<>(true, "휴지통 조회 성공", wasteBasketService.findWasteBasket(id)), HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(new DefaultResponseDto<>(false, "휴지통 조회 실패", null), HttpStatus.OK);
-		}
-	}
-
-	// 폴더 복구
-	@ResponseBody
-	@PostMapping("/folder/recover")
-	public ResponseEntity<?> recoverFolder(@RequestParam("id") List<Long> id) {
-		try {
-			wasteBasketService.recoverFolder(id);
-			return new ResponseEntity<>(new DefaultResponseDto<>(true, "폴더 복구 성공", null), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new DefaultResponseDto<>(false, "폴더 복구 실패", null), HttpStatus.OK);
-		}
-	}
-
-	// 회의록 복구
-	@ResponseBody
-	@PostMapping("/meeting/recover")
-	public ResponseEntity<?> recoverMeeting(@RequestParam("id") List<Long> id) {
-		try {
-			wasteBasketService.recoverMeeting(id);
-			return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 복구 성공", null), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 복구 실패", null), HttpStatus.OK);
-		}
-	}
-
-	// 폴더 영구삭제
-	@ResponseBody
-	@PostMapping("/folder/delete")
-	public ResponseEntity<?> deleteFolder(@RequestParam("id") List<Long> id) {
-		try {
-			wasteBasketService.permanentlyDeleteFolder(id);
-			return new ResponseEntity<>(new DefaultResponseDto<>(true, "폴더 영구 삭제 성공", null), HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(new DefaultResponseDto<>(false, "폴더 영구 삭제 실패", null), HttpStatus.OK);
-		}
-	}
-
-	@ResponseBody
-	@PostMapping("/meeting/delete")
-	public ResponseEntity<?> deleteMeeting(@RequestParam("id") List<Long> id) {
-		try {
-			wasteBasketService.permanentlyDeleteFolder(id);
-			return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 영구 삭제 성공", null), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 영구 삭제 실패", null), HttpStatus.OK);
-		}
-	}
 
 }

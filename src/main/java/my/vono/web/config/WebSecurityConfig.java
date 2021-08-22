@@ -38,12 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       http.csrf().disable();
       http
          .authorizeRequests()
-<<<<<<< Updated upstream
-            .antMatchers("/user/**" ).authenticated()
-=======
-            .antMatchers("/user/**").authenticated()
->>>>>>> Stashed changes
-            .anyRequest().permitAll()
+            .antMatchers("/user/**", "/newMeeting/**", "/wasteBasket/**").authenticated()
+            //.anyRequest().permitAll()
             .and()
          .formLogin()
             .loginPage("/")

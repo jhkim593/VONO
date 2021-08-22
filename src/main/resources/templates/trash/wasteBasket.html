@@ -4,6 +4,7 @@
       layout:decorator="~{layout/default}">
 
 <th:block layout:fragment="content">
+
 	<!-- Begin Page Content -->
 	<!-- 여기서부터 작성 시작 -->
     <div class="container-fluid">
@@ -19,15 +20,17 @@
           	</ul>
 		</div><br><br>
 
-      	 <div class="row" >
+      	<div class="row">
 			<table>
 			<tr th:each="list : ${listName.meeting}">
  					<div class="card" id="folderCard">
 						<div class="card-body">
- 							<a data-toggle="modal" data-target="#fileModal">&nbsp;<img width="90px" src="img/trash_file.png" th:title="${list.name}"  style="cursor:pointer"></a>
+ 							<a th:onclick="|sendMeetingId( ${list.id} )|"><img width="90px" src="img/trash_file.png" th:title="${list.name}"></a>
 							<p id="txt_line" class="card-text">
-							<input type='checkbox' class="meeting" th:value="${list.id}" style="cursor:pointer" name='checkAll' onclick='checkSelectAll()'/>&nbsp;
-         				 	<b><a th:text="${list.name}" style="cursor:pointer" th:title="${list.name}" data-toggle="modal" data-target="#fileModal"></a></b></p>
+							<input type='checkbox' class="meeting" th:value="${list.id}" name='checkAll' onclick='checkSelectAll()'/>&nbsp;
+         				 	<!-- <b><a th:text="${list.name}" th:title="${list.name}" data-toggle="modal" data-target="#fileModal"></a></b></p> -->
+         				 	<b><a th:text="${list.name}" th:title="${list.name}" th:onclick="|sendMeetingId( ${list.id} )|" ></a></b></p>
+         				   		
 						</div>
 					</div>
  				</tr> 
@@ -35,26 +38,28 @@
 				<tr th:each="list : ${listName.folders}">
 					<div class="card" id="folderCard">
 						<div class="card-body">
- 							<a data-toggle="modal" data-target="#folderModal">&nbsp;<img width="90px" src="img/trash_folder.png" th:title="${list.name}"  style="cursor:pointer"></a>
+					
+ 							<a 	th:onclick="sendFolderId([[${list.id}]],[[${list.name}]] );"><img width="90px" src="img/trash_folder.png" th:title="${list.name}"></a>
 							<p id="txt_line" class="card-text">
-							<input type='checkbox' class="folder" th:value="${list.id}" style="cursor:pointer" name='checkAll' onclick='checkSelectAll()'/>&nbsp;
-         				 	<b><a th:text="${list.name}" style="cursor:pointer" th:title="${list.name}" data-toggle="modal" data-target="#folderModal"></a></b></p>
+							<input type='checkbox' class="folder" th:value="${list.id}" name='checkAll' onclick='checkSelectAll()'/>&nbsp;
+         				 	<b><a th:text="${list.name}" th:title="${list.name}" 	th:onclick="sendFolderId([[${list.id}]],[[${list.name}]] );"></a></b></p>
 						</div>
 					</div>
 				</tr>
 			</table>
 			
 			
+			
       	</div>
-
+      	
 		<!-- Modal -->
-		<div class="modal fade" id="folderModal" tabindex="-1" aria-labelledby="folderModalLabel" aria-hidden="true">
-			<th:block th:replace="trash/folderView :: folderFragment"></th:block>
-		</div>
-		<div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
-			<th:block th:replace="demohtml/viewFiles :: fileFragment"></th:block>
-		</div> 
-      
+		<div class="modal fade" id="MoaModal2" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+  		<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content">
+  		<!-- 폴더 보기 --></div></div></div>
+  		
+  		<div class="modal fade" id="MoaModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+  		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content">
+  		<!-- 회의록 보기 --></div></div></div>
     </div>
      <!-- 드롭다운css -->
     <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
@@ -64,5 +69,6 @@
     <!-- 은경추가 -->
     <link th:href="@{css/wasteBasket.css}" rel="stylesheet">
     <script th:src="@{js/wasteBasket.js}"></script>
+    
 </th:block>
 </html>

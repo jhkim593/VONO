@@ -39,9 +39,6 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 		auth.add(authorities);
 		return auth;
 	}
-	public Member getMember() {
-		return member;
-	}
 
 	@Override
 	public String getPassword() {
