@@ -55,11 +55,7 @@ public class Meeting {
     
 	private Long ori_folderId;
 	
-//	@OneToMany(mappedBy = "meeting" ,cascade = CascadeType.ALL)
-//	private List<RecToText> recToTexts=new ArrayList<>();
-//	
-//	@OneToMany(mappedBy = "meeting",cascade = CascadeType.ALL)
-//	private List<RecFile>recFiles=new ArrayList<>();
+
 	
 
 	
