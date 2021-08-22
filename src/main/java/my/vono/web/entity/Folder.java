@@ -52,6 +52,8 @@ public class Folder {
 	
 	private LocalDateTime edit_date;
 	
+	
+	
 
 	public static Folder createFolder(String name,Member member) {
 		
@@ -102,6 +104,9 @@ public class Folder {
 	public void changeEdit_date() {
 		this.edit_date=LocalDateTime.now();
 	}
+	
+	
+	
 	
 	
 }

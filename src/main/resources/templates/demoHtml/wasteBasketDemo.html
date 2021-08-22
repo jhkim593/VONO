@@ -19,13 +19,16 @@
           	</ul>
 		</div><br><br>
 
-      	 <div class="row" >
+		<p>휴지통 데모 파일</p>
+      	<div class="row">
+      	
 			<table>
 			<tr th:each="list : ${listName.meeting}">
  					<div class="card" id="folderCard">
 						<div class="card-body">
- 							<a data-toggle="modal" data-target="#fileModal">&nbsp;<img width="90px" src="img/trash_file.png" th:title="${list.name}"  style="cursor:pointer"></a>
+ 							<a data-toggle="modal" data-target="#fileModal">&nbsp;<img width="90px" src="img/trash_file.png" style="cursor:pointer"></a>
 							<p id="txt_line" class="card-text">
+							<!-- <input type="text" style="visibility: hidden;" th:id="${list.folder}" th:name="${list.folder}"> -->
 							<input type='checkbox' class="meeting" th:value="${list.id}" style="cursor:pointer" name='checkAll' onclick='checkSelectAll()'/>&nbsp;
          				 	<b><a th:text="${list.name}" style="cursor:pointer" th:title="${list.name}" data-toggle="modal" data-target="#fileModal"></a></b></p>
 						</div>
@@ -46,7 +49,15 @@
 			
 			
       	</div>
-
+				<span> 챗봇 test
+      			<br>상단 로봇아이콘 클릭
+      			<br>회의록 생성,복구
+      			<br>정보수정,탈퇴
+      			<br>00 찾아줘/검색해줘
+      			<br>그 외에추가하고 싶은거 있으면 말해주세요
+				<br>(css는 무시해주세요..이게 한계에요...)</span>
+				
+				
 		<!-- Modal -->
 		<div class="modal fade" id="folderModal" tabindex="-1" aria-labelledby="folderModalLabel" aria-hidden="true">
 			<th:block th:replace="trash/folderView :: folderFragment"></th:block>
