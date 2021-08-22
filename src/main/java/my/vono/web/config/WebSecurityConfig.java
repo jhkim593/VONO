@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
 import my.vono.web.config.auth.CustomUserDetailsService;
-import my.vono.web.config.oauth.CustomOAuth2UserService;
+import my.vono.web.config.oauth.CustomOauthUserService;
 
 @Configuration
 @EnableWebSecurity
@@ -20,7 +20,14 @@ import my.vono.web.config.oauth.CustomOAuth2UserService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    
 	private final CustomUserDetailsService customUserDetailsService;
-	private final CustomOAuth2UserService customOAuth2UserService;
+	private final CustomOauthUserService customOauthUserService;
+
+	// 패스워드 암호화
+   // 해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다
+   @Bean
+   public BCryptPasswordEncoder encode() {
+		return new BCryptPasswordEncoder();
+	}
 	
    @Override
    public void configure(WebSecurity web) {
@@ -56,18 +63,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           	.logoutSuccessUrl("/")
           	.and()
           .oauth2Login()
-            .loginPage("/home")
+            .loginPage("/")
             // 구글 로그인이 완료된 뒤의 후처리
+            .defaultSuccessUrl("/newMeeting")
             .userInfoEndpoint()
-            .userService(customOAuth2UserService);
+            .userService(customOauthUserService);
          
    }
    
-   // 패스워드 암호화
-   // 해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다
-   @Bean
-   public BCryptPasswordEncoder encode() {
-		return new BCryptPasswordEncoder();
-	}
+   
    
 }
