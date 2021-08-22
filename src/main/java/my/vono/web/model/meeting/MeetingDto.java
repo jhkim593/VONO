@@ -32,8 +32,9 @@ public class MeetingDto {
 	
 	private Boolean is_trash;
 	
+
 	private String recToTextUrl;
-	
+
 	private String recFileUrl;
 	
 	public MeetingDto(Meeting meeting) {
@@ -48,6 +49,7 @@ public class MeetingDto {
 	   this.is_trash=meeting.getIs_trash();
 	   this.recToTextUrl=meeting.getRecToTextUrl();
 	   this.recFileUrl=meeting.getRecFileUrl();
+
 	}
 	
 	
