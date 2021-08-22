@@ -17,16 +17,19 @@
 
       <!-- Login Form -->
       <form action="/login" method="POST">
-         <input type="text" id="login" class="fadeIn second" name="name" placeholder="email">
-         <input type="text" id="password" class="fadeIn third" name="pw" placeholder="password">
+         <input type="text" id="login" class="fadeIn second" name="name" placeholder="id">
+         <input type="password" id="password" class="fadeIn third" name="pw" placeholder="password">
          <input type="submit" class="fadeIn fourth" value="Log In">
       </form>
 
       <div class="form-group z">
          <div class="or-seperator"><b>or</b></div>
       </div>
-                  
-      <a href="/oauth2/authorization/google">google login</a>
+          
+      <a href="/oauth2/authorization/google" class="g-signin2">
+      	<img src="/img/google_login_icon.png" alt=""/>
+      </a>  
+           
       <br />
       
       <!-- Remind Passowrd -->

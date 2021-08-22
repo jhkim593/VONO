@@ -2,6 +2,7 @@ package my.vono.web.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +43,7 @@ public class Member {
     @Column(nullable = false)
     private String email;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String phone;
     
     private String job;
@@ -81,15 +82,13 @@ public class Member {
     }
     
     @Builder
-    public Member(String name, String email, String role) {
-    	this.name = name;
-    	this.email = email;
-    	this.role = role;
-    }
+	public Member(String provider, String login_id, String pw, String name, String email, String role) {
+    	this.login_id = login_id;
+		this.provider = provider;
+		this.pw = pw;
+		this.name = name;
+		this.email = email;
+		this.role = role;
+	}
     
-    public Member update(String name) {
-    	this.name = name;
-    	
-    	return this;
-    }
 }
