@@ -14,20 +14,20 @@
         <table>
         	<tr th:each="mv:${meetingView.meeting}">
 	       		<div class="mb-3">
-		            회의명:<span style="float: right;" th:text="${#temporals.format(mv.create_date, 'yy-MM-dd')}" ></span>
+		            Title:<span style="float: right;" th:text="${#temporals.format(mv.create_date, 'yy-MM-dd')}" ></span>
 		            <input type="text" class="form-control" th:value="${mv.name}" disabled>
 	          	</div>
 	           	<div class="mb-3">
-	           		회의참가자:<input type="text" class="form-control" th:value="${mv.participant}" disabled>
+	           		Participant:<input type="text" class="form-control" th:value="${mv.participant}" disabled>
 	          	</div>
 	          	<div class="mb-3">
-	            	회의내용:<textarea class="form-control" id="message-text" th:text="${mv.content}" disabled></textarea>
+	            	Contents:<textarea class="form-control" id="message-text" th:text="${mv.content}" disabled></textarea>
 	          	</div>
 	        </tr>
         </table>	
         </form>
         
-        <span  style="font-size: 10px;">※ 휴지통 탭에선 수정 불가</span>
+        <span  style="font-size: 10px;">※Can't be modified on Trash tab</span>
       </div>
       <div class="modal-footer">
        

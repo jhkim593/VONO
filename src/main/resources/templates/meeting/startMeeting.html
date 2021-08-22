@@ -10,12 +10,26 @@
 
 
 
+<div id="mainDiv">
+	<input type="button" name="record_start" id="record_start" value="Start" >
+	<input type="button" name="record_pause" id="record_pause" value="Pause" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_restart" id="record_restart" value="Restart" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_end0" id="record_end0" value="Stop" disabled="disabled" style="background-color: #ff6666 ">
+</div>
+   
+	<div id="controls">
+		<button id="recordButton" hidden="">Record</button>
+	  	<button id="pauseButton" disabled hidden="">Pause</button>
+	  	<button id="resumeButton" disabled hidden="">Resume</button>
+	  	<button id="stopButton" disabled hidden="">Stop</button>
+    </div>
+    <div id="formats" hidden="">Format: start recording to see sample rate</div>
+  	<p><strong>Recording files:</strong></p>
+  	<ol id="recordingsList"></ol>
+    <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+  	<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+  	<script src="js/app.js"></script>
 
-
-	<input type="button" name="record_start" id="record_start" value="녹음 시작" >
-	<input type="button" name="record_pause" id="record_pause" value="녹음 중지" disabled="disabled" style="background-color: #ff6666 ">
-	<input type="button" name="record_restart" id="record_restart" value="녹음 재시작" disabled="disabled" style="background-color: #ff6666 ">
-	<input type="button" name="record_end" id="record_end" value="녹음 완료" disabled="disabled" style="background-color: #ff6666 ">
 	
 	<form name="actionForm" id="actionForm" hidden="" action="endRecording">
 		<input type="hidden" id="inputHidden" name="inputHidden" value="">
@@ -25,32 +39,36 @@
 		<input th:value="${content}" id="mt_content" name="mt_content">
 	</form>
 	
-	
-	
-	
+
 	<table style="border: 1px;" class="table table-hover table-white"
 		id="speakTable">
 		<thead>
 			<tr>
-				<th style="width: 80px">시간</th>
-				<th style="width: 80px">화자</th>
-				<th>내용</th>
+				<th style="width: 80px">Time</th>
+				<th style="width: 80px">Speakers</th>
+				<th>Contents</th>
 			</tr>
 		</thead>
 	</table>
 
+
+
+
+
+
 <script type="text/javascript">
 $(document).ready(function(){
 	var temp='';
-	
+	var repeatflag=false;
 	$("#record_start").click(function(){
-		$("#record_start").val("녹음중");
-		$("#record_start").attr("disabled","disabled");
+
+		$("#record_start").val("Recording");
+    $("#record_start").attr("disabled","disabled");
 		$("#record_start").css({ background:"#ff6666" , color:"#ffffff" });
 		$("#record_pause").attr("disabled",false);
 		$("#record_pause").css({ background:"#56BAED" , color:"#ffffff" });
-		$("#record_end").attr("disabled",false);
-		$("#record_end").css({ background:"#56BAED" , color:"#ffffff" });
+		$("#record_end0").attr("disabled",false);
+		$("#record_end0").css({ background:"#56BAED" , color:"#ffffff" });
 		$.ajax ({
 			url : "startRecording",
 			type : "post",
@@ -63,11 +81,17 @@ $(document).ready(function(){
 			url : "infiniteReq",
 			type : "get",
 			success : function (html) {
+				if(repeatflag==false){
+					repeatflag=true;
+					temp=html.content;
+				}
+				
 	        	if(temp != html.content){
 	        		temp=html.content;
+	        		
 		        	if(html.length != 0){
 		        		var htm = '';
-		        		console.log(html.content);
+		        		//console.log(html.content);
 		        		
 		        		htm += '<tr>';
 		        		htm += '<td>'+html.time+'\t'+'</td>';
@@ -80,7 +104,8 @@ $(document).ready(function(){
 		        		htm += '</tr>';
 		        		
 		        		$("#speakTable").append(htm);
-					} 
+		        	
+					}
 				}
 			} 
 		});
@@ -113,7 +138,21 @@ $("#record_restart").click(function(){
 	});
 });
 
-$("#record_end").click(function(){
+$("#record_end0").on("click", function() {
+	alert('record_end0');
+	$("#record_end0").attr("hidden",true);
+	var bodyHtml = '<input type="button" name="record_end2" id="record_end2" value="Confirm" style="background-color: #56BAED onclick="record_end">';
+	$("#mainDiv").append(bodyHtml);
+	
+	/* $("#mainDiv").append('<button type="button" id="btn2">버튼 #2</button>'); */
+	
+
+	
+});
+
+
+$(document).on("click","#record_end2", function() {
+	alert('record_end2');
 	var memo;
 	var dataArrayToSend = [];
 	var meetingId=$("#meetingId").val();
@@ -139,23 +178,6 @@ $("#record_end").click(function(){
 	formObj.submit();
 
 	
-	
-	
-	//location.href("")
-	/* $.ajax ({
-		url : "endRecording",
-		type : "post",
-		success : function(html){
-			$("#record_pause").attr("disabled",true);
-			$("#record_pause").css({ background:"#ff6666" , color:"#ffffff" });
-			$("#record_restart").attr("disabled",true);
-			$("#record_restart").css({ background:"#ff6666" , color:"#ffffff" });
-			$("#record_end").attr("disabled",true);
-			$("#record_end").css({ background:"#ff6666" , color:"#ffffff" });
-			alert("녹음을 종료합니다(현재 시간으로 엑셀파일 생성됨)");
-			
-		}
-	}); */
 });
 
 </script>
