@@ -1,23 +1,164 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="~{layout/defaultNoChat}">
-
-<script src="js/newMeeting.js"></script>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layout/defaultNoChat}">
 <th:block layout:fragment="content">
- <link th:href="@{css/sb-admin-2.min.css}" rel="stylesheet">
- 
+	<!-- jQuery library -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link th:href="@{css/sb-admin-2.min.css}" rel="stylesheet">
+
+
+
+
+
+	<input type="button" name="record_start" id="record_start" value="녹음 시작" >
+	<input type="button" name="record_pause" id="record_pause" value="녹음 중지" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_restart" id="record_restart" value="녹음 재시작" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_end" id="record_end" value="녹음 완료" disabled="disabled" style="background-color: #ff6666 ">
+	
+	<form name="actionForm" id="actionForm" hidden="" action="endRecording">
+		<input type="hidden" id="inputHidden" name="inputHidden" value="">
+		<input th:value="${name}" id="mt_name" name="mt_name" >
+		<input th:value="${date}" id="mt_date" name="mt_date">
+		<input th:value="${participant}" id="mt_participant" name="mt_participant">
+		<input th:value="${content}" id="mt_content" name="mt_content">
+	</form>
+	
+	
+	
+	
+	<table style="border: 1px;" class="table table-hover table-white"
+		id="speakTable">
+		<thead>
+			<tr>
+				<th style="width: 80px">시간</th>
+				<th style="width: 80px">화자</th>
+				<th>내용</th>
+			</tr>
+		</thead>
+	</table>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	var temp='';
+	
+	$("#record_start").click(function(){
+		$("#record_start").val("녹음중");
+		$("#record_start").attr("disabled","disabled");
+		$("#record_start").css({ background:"#ff6666" , color:"#ffffff" });
+		$("#record_pause").attr("disabled",false);
+		$("#record_pause").css({ background:"#56BAED" , color:"#ffffff" });
+		$("#record_end").attr("disabled",false);
+		$("#record_end").css({ background:"#56BAED" , color:"#ffffff" });
+		$.ajax ({
+			url : "startRecording",
+			type : "post",
+			success : function(html){
+			}
+		});
+	});
+	timer = setInterval( function () {
+	    $.ajax ({
+			url : "infiniteReq",
+			type : "get",
+			success : function (html) {
+	        	if(temp != html.content){
+	        		temp=html.content;
+		        	if(html.length != 0){
+		        		var htm = '';
+		        		console.log(html.content);
+		        		
+		        		htm += '<tr>';
+		        		htm += '<td>'+html.time+'\t'+'</td>';
+		        		htm += '<td>'+'speaker'+html.speaker+'</td>';
+		        		htm += '<td>'+html.content+'</td>';
+		        		
+		        		htm += '</tr>';
+		        		htm += '<tr>';
+		        		htm += '<td colspan="3"><input  type="text" style="height:5px; width:2000px; text-align:left;"></textarea></td>';
+		        		htm += '</tr>';
+		        		
+		        		$("#speakTable").append(htm);
+					} 
+				}
+			} 
+		});
+	}, 500);
+});
+
+$("#record_pause").click(function(){
+		$.ajax ({
+			url : "pauseRecording",
+			type : "post",
+			success : function(html){
+				$("#record_pause").attr("disabled",true);
+				$("#record_pause").css({ background:"#ff6666" , color:"#ffffff" });
+				$("#record_restart").attr("disabled",false);
+				$("#record_restart").css({ background:"#56BAED" , color:"#ffffff" });
+			}
+		});
+});
+
+$("#record_restart").click(function(){
+	$.ajax ({
+		url : "restartRecording",
+		type : "post",
+		success : function(html){
+			$("#record_pause").attr("disabled",false);
+			$("#record_pause").css({ background:"#56BAED" , color:"#ffffff" });
+			$("#record_restart").attr("disabled",true);
+			$("#record_restart").css({ background:"#ff6666" , color:"#ffffff" });
+		}
+	});
+});
+
+$("#record_end").click(function(){
+	var memo;
+	var dataArrayToSend = [];
+	var meetingId=$("#meetingId").val();
+
+	$("#speakTable tr").each(function(){
+	var len = $(this).find("td").length;
+		if(len==1){
+			var memostr = $(this).find("td").eq(0).find('input[type="text"]').val();
+			if(memostr.length != 0){
+				memo = {memo:memostr};
+				dataArrayToSend.push(memo);
 				
-<form name="meeting_form" id="m_form2" method="post" action="startRecording">
-	<h3 th:text="${name} +' / '+ ${date}">{name/date}</h3>
-	<h4 th:text="'참가자 : '+${participant}">{participant}</h4>
-	<h4 th:text="'회의 내용 : '+${content}">{content}</h4>
-	<input type="submit" name="record_start" id="record_start" value="녹음 시작" >
-	<input type="submit" name="record_end" id="record_end" value="녹음 중지" >
-</form>
+			}
+		}
+	});
+	
+	var list={list:dataArrayToSend};
+	
+	var formObj = $("form[name='actionForm']");
+	
+	$("#inputHidden").attr("value",JSON.stringify(list));
+	formObj.attr("method", "post");
+	formObj.submit();
 
-<h4 th:text="${time}">{time}</h4>
+	
+	
+	
+	//location.href("")
+	/* $.ajax ({
+		url : "endRecording",
+		type : "post",
+		success : function(html){
+			$("#record_pause").attr("disabled",true);
+			$("#record_pause").css({ background:"#ff6666" , color:"#ffffff" });
+			$("#record_restart").attr("disabled",true);
+			$("#record_restart").css({ background:"#ff6666" , color:"#ffffff" });
+			$("#record_end").attr("disabled",true);
+			$("#record_end").css({ background:"#ff6666" , color:"#ffffff" });
+			alert("녹음을 종료합니다(현재 시간으로 엑셀파일 생성됨)");
+			
+		}
+	}); */
+});
 
-    
+</script>
+
 </th:block>
 </html>

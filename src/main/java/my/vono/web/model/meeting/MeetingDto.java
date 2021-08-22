@@ -12,7 +12,7 @@ import my.vono.web.entity.Meeting;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class MeetingDto {
 	private Long id;
 	
@@ -32,8 +32,9 @@ public class MeetingDto {
 	
 	private Boolean is_trash;
 	
-    private String recToTextUrl;
-	
+
+	private String recToTextUrl;
+
 	private String recFileUrl;
 	
 	public MeetingDto(Meeting meeting) {
@@ -48,7 +49,7 @@ public class MeetingDto {
 	   this.is_trash=meeting.getIs_trash();
 	   this.recToTextUrl=meeting.getRecToTextUrl();
 	   this.recFileUrl=meeting.getRecFileUrl();
-		
+
 	}
 	
 	

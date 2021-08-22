@@ -41,8 +41,10 @@ public class MeetingService {
 			folder = folderDAO.findFolderByName("기본폴더").orElseThrow(FolderNotFoundException::new);
 		}
 		System.out.println(folder.getName());
+
 		Meeting meeting = Meeting.createMeeting(meetingDto.getName(), meetingDto.getContent(),
 				meetingDto.getParticipant(), folder,meetingDto.getRecToTextUrl(),meetingDto.getRecFileUrl());
+
 		meetingDAO.save(meeting);
 
 	}

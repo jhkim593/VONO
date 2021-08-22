@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import org.json.simple.parser.ParseException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
+
 import my.vono.web.config.auth.CustomUserDetails;
+
 import my.vono.web.excelUtile.MeetingLogVO;
 import my.vono.web.gspeech.InfiniteStreamRecognize;
 import my.vono.web.model.meeting.MeetingDto;
@@ -48,10 +52,12 @@ public class MeetingController {
 	public String startMeeting(HttpServletRequest request, Model model) {
 		System.out.println("startMeeting호출");
 
-		// 데이터 처리 , 여기서 thymeleaf를 이용하여 startMeeting.html을 연결할 수 있는가?
-		// 가능하다면 1,2 합치기 https://sidepower.tistory.com/145
-		// jquery 버리고 다른방법 찾기 https://www.leafcats.com/28
-		// https://chaelin1211.github.io/study/2021/04/14/thymeleaf-ajax.html
+		
+		//데이터 처리 , 여기서 thymeleaf를 이용하여 startMeeting.html을 연결할 수 있는가?
+		//가능하다면 1,2 합치기 https://sidepower.tistory.com/145
+		// https://www.leafcats.com/28
+		//https://chaelin1211.github.io/study/2021/04/14/thymeleaf-ajax.html 
+
 		String name = request.getParameter("mt_name");
 		String date = request.getParameter("mt_date");
 		String participant = request.getParameter("mt_participant");
@@ -66,19 +72,128 @@ public class MeetingController {
 //		return "meeting/startMeeting";
 //	}
 
-	@RequestMapping("startRecording")
+
+
+
+	
+
+
+	@ResponseBody
+	@PostMapping("startRecording") //-> 녹음 버튼누르면 시작됨
 	public String startRecording(HttpServletRequest request, HttpServletResponse response, Model model) {
 		System.out.println("startRecording호출");
-		InfiniteStreamRecognize.StreamStart(model, "");
-		// 받고 비동기처리 출력까지 이어져야함
-		return "meeting/startMeeting";
+		InfiniteStreamRecognize.StreamStart(model,"");
+		//받고 비동기처리 출력까지 이어져야함
+		return "녹화중";
+
+	}
+	
+	@ResponseBody
+	@GetMapping("infiniteReq")
+	public MeetingLogVO infiniteReq() {
+		//System.out.println("infiniteReq호출");
+		if (InfiniteStreamRecognize.result != null) {
+			if (InfiniteStreamRecognize.result.getIsFinal()) {
+				String str = InfiniteStreamRecognize.res;
+				String[] strlist = str.split("/");
+				MeetingLogVO meetingLogVO = new MeetingLogVO();
+				meetingLogVO.setTime(strlist[0]);
+				meetingLogVO.setSpeaker(strlist[1]);
+				meetingLogVO.setContent(strlist[2]);
+				return meetingLogVO;
+			} else {
+				
+				return null;
+			}
+		}
+		return null;
+
 	}
 
-	@RequestMapping("endMeeting")
-	public String endMeeting() {
-		System.out.println("endMeeting호출");
-		return "meeting/startMeeting";
+
+	@ResponseBody
+	@RequestMapping("pauseRecording")
+	public String pauseRecording(Model model) {
+		System.out.println("pauseMeeting호출");
+		InfiniteStreamRecognize.StreamPause(model,"");
+		return "녹화중지";
 	}
+	
+	@ResponseBody
+	@RequestMapping("restartRecording")
+	public String restartRecording(Model model) {
+		System.out.println("restartMeeting호출");
+		InfiniteStreamRecognize.StreamRestart(model,"");
+		return "녹화재시작";
+	}
+	
+	
+	@RequestMapping("endRecording")
+	public String endRecording(Model model, @RequestParam ("inputHidden") String inputHidden, 
+			 @RequestParam ("mt_name") String mt_name, 
+			 @RequestParam ("mt_date") String mt_date, 
+			 @RequestParam ("mt_participant") String mt_participant, 
+			 @RequestParam ("mt_content") String mt_content) 
+	{
+		System.out.println(inputHidden);
+		
+	MeetingDto meetingDto = new MeetingDto();
+	meetingDto.setName(mt_name);
+	meetingDto.setParticipant(mt_participant);
+	meetingDto.setContent(mt_content);
+		
+		
+		JSONParser jsonParser = new JSONParser();
+		
+	      // JSON데이터를 넣어 JSON Object 로 만들어 준다.
+	      JSONObject jsonObject;
+	      try {
+	         jsonObject = (JSONObject) jsonParser.parse(inputHidden);
+
+	         JSONArray array = (JSONArray) jsonObject.get("list");
+	         List<String>memoStr=new ArrayList<>();
+
+	         for (int i = 0; i < array.size(); i++) {
+	            MeetingLogVO m=new MeetingLogVO();
+
+	            // JSONArray 형태의 값을 가져와 JSONObject 로 풀어준다.
+	            JSONObject obj = (JSONObject) array.get(i);
+	                  
+	            memoStr.add(String.valueOf(obj.get("memo")));
+	         
+
+	         }
+	         String filename= InfiniteStreamRecognize.StreamEnd(model,memoStr,"");
+	         meetingDto.setRecToTextUrl(filename);
+	         meetingService.createMeeting(meetingDto);
+	         
+	         
+	      } catch (Exception e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	         return "meeting/newMeeting"; //목적지 바꾸기
+	      }
+
+	      return "meeting/newMeeting";
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+
 
 //	@GetMapping("/meeting/insert")
 //	public String meetingInsert(){
