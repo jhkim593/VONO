@@ -21,8 +21,8 @@ public interface FolderDAO extends JpaRepository<Folder, Long> {
 //	@Query("select f from Folder f where f.level=:level and f.member.id=:id")
 //     List<Folder>findFolderByLevel(@Param("level")int level,@Param("id")Long id);
 	
-	@Query("select f from Folder f where f.name=:name")
-	Optional<Folder>findFolderByName(@Param("name")String name);
+	@Query("select f from Folder f where f.name=:name and f.member.id = :memberId")
+	Optional<Folder>findFolderByName(@Param("name")String name,@Param("memberId")Long memberId);
 	
 	@Query("select f from Folder f where f.member.id=:id and f.is_trash=false")
 	List<Folder>findFolderByMemberId(@Param("id")Long id);

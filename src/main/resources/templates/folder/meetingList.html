@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout/default}">
+
+<th:block layout:fragment="content">
+	<!-- Begin Page Content -->
+	<!-- 여기서부터 작성 시작 -->
+    <div class="container-fluid">
+    	<a href="goingInsertFolder">파일 이동</a>
+    	<a href="goingInsertFolder">파일 삭제</a>
+      				<table>   
+        			 	<tr th:each="list : ${listName}">
+      						<div class="card" id="folderCard">
+								<div class="card-body">
+      					 			<img width="90px" src="img/file.png" th:title="${list.name}">
+									<p id="txt_line" class="card-text">
+	         				 			<b>
+	         				 				<a onclick="" style="cursor:pointer" th:text="${list.name}" href="" th:id="${list.id}"></a>
+	         				 			</b>
+	         				 		</p>
+         				   		</div>
+         				   	</div>
+        			 	</tr>
+					</table>    
+    </div>
+    
+</th:block>
+</html>
