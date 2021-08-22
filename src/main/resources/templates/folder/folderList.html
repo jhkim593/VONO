@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout/default}">
+
+<th:block layout:fragment="content">
+	<!-- Begin Page Content -->
+	<!-- 여기서부터 작성 시작 -->
+	
+		<a href="goingInsertFolder">폴더 생성</a>
+      				<table>   
+        			 	<tr th:each="list : ${listName}">
+      						<div class="card" id="folderCard">
+								<div class="card-body">
+      					 			<img width="90px" src="img/folder.png" th:title="${list.name}">
+									<p id="txt_line" class="card-text">
+	         				 			<b>
+	         				 				<a onclick=""style="cursor:pointer" th:text="${list.name}" th:id="${list.id}" class="getFileList"></a>
+	         				 				
+	         				 			</b>
+	         				 		</p>
+         				   		</div>
+         				   	</div>
+        			 	</tr>
+					</table>    
+    
+        <script th:src="@{js/folder.js}"></script>
+</th:block>
+</html>

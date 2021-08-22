@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
+import my.vono.web.config.auth.CustomUserDetails;
 import my.vono.web.gspeech.InfiniteStreamRecognize;
 import my.vono.web.model.meeting.MeetingDto;
 import my.vono.web.model.response.DefaultResponseDto;
@@ -103,9 +105,9 @@ public class MeetingController {
    // 회의록 작성
    @ResponseBody
    @PostMapping("/meeting/write")
-   public ResponseEntity<?> meetingWrite(@RequestBody MeetingDto meetingDto) {
+   public ResponseEntity<?> meetingWrite(@RequestBody MeetingDto meetingDto ,@AuthenticationPrincipal CustomUserDetails custom) {
       try {
-         meetingService.createMeeting(meetingDto);
+         meetingService.createMeeting(meetingDto ,custom.getMember().getId());
          return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 생성에 성공하였습니다.", null), HttpStatus.CREATED);
       } catch (Exception e) {
          return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 생성에 실패하였습니다.", null), HttpStatus.OK);
@@ -139,10 +141,10 @@ public class MeetingController {
    
    @ResponseBody
    @PostMapping("/meeting/move")
-   public ResponseEntity<?>MoveMeeting(@RequestBody MeetingDto meetingDto){
+   public ResponseEntity<?>MoveMeeting(@RequestBody MeetingDto meetingDto ,@AuthenticationPrincipal CustomUserDetails custom){
       try {
          System.out.println(meetingDto.getFolderName());
-         meetingService.moveMeeting(meetingDto.getFolderName(), meetingDto.getId());
+         meetingService.moveMeeting(meetingDto.getFolderName(), meetingDto.getId(),custom);
          return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 이동 성공", null), HttpStatus.OK);
       } catch (Exception e) {
          return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 이동 실패", null), HttpStatus.OK);
@@ -178,9 +180,9 @@ public class MeetingController {
    //회의록 복구
    @ResponseBody
    @PostMapping("/meeting/recover")
-   public ResponseEntity<?>recoverMeeting(@RequestParam("id") List<Long> id){
+   public ResponseEntity<?>recoverMeeting(@RequestParam("id") List<Long> id ,@AuthenticationPrincipal CustomUserDetails custom){
       try {
-         wasteBasketService.recoverMeeting(id);
+         wasteBasketService.recoverMeeting(id,custom.getMember().getId());
          return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 복구 성공", null), HttpStatus.OK);
       } catch (Exception e) {
          return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 복구 실패", null), HttpStatus.OK);

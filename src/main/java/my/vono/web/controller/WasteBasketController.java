@@ -2,6 +2,7 @@ package my.vono.web.controller;
 
 import java.util.List;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
-import my.vono.web.service.FolderService;
+import my.vono.web.config.auth.CustomUserDetails;
 import my.vono.web.service.WasteBasketService;
 
 @Controller
@@ -54,14 +55,14 @@ public class WasteBasketController {
 	@RequestMapping(value = "redoWB", method = { RequestMethod.POST })
 	@ResponseBody
 	public String redoWasteBasket(@RequestParam(value = "meetingId", required = false) List<Long> meetingId,
-			@RequestParam(value = "folderId", required = false) List<Long> folderId) {
+			@RequestParam(value = "folderId", required = false) List<Long> folderId ,@AuthenticationPrincipal CustomUserDetails custom) {
 
 		try {
 			System.out.println("meetingIdList----->" + meetingId);
 			System.out.println("folderIdList----->" + folderId);
 
 			if (meetingId != null) {
-				wasteBasketService.recoverMeeting(meetingId);
+				wasteBasketService.recoverMeeting(meetingId ,custom.getMember().getId());
 			}
 			if (folderId != null) {
 				wasteBasketService.recoverFolder(folderId);

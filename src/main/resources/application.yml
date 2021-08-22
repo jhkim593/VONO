@@ -7,9 +7,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     #huk en nu jae nu
-    password: ENC(6nNOh/3sDxI0zH52ghe2Wg==)
+    #password: ENC(6nNOh/3sDxI0zH52ghe2Wg==)
     #doo
-    #password: ENC(rIX7PfoYjAAuS5PbbI0v/RYIkFjBeN9i)
+    password: ENC(rIX7PfoYjAAuS5PbbI0v/RYIkFjBeN9i)
     #jin
 
     #password: ENC(3F1eltMp3xhu5T+HyPoTIg==)

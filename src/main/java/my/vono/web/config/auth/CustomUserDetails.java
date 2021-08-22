@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import my.vono.web.entity.Member;
+import my.vono.web.model.folder.FolderDto;
 
 public class CustomUserDetails implements UserDetails, OAuth2User {
 	
@@ -85,6 +86,11 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 	public String getName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Member getMember() {
+		// TODO Auto-generated method stub
+		return member;
 	}
 
 }

@@ -5,9 +5,11 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import my.vono.web.config.auth.CustomUserDetails;
 import my.vono.web.entity.Folder;
 import my.vono.web.entity.Meeting;
 import my.vono.web.entity.Member;
@@ -30,14 +32,14 @@ public class MeetingService {
 	private final FolderDAO  folderDAO;
 	private final MemberDAO memberDAO;
 	
-	public void createMeeting(MeetingDto meetingDto) {
+	public void createMeeting(MeetingDto meetingDto , Long memberId) {
 		Folder folder=null;
 		
 		if(meetingDto.getFolder_id()!=null) {
 		folder=folderDAO.findById(meetingDto.getFolder_id()).orElseThrow(FolderNotFoundException::new);
 		}
 		else {
-			folder=folderDAO.findFolderByName("기본폴더").orElseThrow(FolderNotFoundException::new);
+			folder=folderDAO.findFolderByName("기본폴더" ,memberId).orElseThrow(FolderNotFoundException::new);
 		}
 		System.out.println(folder.getName());
 		Meeting meeting=Meeting.createMeeting(meetingDto.getName(), meetingDto.getContent(),meetingDto.getParticipant(),folder);
@@ -63,10 +65,11 @@ public class MeetingService {
     	
     	
     }
-    public void moveMeeting(String name,Long id) {
+    
+    public void moveMeeting(String name,Long id,CustomUserDetails custom) {
     	Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
     	meeting.getFolder().getMeetings().remove(meeting);
-    	Folder folder=folderDAO.findFolderByName(name).orElseThrow(FolderNotFoundException::new);
+    	Folder folder=folderDAO.findFolderByName(name, custom.getMember().getId()).orElseThrow(FolderNotFoundException::new);
     	meeting.addFolder(folder);
     }
     

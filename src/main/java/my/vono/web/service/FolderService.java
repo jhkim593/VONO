@@ -32,25 +32,25 @@ public class FolderService {
 	private final MeetingDAO meetingDAO;
 	
 	//기본폴더 안지워 지게 설정?
+	// 폴더 인서트 
+		
+	public void createFolder(Long memberId ,String folderName) {
 
-	public void createFolder(FolderDto folderDto) {
-
-		if (validFolder(folderDto.getName())) {
+		if (validFolder(folderName ,memberId)) {
 			throw new FolderAlreadyExistException();
 		}
 
-		folderDto.getMember_id();
-		Member member = memberDAO.findById(folderDto.getMember_id()).orElseThrow(MemberNotFoundException::new);
+		Member member = memberDAO.findById(memberId).orElseThrow(MemberNotFoundException::new);
 
 		// 확인
 
-		folderDAO.save(Folder.createFolder(folderDto.getName(), member));
+		folderDAO.save(Folder.createFolder(folderName, member));
 
 	}
 
 	// 폴더 이름 중복확인
-	public Boolean validFolder(String name) {
-		if (folderDAO.findFolderByName(name).isPresent()) {
+	public Boolean validFolder(String name , Long memberId) {
+		if (folderDAO.findFolderByName(name , memberId) ==null) {
 			return true;
 		}
 		return false;
@@ -80,7 +80,7 @@ public class FolderService {
 			throw new BasicFolderRenameException();
 		}
 
-		if (validFolder(folderDto.getName())) {
+		if (validFolder(folderDto.getName(),folderDto.getMember_id())) {
 			throw new FolderAlreadyExistException();
 		}
 
@@ -115,5 +115,6 @@ public class FolderService {
 //
 //	}
 // 
+	
 	
 }
