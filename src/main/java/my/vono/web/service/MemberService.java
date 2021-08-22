@@ -65,7 +65,7 @@ public class MemberService {
     public void updateMember(MemberVO memberVO) {
     	Member findMember=memberDAO.findById(memberVO.getId()).orElseThrow(MemberNotFoundException::new);
     		
-    		findMember.updateMember(memberVO.getEmail(),memberVO.getPhone(),memberVO.getJob());
+    		findMember.updateMember(memberVO.getName(),memberVO.getEmail(),memberVO.getPhone(),memberVO.getJob());
     		
     	}
     	
@@ -77,7 +77,10 @@ public class MemberService {
     		memberDAO.delete(member);
     		
     	}
-    		
+    	
+   
+
+		
     }
     
 }

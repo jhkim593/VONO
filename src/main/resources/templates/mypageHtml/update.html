@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout/default}">
+ 
+ 
+
+<th:block layout:fragment="content">
+
+ <link th:href="@{/css/signUp.css}" rel="stylesheet">
+	<!-- Begin Page Content -->
+	<!-- 여기서부터 작성 시작 -->
+        <div class="container-fluid">
+     <div class="signup-form">
+			<form action="mypage/update" method="post" name="meberJoinForm" class="form-horizontal" enctype="multipart/form-data">
+					      	<div class="row">
+					        	<div class="col-8 signuptitle">
+									<h2>Edit MyProfile</h2>
+								</div>	
+					      	</div>			
+					       <div class="form-group row">
+								<label class="col-form-label col-4">ID</label>
+								<div class="col-8">
+					                <p  class="form-control" th:text="${info_loginid}"  ></p>
+					            </div>            
+					            <div id="usingId_chk"></div>
+					        </div>
+					
+					        <div class="form-group row">
+								<label class="col-form-label col-4">Name</label>
+								<div class="col-8">
+					                 <input type="text" class="form-control" id="name" name="name" th:value="${info_name}" required="required">
+					         
+					            </div>        	
+					        </div>
+					        
+					        <div class="form-group row">
+								<label class="col-form-label col-4">Email</label>
+								<div class="col-8">
+					                   <input type="text" class="form-control" id="email" name="email" th:value="${info_email}" required="required">
+					          </div>        	 
+					            <div id="mail_chk"></div>
+					        </div>
+					        <div class="form-group row">
+								<label class="col-form-label col-4">Phone</label>
+								<div class="col-8">
+					                <input type="tel" class="form-control" id="phone" name="phone" th:value="${info_phone}" >
+					            </div>   
+					            <div id="phone_chk"></div>     	
+					        </div>
+					        <div class="form-group row">
+								<label class="col-form-label col-4">Job</label>
+								<div class="col-8">
+					                <input type="text" class="form-control" id="job" name="job" th:value="${info_job}" >
+					            </div>   
+					            <div id="phone_chk"></div>     	
+					        </div>
+								
+								<!-- 개인정보방침 modal창 내용 -->  
+								<div id="dialog" title="수정완료">
+									<p>
+									수정하시겠습니까?
+									</p>
+								</div>
+							</div>	
+							      
+				 </form>
+						<div class="text-center"> <a href="mypage">Go to MyPage</a></div>
+					</div>
+       
+   
+    
+</th:block>
+</html>
