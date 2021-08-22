@@ -21,7 +21,6 @@ import my.vono.web.exception.FolderAlreadyExistException;
 import my.vono.web.exception.FolderNotFoundException;
 import my.vono.web.model.folder.FolderDto;
 import my.vono.web.model.response.DefaultResponseDto;
-import my.vono.web.model.user.MemberVO;
 import my.vono.web.service.FolderService;
 
 @Controller
@@ -41,7 +40,6 @@ public class FolderController {
 	public String getAllFolders(Model m,@AuthenticationPrincipal CustomUserDetails custom) {
 		System.out.println("파일 컨트롤러 파일 리스트");
 		try {
-//			Long memberId = 2l;
 			System.out.println(custom.getMember());
 			Long memberId = custom.getMember().getId();
 			m.addAttribute("listName", folderService.findFolders(memberId));
@@ -56,7 +54,6 @@ public class FolderController {
 		System.out.println("인서트 폴더 컨트롤러");
 		
 		try {
-//			Long memberId = 2l;
 			Long memberId = custom.getMember().getId(); // 풀리퀘후 세션에서 읽음
 			System.out.println("폴더 이름 "+folderName);
 			folderService.createFolder(memberId, folderName);			

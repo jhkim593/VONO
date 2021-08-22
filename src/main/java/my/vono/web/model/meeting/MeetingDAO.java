@@ -27,5 +27,9 @@ public interface MeetingDAO extends JpaRepository<Meeting,Long>{
 	//폴더 별 회의록 리스트 select * from vono.meeting where member_id=1 and folder_id=2;
 	@Query("select m from Meeting m where m.folder.id=:folderid and m.member.id=:id")
 	List<Meeting>findFolderByFolderId(@Param("id")Long id,@Param("folderid")Long folderid);
-
+	
+	//리스트 
+	@Query("select m from Meeting m where m.folder.id=:folderid and m.is_trash=false")
+	List<Meeting>findFolderByFolderId(@Param("folderid")Long folderid);
+	
 }

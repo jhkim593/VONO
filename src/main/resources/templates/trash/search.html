@@ -7,14 +7,14 @@
 	<!-- Begin Page Content -->
 	<!-- 여기서부터 작성 시작 -->
 	<div class="container-fluid">
-		<br> &nbsp;&nbsp;
-		<p>" <b><span th:text="${param.searchText}"></span></b> "의 검색 결과는 다음과 같습니다.</p>
+		<br>
+		<p>About " <b><span th:text="${param.searchText}"></span></b> " results (<span th:text="${#lists.size(searchList)}"></span>)</p>
 		<div class="row">
 			<table>
 				<tr th:each="list : ${searchList}">
  					<div class="card" id="folderCard">
 						<div class="card-body">
- 							<a th:onclick="|sendMeetingId( ${list.id} )|">&nbsp;<img width="90px" src="img/file.png" th:title="${list.name}"  style="cursor:pointer"></a>
+ 							<a th:onclick="|sendMeetingId( ${list.id} )|">&nbsp;<img width="90px" src="img/file.png" th:title="${list.name}"></a>
 							<p id="txt_line" class="card-text">
          				 	<b><a th:text="${list.name}" th:title="${list.name}" th:onclick="|sendMeetingId( ${list.id} )|"></a></b></p>
 						</div>
