@@ -9,11 +9,12 @@
 	<link th:href="@{css/sb-admin-2.min.css}" rel="stylesheet">
 
 
+
 <div id="mainDiv">
-	<input type="button" name="record_start" id="record_start" value="Recording start" >
-	<input type="button" name="record_pause" id="record_pause" value="Recording pause" disabled="disabled" style="background-color: #ff6666 ">
-	<input type="button" name="record_restart" id="record_restart" value="Recording restart" disabled="disabled" style="background-color: #ff6666 ">
-	<input type="button" name="record_end0" id="record_end0" value="Recording end" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_start" id="record_start" value="Start" >
+	<input type="button" name="record_pause" id="record_pause" value="Pause" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_restart" id="record_restart" value="Restart" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_end0" id="record_end0" value="Stop" disabled="disabled" style="background-color: #ff6666 ">
 </div>
    
 	<div id="controls">
@@ -28,7 +29,7 @@
     <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
   	<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
   	<script src="js/app.js"></script>
-	
+
 	
 	<form name="actionForm" id="actionForm" hidden="" action="endRecording">
 		<input type="hidden" id="inputHidden" name="inputHidden" value="">
@@ -43,9 +44,9 @@
 		id="speakTable">
 		<thead>
 			<tr>
-				<th style="width: 80px">시간</th>
-				<th style="width: 80px">화자</th>
-				<th>내용</th>
+				<th style="width: 80px">Time</th>
+				<th style="width: 80px">Speakers</th>
+				<th>Contents</th>
 			</tr>
 		</thead>
 	</table>
@@ -60,8 +61,9 @@ $(document).ready(function(){
 	var temp='';
 	var repeatflag=false;
 	$("#record_start").click(function(){
+
 		$("#record_start").val("Recording");
-		$("#record_start").attr("disabled","disabled");
+    $("#record_start").attr("disabled","disabled");
 		$("#record_start").css({ background:"#ff6666" , color:"#ffffff" });
 		$("#record_pause").attr("disabled",false);
 		$("#record_pause").css({ background:"#56BAED" , color:"#ffffff" });
@@ -139,7 +141,7 @@ $("#record_restart").click(function(){
 $("#record_end0").on("click", function() {
 	alert('record_end0');
 	$("#record_end0").attr("hidden",true);
-	var bodyHtml = '<input type="button" name="record_end2" id="record_end2" value="Recording end, Confirm" style="background-color: #56BAED onclick="record_end">';
+	var bodyHtml = '<input type="button" name="record_end2" id="record_end2" value="Confirm" style="background-color: #56BAED onclick="record_end">';
 	$("#mainDiv").append(bodyHtml);
 	
 	/* $("#mainDiv").append('<button type="button" id="btn2">버튼 #2</button>'); */

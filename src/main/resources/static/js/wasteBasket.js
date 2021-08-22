@@ -110,8 +110,7 @@ function restoreFile() {
 				traditional: true,
 				success: function(data) {
 					alert("복구 되었습니다.");
-					//location.href = 'folderList';
-					location.reload(true);
+					location.href = 'folderList';
 				},
 				error: function(request, error) {
 					alert("fail");

@@ -5,6 +5,12 @@ $(".messages").animate({ scrollTop: $(document).height() }, "fast");
 $("#chat-circle").click(function() {
 	$("#chat-circle").toggle('scale');
 	$(".chat-box").toggle('scale');
+	setTimeout(function() {
+		$("<li class='sent'><p>Hi, I'm VONOBot. <br/> Let me know if you have any questions regarding our tool!</p></li>").appendTo($('.messages ul'));
+	}, 500);
+	setTimeout(function() {
+		$('<li class="sent"><p>Keywords <br/> #new minutes of meeting(mom) #withdrawal #restore #modify #find</p></li>').appendTo($('.messages ul'));
+	}, 1000);
 });
 
 //챗봇 닫기 
@@ -44,10 +50,15 @@ function newMessage() {
 		dataType: "text",
 		traditional: true,
 		success: function(data) {
+			
 			if (message.indexOf("#") != -1) {
 				findMessage(message.replace("#", ""));
-			}else{
-				$('<li class="sent"><p> ' + data + '</p></li>').appendTo($('.messages ul'));
+			}
+			else{
+				if(data=="잘 이해하지 못했어요. 쉽게 설명해주시면 더 좋은 대답을 할 수 있어요."){
+				data="Sorry, I didn't understand. If you explain it easily, I can give you a better answer.";
+				}
+			$('<li class="sent"><p> ' + data + '</p></li>').appendTo($('.messages ul'));
 			$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 			}
 			
@@ -60,7 +71,7 @@ function newMessage() {
 }
 //검색
 function findMessage(searchText) {
-	$('<li class="sent"><p>" ' + searchText + ' "를 검색합니다. 잠시 기다려주세요! </p></li>').appendTo($('.messages ul'));
+	$('<li class="sent"><p>Searching for" ' + searchText + ' "Please wait a moment! </p></li>').appendTo($('.messages ul'));
 	setTimeout(function() {
 		location.href = "search?searchText=" + searchText;
 	}, 500);
@@ -68,9 +79,9 @@ function findMessage(searchText) {
 }
 
 //vonoFAQ 클릭시 FAQ 나옴
-var msg1 = "VONO가 뭐야";
-var msg2 = "VONOBOT이 뭐야";
-var msg3 = "누가 만들었어?";
+var msg1 = "What's VONO?";
+var msg2 = "What's VONOBot?";
+var msg3 = "Who's Porori?";
 $('#vonoFAQ').click(function() {
 	$('<div class="dropdown"><li class="sent">'
 		+ '<button type="button" class="btn btn-primary dropdown toggle" data-toggle="dropdown">FAQ <i class="fas fa-caret-down"></i></button>'
@@ -85,15 +96,15 @@ $('#vonoFAQ').click(function() {
 function qna(str) {
 	var message = "";
 	if (str == 1) {
-		$('<li class="replies"><p> ' + msg1 + '</p></li>').appendTo($('.messages ul'));
-		message += msg1;
-
+		$('<li class="replies"><p> ' + msg1 + '</p></li>').appendTo($('.messages ul')); message += msg1;
 	} else if (str == 2) {
 		$('<li class="replies"><p> ' + msg2 + '</p></li>').appendTo($('.messages ul')); message += msg2;
 	} else if (str == 3) {
 		$('<li class="replies"><p> ' + msg3 + '</p></li>').appendTo($('.messages ul')); message += msg3;
-	} $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-
+	}
+	if(message=="Who's Porori?"){
+		message="what is porori";
+	}$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 	$.ajax({
 		url: 'sendMsg',
 		type: 'POST',

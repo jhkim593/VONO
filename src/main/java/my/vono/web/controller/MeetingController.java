@@ -68,7 +68,10 @@ public class MeetingController {
 	public String startRecording(HttpServletRequest request, HttpServletResponse response, Model model) {
 		System.out.println("startRecording호출");
 		InfiniteStreamRecognize.StreamStart(model,"");
-		return "녹화중";
+
+		return "Recording";//녹음중=Recording
+
+
 	}
 	
 	@ResponseBody
