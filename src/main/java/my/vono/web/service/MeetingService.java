@@ -20,6 +20,7 @@ import my.vono.web.exception.FolderNotFoundException;
 import my.vono.web.exception.MeetingNotFoundException;
 import my.vono.web.exception.MemberNotFoundException;
 import my.vono.web.model.folder.FolderDAO;
+import my.vono.web.model.folder.FolderSimpleDto;
 import my.vono.web.model.meeting.MeetingDAO;
 import my.vono.web.model.meeting.MeetingDto;
 import my.vono.web.model.meeting.MeetingSimpleDto;
@@ -87,17 +88,17 @@ public class MeetingService {
     	
     }
     
-    //폴더 속 회의록 조회
-
-	public Object findFolerView() {
-		return null;
-	}
-
 	public List<MeetingLogVO> meetingReader(String url) throws Exception {
 		return ExcelReader.excelReader(url);
 	}
 	public void meetingWrite(List<MeetingLogVO>list,String url)throws Exception{
 		ExcelMaker.writeExcelFile(list, url);
+	}
+	
+	//폴더별 미팅로드 불러오기 삭제되지않은
+	public List<MeetingSimpleDto> folderMeetingList(Long fileID){
+		 meetingDAO.findFolderByFolderId(fileID);
+		return meetingDAO.findFolderByFolderId(fileID).stream().map(m -> new MeetingSimpleDto(m)).collect(Collectors.toList());
 	}
 
 }

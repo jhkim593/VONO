@@ -18,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -178,13 +179,6 @@ public class MeetingController {
 	      }
 
 	      return "meeting/newMeeting";
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -385,6 +379,14 @@ public class MeetingController {
 		}
 
 		return "수정에 성공 하였습니다.";
+	}
+	
+
+    @RequestMapping("getmtingLogList")
+	public String getAllFolders(Model m,@RequestParam(required = false, defaultValue = "") Long id) {
+//    	System.out.println("겟 아이디"+ id);
+    	m.addAttribute("listName", meetingService.folderMeetingList(id));
+		return "folder/meetingList";
 	}
 
 
