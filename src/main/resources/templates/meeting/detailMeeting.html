@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layout/default}">
+	
+
+ 
+<th:block layout:fragment="content">
+	<!-- Begin Page Content -->
+	<!-- �뿬湲곗꽌遺��꽣 �옉�꽦 �떆�옉 -->
+	<div class="container-fluid">
+		<div class="dropdown" id="floatRight">
+
+  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+			<button type="button" class="btn btn-default dropdown toggle"
+				data-toggle="dropdown">
+				<b>�샃�뀡 </b> <i class="fas fa-angle-down"></i><span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#" onclick="restoreFile()">&nbsp;&nbsp;&nbsp;<i
+						class="fas fa-redo"></i>&nbsp;蹂듦뎄
+				</a></li>
+				<li><a href="#" onclick="deleteFile()">&nbsp;&nbsp;&nbsp;<i
+						class="fas fa-trash-alt"></i>&nbsp;�쁺援ъ궘�젣
+				</a></li>
+			</ul>
+		</div>
+		<br> <br>
+		<div style="width: 100%; height: 350px; overflow: auto">
+
+            <input type="hidden" id="meetingId" th:value="${meeting.id}"/>
+<div class="table-responsive">
+			<table id="meetingLog" class="table table-bordered"  cellspacing="0">
+			<tr>
+			<th>시간</th>
+			<th>화자</th>
+			<th>내용</th>
+			<tr>
+				<tr th:each="list : ${meetingLog}">
+
+
+
+					<td><input type='text' size="5" th:value="${list.time}"
+						style="height: 60px;"></td>
+					<td><input type="text" size="70" th:value="${list.content}"
+						style="height: 60px;"></td>
+					<td><input type='text' size="5" th:value="${list.time}"
+						style="height: 60px;"></td>
+
+				</tr>
+
+			</table>
+			<input type="button" id="updateBtn" value="수정">
+
+
+		</div>
+		
+		</div>
+		
+		
+		 
+		  
+		
+		
+		
+		
+		
+		
+
+
+		<!-- Modal -->
+
+
+	</div>
+
+	<link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+	<script th:src="@{js/jquery-2.1.3.min.js}"></script>
+	
+	<script th:src="@{js/bootstrap.min.js}"></script>
+	
+<link th:href="@{css/wasteBasket.css}" rel="stylesheet">
+
+<script>
+$(document).ready(function(){
+		$(function()
+
+		{
+
+			$("#updateBtn").click(
+					function() {
+						var dataArrayToSend = [];
+						var dataArrayToSend1 = [];
+						var meetingId=$("#meetingId").val();
+
+						$("#meetingLog tr").each(function(){
+						var len = $(this).find("td").length;
+					
+						var arr = {
+							speaker : $(this).find("td").eq(0).find('input[type="text"]').val(), //유저 저장
+							content :$(this).find("td").eq(1).find('input[type="text"]').val(),
+							time :$(this).find("td").eq(2).find('input[type="text"]').val()
+						
+						};
+						
+						dataArrayToSend1.push(arr);
+						});
+						/* var list={
+								mList: dataArrayToSend1
+						} */
+						var list={
+								list:dataArrayToSend1
+								};
+
+						$.ajax({
+							url : 'meeting/update',
+							type : 'post',
+							data : {
+								"list":JSON.stringify(list),
+								"meetingId":meetingId
+								},
+							
+							traditional: true,
+
+
+						
+							
+							
+							success : function(data) {
+								alert(data);
+							}
+						
+						});
+
+					});
+		});
+});
+	</script>
+
+
+
+
+</th:block>
+</html>

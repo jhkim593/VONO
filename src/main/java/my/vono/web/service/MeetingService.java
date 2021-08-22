@@ -13,6 +13,9 @@ import my.vono.web.config.auth.CustomUserDetails;
 import my.vono.web.entity.Folder;
 import my.vono.web.entity.Meeting;
 import my.vono.web.entity.Member;
+import my.vono.web.excelUtile.ExcelMaker;
+import my.vono.web.excelUtile.ExcelReader;
+import my.vono.web.excelUtile.MeetingLogVO;
 import my.vono.web.exception.FolderNotFoundException;
 import my.vono.web.exception.MeetingNotFoundException;
 import my.vono.web.exception.MemberNotFoundException;
@@ -27,10 +30,10 @@ import my.vono.web.model.user.MemberDAO;
 @Transactional
 public class MeetingService {
 
-	
 	private final MeetingDAO meetingDAO;
-	private final FolderDAO  folderDAO;
+	private final FolderDAO folderDAO;
 	private final MemberDAO memberDAO;
+
 	
 	public void createMeeting(MeetingDto meetingDto , Long memberId) {
 		Folder folder=null;
@@ -40,13 +43,17 @@ public class MeetingService {
 		}
 		else {
 			folder=folderDAO.findFolderByName("기본폴더" ,memberId).orElseThrow(FolderNotFoundException::new);
+
 		}
 		System.out.println(folder.getName());
-		Meeting meeting=Meeting.createMeeting(meetingDto.getName(), meetingDto.getContent(),meetingDto.getParticipant(),folder);
+
+		Meeting meeting = Meeting.createMeeting(meetingDto.getName(), meetingDto.getContent(),
+				meetingDto.getParticipant(), folder,meetingDto.getRecToTextUrl(),meetingDto.getRecFileUrl());
+
 		meetingDAO.save(meeting);
-		
+
 	}
-	
+
 //	public void updateMeeting(MeetingDto meetingDto) {
 //		Meeting meeting = meetingDAO.findById(meetingDto.getId()).orElseThrow(MeetingNotFoundException::new);
 //		meeting.
@@ -58,7 +65,7 @@ public class MeetingService {
 		meeting.getFolder().getMeetings().remove(meeting);
 		meeting.removeFolder();
 	}
-   
+
     public MeetingDto detailMeeting(Long id) {
     	Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
     	return new MeetingDto(meeting);
@@ -81,10 +88,16 @@ public class MeetingService {
     }
     
     //폴더 속 회의록 조회
+
 	public Object findFolerView() {
 		return null;
 	}
-	
-	
-	
+
+	public List<MeetingLogVO> meetingReader(String url) throws Exception {
+		return ExcelReader.excelReader(url);
+	}
+	public void meetingWrite(List<MeetingLogVO>list,String url)throws Exception{
+		ExcelMaker.writeExcelFile(list, url);
+	}
+
 }

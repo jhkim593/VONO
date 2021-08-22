@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import my.vono.web.config.auth.CustomUserDetails;
+
+import my.vono.web.service.FolderService;
+
 import my.vono.web.service.WasteBasketService;
 
 @Controller
@@ -22,12 +25,14 @@ public class WasteBasketController {
 
 	// 휴지통 > 삭제 폴더 모음(조회)
 	@RequestMapping("wasteBasket")
-	public String getAllFolders(Model m) {
+	public String getAllFolders(Model m ,@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 		try {
-			Long memberId = 1L;
+			Long memberId = customUserDetails.getMember().getId();
+			System.out.println(memberId);
 			System.out.println("getTrash: " + wasteBasketService.findWasteBasket(memberId));
 
 			m.addAttribute("listName", wasteBasketService.findWasteBasket(memberId));
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

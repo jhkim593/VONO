@@ -12,7 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelMaker {
 	public static void writeExcelFile(List<MeetingLogVO> list ,String URL) throws EncryptedDocumentException, IOException {
-		String filePath = URL;    // 저장할 파일 경로
+		String filePath = "C:\\VONO\\"+URL;    // 저장할 파일 경로
     
 		FileOutputStream fos = new FileOutputStream(filePath);
     
@@ -24,9 +24,9 @@ public class ExcelMaker {
 		int row = list.size();    // list 크기
 		for (int i = 0; i < row; i++) {
 			curRow = sheet.createRow(i);    // row 생성
-			curRow.createCell(0).setCellValue(list.get(i).getSpeaker());    // row에 각 cell 저장
-			curRow.createCell(1).setCellValue(list.get(i).getContent());
-			curRow.createCell(2).setCellValue(list.get(i).getTime());
+			curRow.createCell(0).setCellValue(list.get(i).getTime());    // row에 각 cell 저장
+			curRow.createCell(1).setCellValue(list.get(i).getSpeaker());
+			curRow.createCell(2).setCellValue(list.get(i).getContent());
 		}
 		XSSFSheet sheet2 = workbook.createSheet("note"); 
 		//추가적인 입력사항 필요 
