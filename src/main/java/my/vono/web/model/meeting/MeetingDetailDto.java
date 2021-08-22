@@ -16,4 +16,5 @@ import my.vono.web.excelUtile.MeetingLogVO;
 public class MeetingDetailDto {
 
 	List<MeetingLogVO> mList;
+	List<String>memo;
 }

@@ -30,6 +30,7 @@
   	<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
   	<script src="js/app.js"></script>
 
+
 	
 	<form name="actionForm" id="actionForm" hidden="" action="endRecording">
 		<input type="hidden" id="inputHidden" name="inputHidden" value="">
@@ -44,9 +45,11 @@
 		id="speakTable">
 		<thead>
 			<tr>
+
 				<th style="width: 80px">Time</th>
 				<th style="width: 80px">Speakers</th>
 				<th>Contents</th>
+
 			</tr>
 		</thead>
 	</table>
@@ -62,8 +65,10 @@ $(document).ready(function(){
 	var repeatflag=false;
 	$("#record_start").click(function(){
 
+
 		$("#record_start").val("Recording");
     $("#record_start").attr("disabled","disabled");
+
 		$("#record_start").css({ background:"#ff6666" , color:"#ffffff" });
 		$("#record_pause").attr("disabled",false);
 		$("#record_pause").css({ background:"#56BAED" , color:"#ffffff" });
@@ -178,6 +183,7 @@ $(document).on("click","#record_end2", function() {
 	formObj.submit();
 
 	
+
 });
 
 </script>

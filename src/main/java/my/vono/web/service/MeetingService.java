@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +21,7 @@ import my.vono.web.exception.MemberNotFoundException;
 import my.vono.web.model.folder.FolderDAO;
 import my.vono.web.model.folder.FolderSimpleDto;
 import my.vono.web.model.meeting.MeetingDAO;
+import my.vono.web.model.meeting.MeetingDetailDto;
 import my.vono.web.model.meeting.MeetingDto;
 import my.vono.web.model.meeting.MeetingSimpleDto;
 import my.vono.web.model.user.MemberDAO;
@@ -88,7 +88,15 @@ public class MeetingService {
     	
     }
     
-	public List<MeetingLogVO> meetingReader(String url) throws Exception {
+
+    //폴더 속 회의록 조회
+
+	public Object findFolerView() {
+		return null;
+	}
+
+	public MeetingDetailDto meetingReader(String url) throws Exception {
+
 		return ExcelReader.excelReader(url);
 	}
 	public void meetingWrite(List<MeetingLogVO>list,String url)throws Exception{
