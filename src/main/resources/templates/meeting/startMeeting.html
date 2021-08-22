@@ -12,10 +12,10 @@
 
 
 
-	<input type="button" name="record_start" id="record_start" value="녹음 시작" >
-	<input type="button" name="record_pause" id="record_pause" value="녹음 중지" disabled="disabled" style="background-color: #ff6666 ">
-	<input type="button" name="record_restart" id="record_restart" value="녹음 재시작" disabled="disabled" style="background-color: #ff6666 ">
-	<input type="button" name="record_end" id="record_end" value="녹음 완료" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_start" id="record_start" value="Start" >
+	<input type="button" name="record_pause" id="record_pause" value="Pause" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_restart" id="record_restart" value="Re-Start" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_end" id="record_end" value="Stop" disabled="disabled" style="background-color: #ff6666 ">
 	
 	<form name="actionForm" id="actionForm" hidden="" action="endRecording">
 		<input type="hidden" id="inputHidden" name="inputHidden" value="">
@@ -32,9 +32,9 @@
 		id="speakTable">
 		<thead>
 			<tr>
-				<th style="width: 80px">시간</th>
-				<th style="width: 80px">화자</th>
-				<th>내용</th>
+				<th style="width: 80px">Time</th>
+				<th style="width: 80px">Speakers</th>
+				<th>Contents</th>
 			</tr>
 		</thead>
 	</table>
@@ -44,7 +44,7 @@ $(document).ready(function(){
 	var temp='';
 	
 	$("#record_start").click(function(){
-		$("#record_start").val("녹음중");
+		$("#record_start").val("Recording");//녹음중=Recording
 		$("#record_start").attr("disabled","disabled");
 		$("#record_start").css({ background:"#ff6666" , color:"#ffffff" });
 		$("#record_pause").attr("disabled",false);

@@ -86,7 +86,7 @@ public class MeetingController {
 		System.out.println("startRecording호출");
 		InfiniteStreamRecognize.StreamStart(model,"");
 		//받고 비동기처리 출력까지 이어져야함
-		return "녹화중";
+		return "Recording";//녹음중=Recording
 
 	}
 	
