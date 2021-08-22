@@ -32,13 +32,13 @@ public class WasteBasketService {
 	private final MemberDAO memberDAO;
 
 	// 회의록 복구
-	public void recoverMeeting(List<Long> listId) {
+	public void recoverMeeting(List<Long> listId ,Long memberId) {
 		if (!listId.isEmpty()) {
 			for (int i = 0; i < listId.size(); i++) {
 				Long id = listId.get(i);
 				Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
 				meeting.changeIs_trashFalse();
-				Folder folder = folderDAO.findFolderByName("기본폴더").orElseThrow(FolderNotFoundException::new);
+				Folder folder = folderDAO.findFolderByName("기본폴더" ,memberId).orElseThrow(FolderNotFoundException::new);
 				meeting.removeMember();
 				meeting.addFolder(folder);
 			}

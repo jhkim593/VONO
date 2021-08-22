@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout/default}">
+
+<th:block layout:fragment="content">
+	<!-- Begin Page Content -->
+	<!-- 여기서부터 작성 시작 -->
+	 <div class="container-fluid">
+		<div id="formContent">
+			<div class="fadeIn first">
+				<h2><span>폴더 만들기</span></h2>
+			</div>
+			<form action="insertFolder" method="POST">
+				<input type="text" id="folderName" class="fadeIn second" name="folderName" placeholder="폴더 이름">
+				<input type="submit" class="fadeIn fourth" value="폴더 생성">
+			</form>
+		</div>
+	</div>
+		
+		
+		 <link th:href="@{css/sb-admin-2.min.css}" rel="stylesheet">
+	</th:block>
+	   
+	
+</html>

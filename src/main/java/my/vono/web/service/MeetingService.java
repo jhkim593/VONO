@@ -5,9 +5,11 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import my.vono.web.config.auth.CustomUserDetails;
 import my.vono.web.entity.Folder;
 import my.vono.web.entity.Meeting;
 import my.vono.web.entity.Member;
@@ -32,13 +34,16 @@ public class MeetingService {
 	private final FolderDAO folderDAO;
 	private final MemberDAO memberDAO;
 
-	public void createMeeting(MeetingDto meetingDto) {
-		Folder folder = null;
+	
+	public void createMeeting(MeetingDto meetingDto , Long memberId) {
+		Folder folder=null;
+		
+		if(meetingDto.getFolder_id()!=null) {
+		folder=folderDAO.findById(meetingDto.getFolder_id()).orElseThrow(FolderNotFoundException::new);
+		}
+		else {
+			folder=folderDAO.findFolderByName("기본폴더" ,memberId).orElseThrow(FolderNotFoundException::new);
 
-		if (meetingDto.getFolder_id() != null) {
-			folder = folderDAO.findById(meetingDto.getFolder_id()).orElseThrow(FolderNotFoundException::new);
-		} else {
-			folder = folderDAO.findFolderByName("기본폴더").orElseThrow(FolderNotFoundException::new);
 		}
 		System.out.println(folder.getName());
 
@@ -61,28 +66,29 @@ public class MeetingService {
 		meeting.removeFolder();
 	}
 
-	public MeetingDto detailMeeting(Long id) {
-		Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
-		return new MeetingDto(meeting);
+    public MeetingDto detailMeeting(Long id) {
+    	Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
+    	return new MeetingDto(meeting);
+    	
+    	
+    }
+    
+    public void moveMeeting(String name,Long id,CustomUserDetails custom) {
+    	Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
+    	meeting.getFolder().getMeetings().remove(meeting);
+    	Folder folder=folderDAO.findFolderByName(name, custom.getMember().getId()).orElseThrow(FolderNotFoundException::new);
+    	meeting.addFolder(folder);
+    }
+    
+    //검색
+    public List<MeetingSimpleDto> searchMeeting(Long memberId,String name){
+    	Member member=memberDAO.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        return meetingDAO.findMeetingWithNameAndMemberId(memberId, name).stream().map(m->new MeetingSimpleDto(m)).collect(Collectors.toList());
+    	
+    }
+    
+    //폴더 속 회의록 조회
 
-	}
-
-	public void moveMeeting(String name, Long id) {
-		Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
-		meeting.getFolder().getMeetings().remove(meeting);
-		Folder folder = folderDAO.findFolderByName(name).orElseThrow(FolderNotFoundException::new);
-		meeting.addFolder(folder);
-	}
-
-	// 검색
-	public List<MeetingSimpleDto> searchMeeting(Long memberId, String name) {
-		Member member = memberDAO.findById(memberId).orElseThrow(MemberNotFoundException::new);
-		return meetingDAO.findMeetingWithNameAndMemberId(memberId, name).stream().map(m -> new MeetingSimpleDto(m))
-				.collect(Collectors.toList());
-
-	}
-
-	// 폴더 속 회의록 조회
 	public Object findFolerView() {
 		return null;
 	}
