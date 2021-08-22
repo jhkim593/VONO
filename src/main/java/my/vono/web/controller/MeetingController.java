@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
-import org.json.simple.parser.ParseException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,13 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
-
-
 import my.vono.web.config.auth.CustomUserDetails;
-
 import my.vono.web.excelUtile.MeetingLogVO;
-
 import my.vono.web.gspeech.InfiniteStreamRecognize;
+import my.vono.web.model.meeting.MeetingDetailDto;
 import my.vono.web.model.meeting.MeetingDto;
 import my.vono.web.model.response.DefaultResponseDto;
 import my.vono.web.service.MeetingService;
@@ -333,9 +327,11 @@ public class MeetingController {
 			MeetingDto meetingDto=meetingService.detailMeeting(16L);
 			System.out.println("============================="+meetingDto.getRecToTextUrl());
 			System.out.println("============================="+meetingDto.getRecToTextUrl());
-			List<MeetingLogVO> meetLog = meetingService.meetingReader(meetingDto.getRecToTextUrl());
+			MeetingDetailDto meetLog = meetingService.meetingReader(meetingDto.getRecToTextUrl());
 //   
-			model.addAttribute("meetingLog", meetLog);
+			model.addAttribute("meetingLog", meetLog.getMList());
+			model.addAttribute("memo", meetLog.getMemo());
+			System.out.println(meetLog.getMemo());
 			model.addAttribute("meeting",meetingDto);
 			
 
@@ -347,9 +343,10 @@ public class MeetingController {
 
 	@ResponseBody
 	@PostMapping("meeting/update")
-	public String updateMeeting(@RequestParam String list,@RequestParam("meetingId")Long meetingId ) {
+	public String updateMeeting(@RequestParam String list,
+			@RequestParam String memo,@RequestParam("meetingId")Long meetingId ) {
 		System.out.println("==============");
-		System.out.println(list);
+		System.out.println(memo);
 
 		JSONParser jsonParser = new JSONParser();
 		String url=meetingService.detailMeeting(meetingId).getRecToTextUrl();

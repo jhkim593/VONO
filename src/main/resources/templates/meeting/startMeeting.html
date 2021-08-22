@@ -12,10 +12,10 @@
 
 
 
-	<input type="button" name="record_start" id="record_start" value="녹음 시작" >
-	<input type="button" name="record_pause" id="record_pause" value="녹음 중지" disabled="disabled" style="background-color: #ff6666 ">
-	<input type="button" name="record_restart" id="record_restart" value="녹음 재시작" disabled="disabled" style="background-color: #ff6666 ">
-	<input type="button" name="record_end" id="record_end" value="녹음 완료" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_start" id="record_start" value="�끃�쓬 �떆�옉" >
+	<input type="button" name="record_pause" id="record_pause" value="�끃�쓬 以묒�" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_restart" id="record_restart" value="�끃�쓬 �옱�떆�옉" disabled="disabled" style="background-color: #ff6666 ">
+	<input type="button" name="record_end" id="record_end" value="�끃�쓬 �셿猷�" disabled="disabled" style="background-color: #ff6666 ">
 	
 	<form name="actionForm" id="actionForm" hidden="" action="endRecording">
 		<input type="hidden" id="inputHidden" name="inputHidden" value="">
@@ -28,13 +28,16 @@
 	
 	
 	
+	
+	
+	
 	<table style="border: 1px;" class="table table-hover table-white"
 		id="speakTable">
 		<thead>
 			<tr>
-				<th style="width: 80px">시간</th>
-				<th style="width: 80px">화자</th>
-				<th>내용</th>
+				<th style="width: 80px">�떆媛�</th>
+				<th style="width: 80px">�솕�옄</th>
+				<th>�궡�슜</th>
 			</tr>
 		</thead>
 	</table>
@@ -44,7 +47,7 @@ $(document).ready(function(){
 	var temp='';
 	
 	$("#record_start").click(function(){
-		$("#record_start").val("녹음중");
+		$("#record_start").val("�끃�쓬以�");
 		$("#record_start").attr("disabled","disabled");
 		$("#record_start").css({ background:"#ff6666" , color:"#ffffff" });
 		$("#record_pause").attr("disabled",false);
@@ -152,7 +155,7 @@ $("#record_end").click(function(){
 			$("#record_restart").css({ background:"#ff6666" , color:"#ffffff" });
 			$("#record_end").attr("disabled",true);
 			$("#record_end").css({ background:"#ff6666" , color:"#ffffff" });
-			alert("녹음을 종료합니다(현재 시간으로 엑셀파일 생성됨)");
+			alert("�끃�쓬�쓣 醫낅즺�빀�땲�떎(�쁽�옱 �떆媛꾩쑝濡� �뿊���뙆�씪 �깮�꽦�맖)");
 			
 		}
 	}); */
