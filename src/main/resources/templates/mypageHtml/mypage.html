@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout/default}">
+ 
+ 
+
+<th:block layout:fragment="content">
+
+ <link th:href="@{/css/signUp.css}" rel="stylesheet">
+	<!-- Begin Page Content -->
+	<!-- 여기서부터 작성 시작 -->
+    <div class="container-fluid">
+     <div class="signup-form">
+     
+         <form action="mypage" method="post" name="meberJoinForm" class="form-horizontal" enctype="multipart/form-data">
+				
+     
+					     	<div class="row">
+					        	<div class="col-8 signuptitle">
+									<h2>MyPage</h2>
+									<p><span th:text="${info_name}" ></span>,Welcome to VONO!</p>
+								</div>	
+					      	</div>			
+					        <div class="form-group row">
+								<label class="col-form-label col-4">ID</label>
+								<div class="col-8">
+					                <p  class="form-control" th:text="${info_loginid}"  ></p>
+					            </div>            
+					            <div id="usingId_chk"></div>
+					        </div>
+					
+					 
+					        <div class="form-group row">
+								<label class="col-form-label col-4">Name</label>
+								<div class="col-8">
+					               
+					                <p  class="form-control" th:text="${info_name}"  ></p>
+					            </div>        	
+					        </div>
+					        
+					        <div class="form-group row">
+								<label class="col-form-label col-4">Email</label>
+								<div class="col-8">
+					                
+					                <p  class="form-control" th:text="${info_email}"  ></p> </div>        	 
+					            <div id="mail_chk"></div>
+					        </div>
+					        <div class="form-group row">
+								<label class="col-form-label col-4">Phone</label>
+								<div class="col-8">
+					             
+					                <p  class="form-control" th:text="${info_phone}"  ></p>   </div>   
+					            <div id="phone_chk"></div>     	
+					        </div>
+					        <div class="form-group row">
+								<label class="col-form-label col-4">Job</label>
+								<div class="col-8">
+					          
+					                <p  class="form-control" th:text="${info_job}"  ></p>   </div>   
+					            <div id="phone_chk"></div>     	
+					        </div>
+					         <div class="form-group row">
+								<label class="col-form-label col-4">Provider</label>
+								<div class="col-8">
+					          
+					                <p  class="form-control" th:text="${info_provider}"  ></p>   </div>   
+					            <div id="phone_chk"></div>     	
+					        </div>
+							
+							<div class="form-group row">
+								<div class="col-8 offset-4">
+									<button type="submit" id="update" onclick="location.href='update.html'" class="btn btn-primary btn-lg">회원정보 수정</button>
+								</div>  
+								</div>
+								
+							
+					    </form>
+						<div class="text-center"> <a href="mypage/delete">VONO 탈퇴</a></div>
+					</div>
+    </div>
+    
+    
+  
+</th:block>
+</html>
