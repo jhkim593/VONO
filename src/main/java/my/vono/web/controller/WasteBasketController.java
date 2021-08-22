@@ -63,14 +63,14 @@ public class WasteBasketController {
 	@RequestMapping(value = "redoWB", method = { RequestMethod.POST })
 	@ResponseBody
 	public String redoWasteBasket(@RequestParam(value = "meetingId", required = false) List<Long> meetingId,
-			@RequestParam(value = "folderId", required = false) List<Long> folderId) {
+			@RequestParam(value = "folderId", required = false) List<Long> folderId ,@AuthenticationPrincipal CustomUserDetails custom) {
 
 		try {
 			System.out.println("meetingIdList----->" + meetingId);
 			System.out.println("folderIdList----->" + folderId);
 
 			if (meetingId != null) {
-				wasteBasketService.recoverMeeting(meetingId);
+				wasteBasketService.recoverMeeting(meetingId ,custom.getMember().getId());
 			}
 			if (folderId != null) {
 				wasteBasketService.recoverFolder(folderId);

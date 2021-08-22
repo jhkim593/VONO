@@ -12,10 +12,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 public class ExcelReader {
-		static List<MeetingLogVO> list = new ArrayList<MeetingLogVO>();
 		public static List<MeetingLogVO> excelReader(String URL) throws Exception{
-			String fileURL= URL;
-			FileInputStream file = new FileInputStream(URL);
+			 List<MeetingLogVO> list = new ArrayList<MeetingLogVO>();
+			 System.out.println("준비");
+			String fileURL= "C:\\VONO\\"+URL;
+			FileInputStream file = new FileInputStream(fileURL);
 	        XSSFWorkbook workbook = new XSSFWorkbook(file);
 	        int columnindex=0;
 	        int rowindex=0;
@@ -47,22 +48,32 @@ public class ExcelReader {
 	                      case ERROR:
 	                          value=cell.getErrorCellValue()+"";
 	                          break;
+	                      case NUMERIC:
+                              value=cell.getNumericCellValue()+"";
+                              break;
+	                          
 	                      }
 	                    }
 	                    if(columnindex==0) {
-	                    	vo.setSpeaker(value);
-	                    }else if(columnindex==1){
-	                    	vo.setContent(value);
-	                    }else {
 	                    	vo.setTime(value);
+	                    	
+	                    }else if(columnindex==1){
+	                    	vo.setSpeaker(value);
+	                    }else {
+	                    	vo.setContent(value);
 	                    	list.add(vo);
 	                    }
 	                }
 
 	                }
 	            }
-	        XSSFSheet sheet1=workbook.getSheetAt(1);
+	      
 	        //추가적인 메모 내용이생길시 시트를 바꿔 저장 저장 위치만 보고 특정 저장위치에 서 값을 읽어옴 
+	        for(MeetingLogVO m:list) {
+	        	System.out.println(m.getContent());
+	        	System.out.println(m.getSpeaker());
+	        	System.out.println(m.getTime());
+	        }
 	        return list;
 		}
 }
