@@ -53,41 +53,22 @@ public class MeetingController {
 	@RequestMapping("startMeeting")
 	public String startMeeting(HttpServletRequest request, Model model) {
 		System.out.println("startMeeting호출");
-
-		
-		//데이터 처리 , 여기서 thymeleaf를 이용하여 startMeeting.html을 연결할 수 있는가?
-		//가능하다면 1,2 합치기 https://sidepower.tistory.com/145
-		// https://www.leafcats.com/28
-		//https://chaelin1211.github.io/study/2021/04/14/thymeleaf-ajax.html 
-
 		String name = request.getParameter("mt_name");
 		String date = request.getParameter("mt_date");
 		String participant = request.getParameter("mt_participant");
 		String content = request.getParameter("mt_content");
-		// Meeting.createMeeting(name, content, participant, null);
-		model.addAttribute("name", name) // -> th:text="${name}" 로 사용
+		model.addAttribute("name", name)
 				.addAttribute("date", date).addAttribute("participant", participant).addAttribute("content", content);
 		System.out.println(model);
 		return "meeting/startMeeting";
 	}
 
-//		return "meeting/startMeeting";
-//	}
-
-
-
-
-	
-
-
 	@ResponseBody
-	@PostMapping("startRecording") //-> 녹음 버튼누르면 시작됨
+	@PostMapping("startRecording")
 	public String startRecording(HttpServletRequest request, HttpServletResponse response, Model model) {
 		System.out.println("startRecording호출");
 		InfiniteStreamRecognize.StreamStart(model,"");
-		//받고 비동기처리 출력까지 이어져야함
 		return "녹화중";
-
 	}
 	
 	@ResponseBody
@@ -103,15 +84,13 @@ public class MeetingController {
 				meetingLogVO.setSpeaker(strlist[1]);
 				meetingLogVO.setContent(strlist[2]);
 				return meetingLogVO;
-			} else {
 				
+			} else {
 				return null;
 			}
 		}
 		return null;
-
 	}
-
 
 	@ResponseBody
 	@RequestMapping("pauseRecording")
@@ -129,74 +108,47 @@ public class MeetingController {
 		return "녹화재시작";
 	}
 	
-	
 	@RequestMapping("endRecording")
 	public String endRecording(Model model, @RequestParam ("inputHidden") String inputHidden, 
 			 @RequestParam ("mt_name") String mt_name, 
 			 @RequestParam ("mt_date") String mt_date, 
 			 @RequestParam ("mt_participant") String mt_participant, 
 			 @RequestParam ("mt_content") String mt_content,
-			 @AuthenticationPrincipal CustomUserDetails custom) 
-	{
+			 @AuthenticationPrincipal CustomUserDetails custom) {
 		System.out.println(inputHidden);
-		
-	MeetingDto meetingDto = new MeetingDto();
-	meetingDto.setName(mt_name);
-	meetingDto.setParticipant(mt_participant);
-	meetingDto.setContent(mt_content);
-		
+		MeetingDto meetingDto = new MeetingDto();
+		meetingDto.setName(mt_name);
+		meetingDto.setParticipant(mt_participant);
+		meetingDto.setContent(mt_content);
 		
 		JSONParser jsonParser = new JSONParser();
-		
-	      // JSON데이터를 넣어 JSON Object 로 만들어 준다.
-	      JSONObject jsonObject;
-	      try {
-	         jsonObject = (JSONObject) jsonParser.parse(inputHidden);
+	    // JSON데이터를 넣어 JSON Object 로 만들어 준다.
+	    JSONObject jsonObject;
+	    try {
+	    	jsonObject = (JSONObject) jsonParser.parse(inputHidden);
 
-	         JSONArray array = (JSONArray) jsonObject.get("list");
-	         List<String>memoStr=new ArrayList<>();
+	    	JSONArray array = (JSONArray) jsonObject.get("list");
+	    	List<String>memoStr=new ArrayList<>();
 
-	         for (int i = 0; i < array.size(); i++) {
-	            MeetingLogVO m=new MeetingLogVO();
-
-	            // JSONArray 형태의 값을 가져와 JSONObject 로 풀어준다.
-	            JSONObject obj = (JSONObject) array.get(i);
+	    	for (int i = 0; i < array.size(); i++) {
+	        	// JSONArray 형태의 값을 가져와 JSONObject 로 풀어준다.
+	        	JSONObject obj = (JSONObject) array.get(i);
 	                  
 	            memoStr.add(String.valueOf(obj.get("memo")));
+	    	}
+	    	
+	    	String filename= InfiniteStreamRecognize.StreamEnd(model,memoStr,"");
+	    	meetingDto.setRecToTextUrl(filename);
+	    	meetingService.createMeeting(meetingDto, custom.getMember().getId());
 	         
+	    } catch (Exception e) {
+	    	// TODO Auto-generated catch block
+	    	e.printStackTrace();
+	    	return "meeting/newMeeting"; //목적지 바꾸기
+	    }
 
-	         }
-	         String filename= InfiniteStreamRecognize.StreamEnd(model,memoStr,"");
-	         meetingDto.setRecToTextUrl(filename);
-	         meetingService.createMeeting(meetingDto, custom.getMember().getId());
-	         
-	         
-	      } catch (Exception e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
-	         return "meeting/newMeeting"; //목적지 바꾸기
-	      }
-
-	      return "meeting/newMeeting";
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	    return "meeting/newMeeting";
 	}
-	
-	
-	
-	
-
 
 //	@GetMapping("/meeting/insert")
 //	public String meetingInsert(){

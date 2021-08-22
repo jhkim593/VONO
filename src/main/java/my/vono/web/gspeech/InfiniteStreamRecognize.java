@@ -84,7 +84,7 @@ public class InfiniteStreamRecognize {
 	//.xlsx 확장자 지원
 	static XSSFWorkbook xssfWb = new XSSFWorkbook(); // .xlsx
 	static XSSFSheet xssfSheet = xssfWb.createSheet("VONO_1"); // 워크시트 생성
-	
+	static XSSFSheet sheet=xssfWb.createSheet("메모"); // 워크시트 생성
 	static XSSFRow xssfRow = null; // .xlsx
 	static XSSFCell xssfCell = null;// .xlsx
 	static int rowNo = 1; // 행 갯수
@@ -100,14 +100,15 @@ public class InfiniteStreamRecognize {
     }
     try {
     	//한번만 하는 코드 여기로 이사
-    	if(targetDataLine==null || !targetDataLine.isRunning()) {
+    	if(targetDataLine==null) {
     		infiniteStreamingRecognize("en-US", model);
 //			infiniteStreamingRecognize(options.langCode);
 //   		infiniteStreamingRecognize("ko-KR", model);
     		
     		
-    	} else {
-    		System.err.println(" targetDataLine.isRunning() is true");
+    	} else if(!targetDataLine.isRunning()) {
+    		System.err.println(" targetDataLine.isRunning() is false");
+    		targetDataLine.start();
     	}
     } catch (Exception e) {
       System.out.println("Exception caught: " + e);
@@ -124,7 +125,7 @@ public class InfiniteStreamRecognize {
   
   public static String StreamEnd(Model model, List<String> strMemo, String... args) {
 	  
-	  XSSFSheet sheet=xssfWb.createSheet("메모"); // 워크시트 생성
+	  
 	  sheet.setColumnWidth(0, (xssfSheet.getColumnWidth(0))+(short)10240); // 0번째 컬럼 넓이 조절
 	  XSSFRow curRow;
 	    
@@ -133,9 +134,6 @@ public class InfiniteStreamRecognize {
 			curRow = sheet.createRow(i);    // row 생성
 			curRow.createCell(0).setCellValue(strMemo.get(i));    // row에 각 cell 저장
 		}
-	  
-	  
-	  
 	  
 		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyyMMddHHmmss");
 		String format_time1 = "VONO_" + format1.format (System.currentTimeMillis()) + ".xlsx";
@@ -149,7 +147,7 @@ public class InfiniteStreamRecognize {
 	  } catch (Exception e) {
 		  e.printStackTrace();
 	  }
-	  targetDataLine.close();
+	  targetDataLine.stop();
 	  return format_time1;
   }
   
