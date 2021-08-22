@@ -38,9 +38,10 @@ public class WasteBasketService {
 				Long id = listId.get(i);
 				Meeting meeting = meetingDAO.findById(id).orElseThrow(MeetingNotFoundException::new);
 				meeting.changeIs_trashFalse();
-				Folder folder = folderDAO.findFolderByName("기본폴더").orElseThrow(FolderNotFoundException::new);
+				Folder folder = folderDAO.findById(meeting.getOri_folderId()).orElseThrow(FolderNotFoundException::new);
 				meeting.removeMember();
 				meeting.addFolder(folder);
+				
 			}
 		}
 
@@ -81,7 +82,7 @@ public class WasteBasketService {
 	public void permanentlyDeleteMeeting(List<Long> listId) {
 		if (!listId.isEmpty()) {
 			for (int i = 0; i < listId.size(); i++) {
-                Long meetingId=listId.get(i);
+				Long meetingId = listId.get(i);
 				Meeting meeting = meetingDAO.findById(meetingId).orElseThrow(MeetingNotFoundException::new);
 				if (meeting.getIs_trash() && meeting.getFolder() == null) {
 					meetingDAO.delete(meeting);
@@ -108,6 +109,30 @@ public class WasteBasketService {
 			trashMeetingDto = trashMeeting.stream().map(tm -> new MeetingSimpleDto(tm)).collect(Collectors.toList());
 		}
 		return new WasteBasketDto(trashFolderDto, trashMeetingDto);
+	}
+
+	//휴지통 회의록 조회
+	public WasteBasketDto findMeetingByMeetingId(Long memberId, Long meetingId) {
+		List<MeetingSimpleDto> viewMeetingDto = null;
+		
+		List<Meeting> viewMeeting = meetingDAO.findMeetingByMeetingId(memberId,meetingId);
+		if (viewMeeting != null) {
+			viewMeetingDto = viewMeeting.stream().map(tm -> new MeetingSimpleDto(tm)).collect(Collectors.toList());
+		}
+		return new WasteBasketDto(null, viewMeetingDto);
+	}
+
+	// 휴지통 > 폴더 속 회의록 조회
+	public WasteBasketDto findFolderByFolerId(Long memberId, Long folderId) {
+		List<MeetingSimpleDto> viewFolderDto = null;
+
+		List<Meeting> viewFolder = meetingDAO.findFolderByFolderId(memberId,folderId);
+		if (viewFolder != null) {
+			viewFolderDto = viewFolder.stream().map(tm -> new MeetingSimpleDto(tm)).collect(Collectors.toList());
+		}
+
+		return new WasteBasketDto(null, viewFolderDto);
+
 	}
 
 }

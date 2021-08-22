@@ -48,7 +48,7 @@ function deleteFile() {
 
 		if (redo == true) {
 			$.ajax({
-				url: 'deleteDemo',
+				url: 'deleteWB',
 				type: 'POST',
 				data: {
 					"meetingId": meetingId,
@@ -90,7 +90,7 @@ function restoreFile() {
 		meetingId.push($(this).val());
 	});
 
-	alert("회의록: " + meetingId + "\n폴더: " + folderId);
+	//alert("회의록: " + meetingId + "\n폴더: " + folderId);
 
 
 	if (count < 1) {
@@ -110,7 +110,8 @@ function restoreFile() {
 				traditional: true,
 				success: function(data) {
 					alert("복구 되었습니다.");
-					location.href = 'listDemo';
+					//location.href = 'folderList';
+					location.reload(true);
 				},
 				error: function(request, error) {
 					alert("fail");
@@ -124,4 +125,20 @@ function restoreFile() {
 
 	}//count(if-else)
 
+}
+
+window.addEventListener("keyup", e => {
+    if(modal.style.display === "flex" && e.key === "Escape") {
+        modal.style.display = "none";
+    }
+});
+function sendMeetingId(id){
+   $('#MoaModal .modal-content').load("views?sendMeetingId="+id);
+   $('#MoaModal').modal();
+}
+
+function sendFolderId(id,name){
+//alert("id---->"+id+"\nname---->"+name);
+   $('#MoaModal2 .modal-content').load("folderView?sendFolderId="+id+"&sendFolderName="+name);
+   $('#MoaModal2').modal();
 }

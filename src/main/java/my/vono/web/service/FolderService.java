@@ -43,8 +43,8 @@ public class FolderService {
 		Member member = memberDAO.findById(folderDto.getMember_id()).orElseThrow(MemberNotFoundException::new);
 
 		// 확인
-
 		folderDAO.save(Folder.createFolder(folderDto.getName(), member));
+		
 
 	}
 

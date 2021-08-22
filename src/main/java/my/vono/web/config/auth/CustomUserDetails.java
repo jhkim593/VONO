@@ -86,5 +86,8 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public Member getMember() {
+		return member;
+	}
 
 }

@@ -38,8 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       http.csrf().disable();
       http
          .authorizeRequests()
-            .antMatchers("/user/**").authenticated()
-            .anyRequest().permitAll()
+            .antMatchers("/user/**", "/newMeeting/**", "/wasteBasket/**").authenticated()
+            //.anyRequest().permitAll()
             .and()
          .formLogin()
             .loginPage("/")

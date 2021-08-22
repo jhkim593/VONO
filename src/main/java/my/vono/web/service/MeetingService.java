@@ -68,6 +68,7 @@ public class MeetingService {
     	meeting.getFolder().getMeetings().remove(meeting);
     	Folder folder=folderDAO.findFolderByName(name).orElseThrow(FolderNotFoundException::new);
     	meeting.addFolder(folder);
+    	meeting.addOriFolderId(folder.getId());
     }
     
     //검색

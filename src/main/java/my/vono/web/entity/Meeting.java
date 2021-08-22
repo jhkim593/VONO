@@ -53,12 +53,13 @@ public class Meeting {
 	@JoinColumn(name="member_id")
 	private Member member;
     
+	private Long ori_folderId;
 	
-	@OneToMany(mappedBy = "meeting" ,cascade = CascadeType.ALL)
-	private List<RecToText> recToTexts=new ArrayList<>();
-	
-	@OneToMany(mappedBy = "meeting",cascade = CascadeType.ALL)
-	private List<RecFile>recFiles=new ArrayList<>();
+//	@OneToMany(mappedBy = "meeting" ,cascade = CascadeType.ALL)
+//	private List<RecToText> recToTexts=new ArrayList<>();
+//	
+//	@OneToMany(mappedBy = "meeting",cascade = CascadeType.ALL)
+//	private List<RecFile>recFiles=new ArrayList<>();
 	
 
 	
@@ -78,6 +79,7 @@ public class Meeting {
 	
 		meeting.create_Date=LocalDateTime.now();
 		meeting.edit_date=LocalDateTime.now();
+		meeting.ori_folderId=folder.getId();
 		return meeting;
 		
 	}
@@ -111,5 +113,7 @@ public class Meeting {
 	public void removeMember() {
 		this.member=null;
 	}
-
+	public void addOriFolderId(Long id) {
+		this.ori_folderId=id;
+	}
 }
