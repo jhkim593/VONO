@@ -146,17 +146,6 @@ public class MeetingController {
 	    }
 
 
-	         }
-	         String filename= InfiniteStreamRecognize.StreamEnd(model,memoStr,"");
-	         meetingDto.setRecToTextUrl(filename);
-	         meetingService.createMeeting(meetingDto, custom.getMember().getId());
-	         
-	         
-	      } catch (Exception e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
-	         return "meeting/newMeeting"; //목적지 바꾸기
-	      }
 
 	      return "meeting/newMeeting";
 
