@@ -36,7 +36,7 @@ public class WasteBasketController {
 	}
 
 	// 영구삭제
-	@RequestMapping(value = "deleteWB", method = { RequestMethod.POST })
+	@RequestMapping(value = "wasteBasket/deleteWB", method = { RequestMethod.POST })
 	@ResponseBody
 	public String deleteWasteBasket(@RequestParam(value = "meetingId", required = false) List<Long> meetingId,
 			@RequestParam(value = "folderId", required = false) List<Long> folderId) {
@@ -60,7 +60,7 @@ public class WasteBasketController {
 	}
 
 	// 복구
-	@RequestMapping(value = "redoWB", method = { RequestMethod.POST })
+	@RequestMapping(value = "wasteBasket/redoWB", method = { RequestMethod.POST })
 	@ResponseBody
 	public String redoWasteBasket(@RequestParam(value = "meetingId", required = false) List<Long> meetingId,
 			@RequestParam(value = "folderId", required = false) List<Long> folderId) {

@@ -99,8 +99,8 @@ public class MeetingService {
 
 		return ExcelReader.excelReader(url);
 	}
-	public void meetingWrite(List<MeetingLogVO>list,String url)throws Exception{
-		ExcelMaker.writeExcelFile(list, url);
+	public void meetingWrite(List<MeetingLogVO>list,List<String>memoList,String url)throws Exception{
+		ExcelMaker.writeExcelFile(list, memoList,url);
 	}
 	
 	//폴더별 미팅로드 불러오기 삭제되지않은

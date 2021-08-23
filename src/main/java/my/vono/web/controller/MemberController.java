@@ -1,14 +1,11 @@
 package my.vono.web.controller;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
-import my.vono.web.config.auth.CustomUserDetails;
 import my.vono.web.model.user.MemberVO;
 import my.vono.web.service.MemberService;
 

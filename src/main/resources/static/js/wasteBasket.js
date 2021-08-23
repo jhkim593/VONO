@@ -48,7 +48,7 @@ function deleteFile() {
 
 		if (redo == true) {
 			$.ajax({
-				url: 'deleteWB',
+				url: 'wasteBasket/deleteWB',
 				type: 'POST',
 				data: {
 					"meetingId": meetingId,
@@ -100,7 +100,7 @@ function restoreFile() {
 
 		if (redo == true) {
 			$.ajax({
-				url: 'redoWB',
+				url: 'wasteBasket/redoWB',
 				type: 'POST',
 				data: {
 					"meetingId": meetingId,
@@ -132,12 +132,12 @@ window.addEventListener("keyup", e => {
     }
 });
 function sendMeetingId(id){
-   $('#MoaModal .modal-content').load("views?sendMeetingId="+id);
+   $('#MoaModal .modal-content').load("wasteBasket/views?sendMeetingId="+id);
    $('#MoaModal').modal();
 }
 
 function sendFolderId(id,name){
 //alert("id---->"+id+"\nname---->"+name);
-   $('#MoaModal2 .modal-content').load("folderView?sendFolderId="+id+"&sendFolderName="+name);
+   $('#MoaModal2 .modal-content').load("wasteBasket/folderView?sendFolderId="+id+"&sendFolderName="+name);
    $('#MoaModal2').modal();
 }
