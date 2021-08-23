@@ -145,24 +145,11 @@ public class MeetingController {
 	    	e.printStackTrace();
 	    	return "meeting/newMeeting"; //목적지 바꾸기
 	    }
-	    
+
 
 	      return "meeting/newMeeting";
 
 	}
-
-//	@GetMapping("/meeting/insert")
-//	public String meetingInsert(){
-//     return "";	
-
-//}
-
-	// 회의록 목록
-//   @GetMapping("/meetings")
-//   public String meetings(){
-//    return "";   
-//}
-
 
    // 회의록 작성
    @ResponseBody
