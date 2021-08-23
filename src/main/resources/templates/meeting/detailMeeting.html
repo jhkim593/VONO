@@ -42,12 +42,16 @@
 
 
 
-					<td><input type='text' size="5" th:value="${list.time}"
-						style="height: 35px;"></td>
+					<!-- <td><h6 th:text="${list.time}"></h6></td> -->
+					<td><input type="text" size="5" th:value="${list.time}"
+						style="height: 35px;border: 0px; font-size:80%; font:sans-serif; background-color:#FAF8FC;
+						"readonly="readonly"></td>
 					<td><input type="text" size="5" th:value="${list.speaker}"
-						style="height: 35px;"></td>
+						style="height: 35px;border: 0px; font-size:80%; font:sans-serif; background-color:#FAF8FC;
+						"></td>
 					<td><input type='text' size="70" th:value="${list.content}"
-						style="height: 35px;"></td>
+						style="height: 35px;border: 0px; font-size:80%; font:sans-serif; background-color:#FAF8FC;
+						"></td>
 
 				</tr>
 				
@@ -61,12 +65,21 @@
 			
 			<tr th:each="memo : ${memo}" >
 				<td><input type='text' size="70" th:value="${memo}"
-						style="height: 35px;"></td>
+						style="border: 0px;height: 35px; font-size:80%; font:sans-serif; background-color:#FAF8FC;
+						"  placeholder="please memo"></td>
                   </tr>
+                  
+                  
+			<tr id="addTr">
 			
+			<td><input type="text" size="70" value="" style="border: 0px; font-size:80%; font:sans-serif; background-color:#FAF8FC;
+			" placeholder="please memo">&nbsp;&nbsp;</td>
+			
+			</tr>
 			</table>
+			<input type='button' id="addMemoBtn"  style="margin-left:10px;" value="ADD Memo">
 			
-			<input type="button" id="updateBtn" value="�닔�젙">
+			<input type="button" style="float: right; margin-right:35px;"  id="updateBtn" value="update">
 
 
 		</div>
@@ -108,26 +121,33 @@ $(document).ready(function(){
 			$("#updateBtn").click(
 					function() {
 						var dataArrayToSend = [];
+					
 						var dataArrayToSend1 = [];
 						var meetingId=$("#meetingId").val();
 
+						var count=0;
 						$("#meetingLog tr").each(function(){
 						var len = $(this).find("td").length;
 					
+						if(count!=0){
 						var arr = {
-							speaker : $(this).find("td").eq(0).find('input[type="text"]').val(), //�쑀�� ���옣
-							content :$(this).find("td").eq(1).find('input[type="text"]').val(),
-							time :$(this).find("td").eq(2).find('input[type="text"]').val()
+							time : $(this).find("td").eq(0).find('input[type="text"]').val(), //�쑀�� ���옣
+							speaker :$(this).find("td").eq(1).find('input[type="text"]').val(),
+							content :$(this).find("td").eq(2).find('input[type="text"]').val()
 						
 						};
 						
 						dataArrayToSend1.push(arr);
+						
+						}
+						count++;
 						});
 						
-						
-						$("#memo tr").each(function(){
+						var count2=0;
+						 $("#memo tr").each(function(){
 							var len = $(this).find("td").length;
-						
+							console.log(len);
+						    if(count2!=0){
 							var arr = {
 								memo : $(this).find("td").eq(0).find('input[type="text"]').val() //�쑀�� ���옣
 								
@@ -135,23 +155,23 @@ $(document).ready(function(){
 							};
 							
 							dataArrayToSend.push(arr);
-							});
+						    }
+						    count2++;
+							
+							}); 
 						
 						
 						
-						
-						/* var list={
-								mList: dataArrayToSend1
-						} */
+					
 						var list={
 								list:dataArrayToSend1
 								};
 						
-						var memo={
+						 var memo={
 							     memo:dataArrayToSend
 								};
 						
-						
+						 
 
 						$.ajax({
 							url : 'meeting/update',
@@ -159,7 +179,7 @@ $(document).ready(function(){
 							data : {
 								"list":JSON.stringify(list),
 								"meetingId":meetingId,
-								"memo":JSON.sringify(memo)
+								 "memo":JSON.stringify(memo) 
 								},
 							
 							traditional: true,
@@ -170,14 +190,30 @@ $(document).ready(function(){
 							
 							success : function(data) {
 								alert(data);
+								location.href="meeting";
 							}
 						
 						});
 
 					});
+			
+			$("#addMemoBtn").click(function(){
+				
+				
+				var html='';
+				html= '<tr><td><input type="text" size="70" value="" style="border: 0px; font-size:80%; font:sans-serif; background-color:#FAF8FC;"   placeholder="please memo"></td></tr>';
+				$("#memo").append(html);
+				
+
+				
+				
+			});
 		});
 });
 	</script>
+
+
+
 
 
 

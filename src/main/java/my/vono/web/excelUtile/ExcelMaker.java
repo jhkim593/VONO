@@ -11,7 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 public class ExcelMaker {
-	public static void writeExcelFile(List<MeetingLogVO> list ,String URL) throws EncryptedDocumentException, IOException {
+	public static void writeExcelFile(List<MeetingLogVO> list ,List<String>memoList,String URL) throws EncryptedDocumentException, IOException {
 		String filePath = "C:\\VONO\\"+URL;    // 저장할 파일 경로
     
 		FileOutputStream fos = new FileOutputStream(filePath);
@@ -20,6 +20,8 @@ public class ExcelMaker {
 		XSSFSheet sheet = workbook.createSheet("MeetingLog");    // sheet 생성
     
 		XSSFRow curRow;
+		
+		
     
 		int row = list.size();    // list 크기
 		for (int i = 0; i < row; i++) {
@@ -28,7 +30,22 @@ public class ExcelMaker {
 			curRow.createCell(1).setCellValue(list.get(i).getSpeaker());
 			curRow.createCell(2).setCellValue(list.get(i).getContent());
 		}
-		XSSFSheet sheet2 = workbook.createSheet("note"); 
+		
+		XSSFSheet sheet2 = workbook.createSheet("memo"); 
+		
+	  
+		int row2 = memoList.size();    // list 크기
+		for (int i = 0; i < row2; i++) {
+			curRow = sheet2.createRow(i);    // row 생성
+			curRow.createCell(0).setCellValue(memoList.get(i));
+		}
+		
+		
+		
+		 for(String s :memoList) {
+			   System.out.println(s);
+		   }
+		
 		//추가적인 입력사항 필요 
 		workbook.write(fos);
 		fos.close();

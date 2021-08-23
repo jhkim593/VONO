@@ -277,7 +277,7 @@ public class MeetingController {
 //   
 			model.addAttribute("meetingLog", meetLog.getMList());
 			model.addAttribute("memo", meetLog.getMemo());
-			System.out.println(meetLog.getMemo());
+			System.out.println(meetLog.getMList());
 			model.addAttribute("meeting",meetingDto);
 			
 
@@ -290,9 +290,11 @@ public class MeetingController {
 	@ResponseBody
 	@PostMapping("meeting/update")
 	public String updateMeeting(@RequestParam String list,
-			@RequestParam String memo,@RequestParam("meetingId")Long meetingId ) {
+			@RequestParam String memo,
+			@RequestParam("meetingId")Long meetingId ) {
 		System.out.println("==============");
 		System.out.println(memo);
+		System.out.println(list);
 
 		JSONParser jsonParser = new JSONParser();
 		String url=meetingService.detailMeeting(meetingId).getRecToTextUrl();
@@ -305,6 +307,7 @@ public class MeetingController {
 
 			JSONArray array = (JSONArray) jsonObject.get("list");
 			List<MeetingLogVO>meetingLogVOs=new ArrayList<>();
+			List<String>memoList=new ArrayList<>();
 
 			for (int i = 0; i < array.size(); i++) {
 				MeetingLogVO m=new MeetingLogVO();
@@ -317,11 +320,31 @@ public class MeetingController {
 				m.setTime(String.valueOf(obj.get("time")));
 			
 				meetingLogVOs.add(m);
+				
+				
 
 			}
-			meetingService.meetingWrite(meetingLogVOs, url);
 			
-		} catch (Exception e) {
+			
+			jsonObject = (JSONObject) jsonParser.parse(memo);
+
+			JSONArray array2 = (JSONArray) jsonObject.get("memo");
+			
+
+			for (int i = 0; i < array2.size(); i++) {
+				
+
+				// JSONArray 형태의 값을 가져와 JSONObject 로 풀어준다.
+				JSONObject obj = (JSONObject) array2.get(i);
+						
+				
+			    if(!obj.get("memo").equals("")&&obj.get("memo")!=null)
+			    		memoList.add(String.valueOf(obj.get("memo")));
+			
+			
+		} 
+			meetingService.meetingWrite(meetingLogVOs, memoList,url);
+		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "수정에 실패 하였습니다.";
