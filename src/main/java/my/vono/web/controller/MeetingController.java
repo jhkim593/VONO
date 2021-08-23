@@ -145,35 +145,9 @@ public class MeetingController {
 	    	return "meeting/newMeeting"; //목적지 바꾸기
 	    }
 
-
-	         }
-	         String filename= InfiniteStreamRecognize.StreamEnd(model,memoStr,"");
-	         meetingDto.setRecToTextUrl(filename);
-	         meetingService.createMeeting(meetingDto, custom.getMember().getId());
-	         
-	         
-	      } catch (Exception e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
-	         return "meeting/newMeeting"; //목적지 바꾸기
-	      }
-
 	      return "meeting/newMeeting";
 
 	}
-
-//	@GetMapping("/meeting/insert")
-//	public String meetingInsert(){
-//     return "";	
-
-//}
-
-	// 회의록 목록
-//   @GetMapping("/meetings")
-//   public String meetings(){
-//    return "";   
-//}
-
 
    // 회의록 작성
    @ResponseBody
