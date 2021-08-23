@@ -11,7 +11,7 @@ spring:
     password: ENC(6nNOh/3sDxI0zH52ghe2Wg==)
 
     #doo
-    #password: ENC(rIX7PfoYjAAuS5PbbI0v/RYIkFjBeN9i)
+    password: ENC(rIX7PfoYjAAuS5PbbI0v/RYIkFjBeN9i)
 
     #jin
     #password: ENC(3F1eltMp3xhu5T+HyPoTIg==)

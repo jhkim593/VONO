@@ -1,7 +1,7 @@
 function fuckGoogle(id){
-	location.href='getmtingLogList?id='+id;
+   location.href='meeting?id='+id;
 }
-let getfolderID = 0;
+let meetingID = 0;
 console.clear(); // clear console spam while writing
 
 (function($) {
@@ -50,9 +50,7 @@ console.clear(); // clear console spam while writing
     set_click_event: function() {
       var that = this;
       this.parent.contextmenu(function(e) {
-	getfolderID= $(this).attr("id");
-	console.log(getfolderID);
-	console.log(1);
+		meetingID= $(this).attr("id");
 	
         e.preventDefault();
 
@@ -179,17 +177,23 @@ $('.folderRightClick').cmenu({
     message: 'Click to delete this object',
     icon: 'fa fa-trash-o',
     fn: 'on_delete'
-  }],
+  },  {
+	title: 'MoveMeeting',
+    message: 'Click to move this object',
+    icon: 'fa fa-trash-o',
+    fn: 'on_move'
+	}],
   on_preview: function() {
-	location.href='getmtingLogList?id='+getfolderID;
+	location.href='getmtingLogList?id='+meetingID;
   },
   
   on_delete: function() {
-		$.post(
-				"istrashfolder",
-				{getfolderID},function(){
-				location.href='folderList';
-				});
+	$.post("istrashfile",
+			{meetingID},function(){
+			location.href='folderList';
+					});
 },
-  disabled: ['copy link'] // item[title]
+  on_move: function(){
+	location.href='movefolderList?id='+meetingID;
+}
 });

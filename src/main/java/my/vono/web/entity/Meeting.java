@@ -122,4 +122,5 @@ public class Meeting {
 	public void addOriFolderId(Long id) {
 		this.ori_folderId=id;
 	}
+	
 }

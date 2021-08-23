@@ -49,6 +49,27 @@ public class FolderController {
 		return "folder/folderList";
 	}
 	
+	@RequestMapping("movefolderList")
+	public String movefolderList(Model m,@AuthenticationPrincipal CustomUserDetails custom , @RequestParam(required = false, defaultValue = "") Long id) {
+		try {
+			System.out.println(custom.getMember());
+			Long memberId = custom.getMember().getId();
+			m.addAttribute("listName", folderService.findFolders(memberId));
+			m.addAttribute("meetingID" ,id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("이동");
+		return "folder/movefolder";
+	}
+	
+	@RequestMapping("goingMoveFolder")
+	public String moveFolder() {
+		System.out.println("무브 폴더로 이동");
+		
+		return "folder/insertfolder";
+	}
+	
 	@RequestMapping("insertFolder")
 	public String insertFolder(@ModelAttribute("folderName") String folderName,@AuthenticationPrincipal CustomUserDetails custom) {
 		System.out.println("인서트 폴더 컨트롤러");
@@ -61,6 +82,13 @@ public class FolderController {
 			e.printStackTrace();
 			return "redirect:/folder/insertfolder";
 		}
+		return "redirect:/folderList";
+	}
+	
+	@RequestMapping("istrashfolder")
+	public String deletefolder(@ModelAttribute("getfolderID") Long folderID) {
+		
+			folderService.trashFolder1(folderID);
 		return "redirect:/folderList";
 	}
 	

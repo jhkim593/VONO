@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -145,6 +146,7 @@ public class MeetingController {
 	    	return "meeting/newMeeting"; //목적지 바꾸기
 	    }
 
+
 	      return "meeting/newMeeting";
 
 	}
@@ -264,11 +266,11 @@ public class MeetingController {
 
 	@GetMapping("meeting")
 	public String detailMeeting(
-//			@RequestParam("meetingId")Long meetingId, 
+			@RequestParam("id")Long meetingId, 
 			Model model) {
 		try {
 			
-			MeetingDto meetingDto=meetingService.detailMeeting(16L);
+			MeetingDto meetingDto=meetingService.detailMeeting(meetingId);
 			System.out.println("============================="+meetingDto.getRecToTextUrl());
 			System.out.println("============================="+meetingDto.getRecToTextUrl());
 			MeetingDetailDto meetLog = meetingService.meetingReader(meetingDto.getRecToTextUrl());
@@ -331,10 +333,19 @@ public class MeetingController {
 
     @RequestMapping("getmtingLogList")
 	public String getAllFolders(Model m,@RequestParam(required = false, defaultValue = "") Long id) {
-//    	System.out.println("겟 아이디"+ id);
     	m.addAttribute("listName", meetingService.folderMeetingList(id));
 		return "folder/meetingList";
 	}
 
 
+    @RequestMapping("istrashfile")
+	public String istrashfile(@ModelAttribute("getfolderID") Long id) {
+    	meetingService.deleteMeeting(id);
+		return "folder/meetingList";
+	}
+    @RequestMapping("movefile")
+   	public String movefile(@RequestParam(required = false , value = "id") Long folderID ,@RequestParam(required = false, value = "meetingID") Long id ) {
+       	meetingService.moveMeeting1(id, folderID);
+   		return "folder/folderList";
+   	}
 }
