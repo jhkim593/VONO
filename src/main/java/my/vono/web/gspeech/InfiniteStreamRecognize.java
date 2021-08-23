@@ -90,11 +90,14 @@ public class InfiniteStreamRecognize {
 	static XSSFRow xssfRow = null; // .xlsx
 	static XSSFCell xssfCell = null;// .xlsx
 	static int rowNo = 1; // 행 갯수
-	static String localFile="C:\\" + "VONO_테스트_엑셀" + ".xlsx";
-	static File file = new File(localFile);
+	static String localFile="";
+	static File file;
 	
   public static void StreamStart(Model model, String... args ) {
     InfiniteStreamRecognizeOptions options = InfiniteStreamRecognizeOptions.fromFlags(args);
+    //한번만 실행되는 구문
+    xssfSheet.setColumnWidth(2, (xssfSheet.getColumnWidth(2))+(short)10240); // 2번째 컬럼 넓이 조절   
+    
     if (options == null) {
       // Could not parse.
       System.out.println("Failed to parse options.");
@@ -104,28 +107,13 @@ public class InfiniteStreamRecognize {
     	//한번만 하는 코드 여기로 이사
     	if(targetDataLine==null) {
     		infiniteStreamingRecognize("en-US", model);
-//			infiniteStreamingRecognize(options.langCode);
-//   		infiniteStreamingRecognize("ko-KR", model);
-    		
-    		
-    	} else if(!targetDataLine.isRunning()) {
-    		System.err.println(" targetDataLine.isRunning() is false");
-    		
-    		//sharedQueue = new LinkedBlockingQueue();
-    		restartCounter = 0;
-    		//audioInput = new ArrayList<ByteString>();
-    		//lastAudioInput = new ArrayList<ByteString>();
-    		resultEndTimeInMS = 0;
-    		isFinalEndTime = 0;
-    		finalRequestEndTime = 0;
-    		newStream = true;
-    		bridgingOffset = 0;
-    		lastTranscriptWasFinal = false;
+    	} else {
+    		System.out.println(" 'targetDataLine' is not null");
     		
     		correctedTimeTemp+=correctedTime;
     		
-    		targetDataLine.start();
     		
+    		targetDataLine.start();
     	}
     } catch (Exception e) {
       System.out.println("Exception caught: " + e);
@@ -141,7 +129,10 @@ public class InfiniteStreamRecognize {
   }
   
   public static String StreamEnd(Model model, List<String> strMemo, String... args) {
+	  targetDataLine.flush();
+	  targetDataLine.drain();
 	  
+	  targetDataLine.stop();
 	  
 	  sheet.setColumnWidth(0, (xssfSheet.getColumnWidth(0))+(short)10240); // 0번째 컬럼 넓이 조절
 	  XSSFRow curRow;
@@ -155,7 +146,7 @@ public class InfiniteStreamRecognize {
 		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyyMMddHHmmss");
 		String format_time1 = "VONO_" + format1.format (System.currentTimeMillis()) + ".xlsx";
 		
-	  localFile = "C:\\" +  format_time1;
+	  localFile = "C:\\VONO\\" +  format_time1;
 	  File file = new File(localFile);
 	  FileOutputStream fos = null;
 	  try {
@@ -164,7 +155,7 @@ public class InfiniteStreamRecognize {
 	  } catch (Exception e) {
 		  e.printStackTrace();
 	  }
-	  targetDataLine.stop();
+	  
 	  return format_time1;
   }
   
@@ -185,26 +176,16 @@ public class InfiniteStreamRecognize {
 
   /** Performs infinite streaming speech recognition */
   public static void infiniteStreamingRecognize(String languageCode, Model model) throws Exception {
-
-	  
+	  System.out.println("infiniteStreamingRecognize Start...");
     // Microphone Input buffering
     class MicBuffer implements Runnable {
-
-    	
-    	
+    
       @Override
       public void run() {
         System.out.println("Start speaking...Press Ctrl-C to stop");
-        
-        //한번만 실행되는 구문
-        
-        xssfSheet.setColumnWidth(2, (xssfSheet.getColumnWidth(2))+(short)10240); // 2번째 컬럼 넓이 조절
-		
-        
         targetDataLine.start();
+        
         byte[] data = new byte[BYTES_PER_BUFFER];
-        
-        
         while (targetDataLine.isOpen()) {
         	
           try {
@@ -216,24 +197,8 @@ public class InfiniteStreamRecognize {
           } catch (InterruptedException e) {
             System.out.println("Microphone input buffering interrupted : " + e.getMessage());
           }
-        }// while end
-    
-  	  
-//		//여기서 저장하면 어떨까??
-//    	localFile = "C:\\" + "VONO_테스트_엑셀" + ".xlsx";
-//    	File file = new File(localFile);
-//		FileOutputStream fos = null;
-//			try {
-//				fos = new FileOutputStream(file);
-//				xssfWb.write(fos);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-		
-		//재시작, 일시중지 관련한 설정 여기서 해결해보기, 스레드 초기화?
+        }
 			
-      
-    
         
       }
     }
@@ -270,13 +235,10 @@ public class InfiniteStreamRecognize {
 
               SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
               
-              
-              //여기에서 바로 res를 웹에다가 띄우는 방법 설계
+              //모델 , 콘솔 출력
               if (result.getIsFinal()) {
             	  
-                res= 
-//                		alternative.toString();
-          			  convertMillisToDate(correctedTime)+  // "00:24 /"
+                res= convertMillisToDate(correctedTime)+  // "00:24 /"
           			  + alternative.getWords(0).getSpeakerTag()+ //"1"
           			  "/" + alternative.getTranscript();	//"내용"
                 
@@ -285,14 +247,6 @@ public class InfiniteStreamRecognize {
         			.addAttribute("transcript", alternative.getTranscript());
         		System.out.println(res);
         		
-        		//뷰에서 요청이 오면 뿌리는 방법
-        		
-        		
-        		
-        		
-//        			{time=00:05, speaker=1, transcript=난 더 더 더 더 크게 되어} //예시
-//        			{time=00:14, speaker=1, transcript= 널 가득 안고 싶고 그래요}
-        			
         		// 엑셀 임포트 구문
     			try {
     				//System.out.println("rowNo : "+rowNo);
@@ -304,17 +258,11 @@ public class InfiniteStreamRecognize {
     				xssfCell = xssfRow.createCell((short) 2);
     				xssfCell.setCellValue(alternative.getTranscript()); //내용
     				
-    				//계속 엑셀에 써야하므로 끄면 안됨
-//        				if (xssfWb != null)	xssfWb.close();
-//        				if (fos != null) fos.close();
     			
     			}catch(Exception e){
     	        	System.out.println("row 생성에 실패");
-    			}finally{
-    				
-    		    }
-                
-        		
+    	        	 targetDataLine.close();
+    			}
         		
                 isFinalEndTime = resultEndTimeInMS;
                 lastTranscriptWasFinal = true;
@@ -391,7 +339,6 @@ public class InfiniteStreamRecognize {
         targetDataLine = (TargetDataLine) AudioSystem.getLine(targetInfo);
         targetDataLine.open(audioFormat);
         micThread.start();
-
         long startTime = System.currentTimeMillis();
 
         while (true) {
@@ -478,6 +425,7 @@ public class InfiniteStreamRecognize {
         }
       } catch (Exception e) {
         System.out.println(e);
+        
       }
     }
   }

@@ -1,6 +1,7 @@
 $(document).ready(function(){
 var temp = '';
 var repeatflag = false;
+var temp_href='';
 
 timer = setInterval(function() {
 	$.ajax({
@@ -42,7 +43,9 @@ $(document).on("click", "#record_end2", function() {
 	/*alert('record_end2');*/
 	var memo;
 	var dataArrayToSend = [];
-	alert($("#mt_href").val());
+	//alert($("#mt_href").val());
+	
+	$("#mt_href").attr("value",temp_href);
 	
 	$("#speakTable tr").each(function() {
 		var len = $(this).find("td").length;
@@ -65,11 +68,6 @@ $(document).on("click", "#record_end2", function() {
 
 
 });
-
-
-
-
-
 
 
 
@@ -155,7 +153,7 @@ function startRecording() {
 	$.ajax({
 		url: "startRecording",
 		type: "post",
-		success: function(html) {
+		success: function() {
 		}
 	});
 	
@@ -178,7 +176,7 @@ function startRecording() {
 		
 		/* use the stream */
 		input = audioContext.createMediaStreamSource(stream);
-
+			
 		/* 
 			Create the Recorder object and configure to record mono sound (1 channel)
 			Recording 2 channels  will double the file size
@@ -284,13 +282,15 @@ function createDownloadLink(blob) {
 	//add controls to the <audio> element
 	au.controls = true;
 	au.src = url;
-
+	
 	//save to disk link
 	link.href = url;
 	link.download = filename+".wav"; //download forces the browser to donwload the file using the  filename
 	link.innerHTML = "Save to disk";
 	
-	$("#mt_href").attr("value",link.href);
+	/*$("#mt_href").attr("value",link.href);*/
+	
+	temp_href = link.href;
 	
 	//add the new audio element to li
 	li.appendChild(au);
@@ -322,6 +322,10 @@ function createDownloadLink(blob) {
 
 	//add the li element to the ol
 	recordingsList.appendChild(li);
+	
+	//해결?
+	//au.controls = false;
+	//AudioContext=null;
 }
 
 
