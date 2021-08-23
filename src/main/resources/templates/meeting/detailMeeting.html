@@ -7,26 +7,26 @@
  
 <th:block layout:fragment="content">
 	<!-- Begin Page Content -->
-	<!-- 占쎈연疫꿸퀣苑뚪겫占쏙옙苑� 占쎌삂占쎄쉐 占쎈뻻占쎌삂 -->
+	<!-- 여기서부터 작성 시작 -->
 	<div class="container-fluid">
-		<div class="dropdown" id="floatRight">
+		<div class="dropdown" id="floatRight" hidden="">
 
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 			<button type="button" class="btn btn-default dropdown toggle"
 				data-toggle="dropdown">
-				<b>占쎌긿占쎈�� </b> <i class="fas fa-angle-down"></i><span class="caret"></span>
+				<b>option </b> <i class="fas fa-angle-down"></i><span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" role="menu">
 				<li><a href="#" onclick="restoreFile()">&nbsp;&nbsp;&nbsp;<i
-						class="fas fa-redo"></i>&nbsp;癰귣벀�럡
+						class="fas fa-redo"></i>&nbsp;restore
 				</a></li>
 				<li><a href="#" onclick="deleteFile()">&nbsp;&nbsp;&nbsp;<i
-						class="fas fa-trash-alt"></i>&nbsp;占쎌겫�뤃�딄텣占쎌젫
+						class="fas fa-trash-alt"></i>&nbsp;delete
 				</a></li>
 			</ul>
 		</div>
 		<br> <br>
-		<div style="width: 100%; height: 350px; overflow: auto">
+		<div style="width: 100%; overflow: auto">
 		
 		
 
@@ -34,9 +34,9 @@
 
 			<table id="meetingLog" class="table table-hover table-white" >
 			<tr>
-			<th>time</th>
-			<th>speaker</th>
-			<th>content</th>
+			<th style="width: 80px; font-size: 120%;">time</th>
+			<th style="width: 80px; font-size: 120%;">speaker</th>
+			<th style="font-size: 120%;">content</th>
 			
 				<tr th:each="list : ${meetingLog}">
 
@@ -58,10 +58,10 @@
 				
 			</table>
 			
-			
+			<br><br>
 			<table id="memo"class="table table-hover table-white">
 			<tr>
-			<th>memo</th>
+			<th style="font-size: 120%;">memo</th>
 			
 			<tr th:each="memo : ${memo}" >
 				<td><input type='text' size="70" th:value="${memo}"
@@ -79,29 +79,10 @@
 			</table>
 			<input type='button' id="addMemoBtn"  style="margin-left:10px;" value="ADD Memo">
 			
-			<input type="button" style="float: right; margin-right:35px;"  id="updateBtn" value="update">
+			<input type="button" style=" margin-left:15px;"  id="updateBtn" value="update">
 
 
 		</div>
-		
-		
-		
-		
-		
-		
-		
-		 
-		  
-		
-		
-		
-		
-		
-		
-
-
-		<!-- Modal -->
-
 
 	</div>
 
@@ -190,7 +171,8 @@ $(document).ready(function(){
 							
 							success : function(data) {
 								alert(data);
-								location.href="meeting";
+								//location.href="meeting";
+								location.reload(true);
 							}
 						
 						});

@@ -13,11 +13,11 @@
 		    <form action="/signUp" method="post" name="meberJoinForm" class="form-horizontal" enctype="multipart/form-data">
 		      	<div class="row">
 		        	<div class="col-8 signuptitle">
-						<h2>회원가입</h2>
+						<h2>SignUp</h2>
 					</div>	
 		      	</div>			
 		        <div class="form-group row">
-					<label class="col-form-label col-4">아이디</label>
+					<label class="col-form-label col-4">ID</label>
 					<div class="col-8">
 		                <input type="text" class="form-control" id="user_id" name="login_id" placeholder="4~12, 영어대소문자, 숫자가능" required="required">
 		            </div>            
@@ -25,14 +25,14 @@
 		        </div>
 		
 				<div class="form-group row">
-					<label class="col-form-label col-4">비밀번호</label>
+					<label class="col-form-label col-4">Password</label>
 					<div class="col-8">
 		                <input type="password" class="form-control" id="user_pwd" name="pw" placeholder="4~12, 영어대소문자, 숫자가능" required="required">
 		            </div>   	
 		            <div id="pwd_chk"></div>
 		        </div>
 				<div class="form-group row">
-					<label class="col-form-label col-4">비밀번호 확인</label>
+					<label class="col-form-label col-4">Password confirm</label>
 					<div class="col-8">
 		                <input type="password" class="form-control" id="user_cpwd" name="confirm_pwd">
 		            </div>        	
@@ -40,28 +40,28 @@
 		        </div>
 		        
 		        <div class="form-group row">
-					<label class="col-form-label col-4">이름</label>
+					<label class="col-form-label col-4">User Name</label>
 					<div class="col-8">
 		                <input type="text" class="form-control" name="name" >
 		            </div>        	
 		        </div>
 		        
 		        <div class="form-group row">
-					<label class="col-form-label col-4">이메일</label>
+					<label class="col-form-label col-4">E-mail</label>
 					<div class="col-8">
 		                <input type="email" class="form-control" id="user_mail" name="email" placeholder="vono@vono.com" >
 		            </div>        	 
 		            <div id="mail_chk"></div>
 		        </div>
 		        <div class="form-group row">
-					<label class="col-form-label col-4">전화번호</label>
+					<label class="col-form-label col-4">Phone</label>
 					<div class="col-8">
 		                <input type="tel" class="form-control" id="user_phone" name="phone" placeholder="010-1234-5678" >
 		            </div>   
 		            <div id="phone_chk"></div>     	
 		        </div>
 		        <div class="form-group row">
-					<label class="col-form-label col-4">직장</label>
+					<label class="col-form-label col-4">Job</label>
 					<div class="col-8">
 		                <input type="job" class="form-control" id="user_job" name="job" placeholder="vono co." >
 		            </div>   
@@ -71,23 +71,23 @@
 				<div class="form-group row">
 					<div class="col-8 offset-4">
 						<p><label class="form-check-label"><input type="checkbox" name="info" required="required"><a id="agree" href="javascript:agree();">개인정보취급방침</a>에 동의하십니까?</label></p>
-						<button type="submit" id="submit1" class="btn btn-primary btn-lg">회원가입</button>
+						<button type="submit" id="submit1" class="btn btn-primary btn-lg">SignUp</button>
 					</div>  
 
 					
 					<!-- 개인정보방침 modal창 내용 -->  
 					<div id="dialog" title="개인정보취급방침">
 						<p>
-						1. 수집 개인정보 항목 : 회사명, 담당자명, 메일 주소, 전화번호, 홈페이지 주소, 팩스번호, 주소 <br />
-						2. 개인정보의 수집 및 이용목적 : 제휴신청에 따른 본인확인 및 원활한 의사소통 경로 확보 <br />
-						3. 개인정보의 이용기간 : 모든 검토가 완료된 후 3개월간 이용자의 조회를 위하여 보관하며, 이후 해당정보를 지체 없이 파기합니다. <br />
-						4. 그 밖의 사항은 개인정보취급방침을 준수합니다.
+						1. Collection personal information items : company name, person in charge, e-mail address, phone number, homepage address, fax number, address. <br />
+						2. Purpose of collection and use of personal information : Identification of identity according to the application for partnership and securing a smooth communication path. <br />
+						3. Personal information usage period: After all reviews are completed, the information shall be stored for three months for the user's inquiry, and the relevant information shall be destroyed without delay. <br />
+						4. Other matters comply with the privacy policy.
 						</p>
 					</div>
 
 				</div>	      
 		    </form>
-			<div class="text-center">이미 회원이십니까? <a href="/">로그인 하러 가기</a></div>
+			<div class="text-center"> Already have account? <a href="/">Sign In</a></div>
 		</div>
     </div>
    
