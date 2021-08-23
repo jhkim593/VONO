@@ -35,6 +35,7 @@ import my.vono.web.model.meeting.MeetingDto;
 import my.vono.web.model.response.DefaultResponseDto;
 import my.vono.web.service.MeetingService;
 import my.vono.web.service.WasteBasketService;
+import net.bytebuddy.asm.Advice.Return;
 
 @Controller
 @RequiredArgsConstructor
@@ -264,12 +265,14 @@ public class MeetingController {
 	}
 
 	@GetMapping("meeting")
+
 	public String detailMeeting(@RequestParam("id") Long meetingId, Model model) {
 		try {
 
 			MeetingDto meetingDto = meetingService.detailMeeting(meetingId);
 			System.out.println("=============================" + meetingDto.getRecToTextUrl());
 			System.out.println("=============================" + meetingDto.getRecToTextUrl());
+
 			MeetingDetailDto meetLog = meetingService.meetingReader(meetingDto.getRecToTextUrl());
 //   
 			model.addAttribute("meetingLog", meetLog.getMList());
@@ -389,10 +392,21 @@ public class MeetingController {
 		return "folder/meetingList";
 	}
 
-	@RequestMapping("movefile")
-	public String movefile(@RequestParam(required = false, value = "id") Long folderID,
-			@RequestParam(required = false, value = "meetingID") Long id) {
-		meetingService.moveMeeting1(id, folderID);
-		return "folder/folderList";
-	}
+    @RequestMapping("movefile")
+   	public String movefile(@RequestParam(required = false , value = "id") Long folderID ,@RequestParam(required = false, value = "meetingID") Long id ) {
+       	meetingService.moveMeeting1(id, folderID);
+   		return "redirect:/folderList";
+   	}
+    
+    @RequestMapping("getMeetingSimple")
+    public String getMeetingSimple(@RequestParam("id")Long meetingId, Model m) {
+    	MeetingDto dto = meetingService.detailMeeting(meetingId);
+    	System.out.println(dto.getName());
+    	System.out.println(dto.getCreate_date());
+    	System.out.println(dto.getId());
+    	System.out.println(dto.getParticipant());
+    	m.addAttribute("meetingView",meetingService.detailMeeting(meetingId));
+    	return "folder/meetingSemple";
+    }
+
 }

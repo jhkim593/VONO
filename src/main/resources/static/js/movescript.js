@@ -1,3 +1,3 @@
-function fuckGoogle(id,meetingID){
-   location.href='getmtingLogList?id='+id+'&meetingID='+meetingID;
+function movefolder(id,meetingID){
+   location.href='movefile?id='+id+'&meetingID='+meetingID;
 }

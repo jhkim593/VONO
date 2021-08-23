@@ -31,7 +31,7 @@ public class SearchController {
 		return "trash/search";
 	}
 
-	@RequestMapping("views")
+	@RequestMapping("wasteBasket/views")
 	public String getMeetingView(Model m, @RequestParam(required = false, defaultValue = "") Long sendMeetingId, @AuthenticationPrincipal CustomUserDetails custom) {
 		try {
 			Long memberId=custom.getMember().getId();
@@ -44,7 +44,7 @@ public class SearchController {
 	}
 
 	// 휴지통 > 파일 보기
-	@RequestMapping("folderView")
+	@RequestMapping("wasteBasket/folderView")
 	public String getFolderViews(Model m, @RequestParam(required = false, defaultValue = "") Long sendFolderId,
 			@RequestParam(required = false, defaultValue = "") String sendFolderName, @AuthenticationPrincipal CustomUserDetails custom) {
 		try {
