@@ -114,13 +114,14 @@ public class MeetingController {
 	public String endRecording(Model model, @RequestParam("inputHidden") String inputHidden,
 			@RequestParam("mt_name") String mt_name, @RequestParam("mt_date") String mt_date,
 			@RequestParam("mt_participant") String mt_participant, @RequestParam("mt_content") String mt_content,
+			@RequestParam("mt_href") String mt_href,
 			@AuthenticationPrincipal CustomUserDetails custom) {
 		System.out.println(inputHidden);
 		MeetingDto meetingDto = new MeetingDto();
 		meetingDto.setName(mt_name);
 		meetingDto.setParticipant(mt_participant);
 		meetingDto.setContent(mt_content);
-
+		meetingDto.setRecFileUrl(mt_href);
 		JSONParser jsonParser = new JSONParser();
 		// JSON데이터를 넣어 JSON Object 로 만들어 준다.
 		JSONObject jsonObject;
@@ -139,7 +140,7 @@ public class MeetingController {
 
 			String filename = InfiniteStreamRecognize.StreamEnd(model, memoStr, "");
 			meetingDto.setRecToTextUrl(filename);
-			meetingService.createMeeting(meetingDto, custom.getMember().getId());
+			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

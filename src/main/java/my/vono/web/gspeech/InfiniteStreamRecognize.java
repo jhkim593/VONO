@@ -123,7 +123,6 @@ public class InfiniteStreamRecognize {
     		lastTranscriptWasFinal = false;
     		
     		correctedTimeTemp+=correctedTime;
-    		correctedTimeTemp+=2000;
     		
     		targetDataLine.start();
     		
