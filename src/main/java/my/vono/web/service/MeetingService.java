@@ -108,5 +108,11 @@ public class MeetingService {
 		 meetingDAO.findFolderByFolderId(fileID);
 		return meetingDAO.findFolderByFolderId(fileID).stream().map(m -> new MeetingSimpleDto(m)).collect(Collectors.toList());
 	}
+	 public void moveMeeting1(Long fileid,Long afterId) {
+	    	Meeting meeting = meetingDAO.findById(fileid).orElseThrow(MeetingNotFoundException::new);
+	    	meeting.getFolder().getMeetings().remove(meeting);
+	    	Folder folder=folderDAO.findById(afterId).orElseThrow(FolderNotFoundException::new);
+	    	meeting.addFolder(folder);
+	    }
 
 }

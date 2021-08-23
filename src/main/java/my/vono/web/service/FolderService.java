@@ -66,6 +66,15 @@ public class FolderService {
 		}
 
 	}
+	public void trashFolder1(Long folderID) {
+
+		Folder folder = folderDAO.findById(folderID).orElseThrow(FolderNotFoundException::new);
+		folder.changeIs_trashTrue();
+		for (Meeting meeting : folder.getMeetings()) {
+			meeting.changeIs_trashTrue();
+		}
+
+	}
 
 	public List<FolderSimpleDto> findFolders(Long member_id) {
 		return folderDAO.findFolderByMemberId(member_id).stream().map(f -> new FolderSimpleDto(f))
