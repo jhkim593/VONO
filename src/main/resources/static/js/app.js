@@ -1,3 +1,77 @@
+$(document).ready(function(){
+var temp = '';
+var repeatflag = false;
+
+timer = setInterval(function() {
+	$.ajax({
+		url: "infiniteReq",
+		type: "get",
+		success: function(html) {
+			if (repeatflag == false) {
+				repeatflag = true;
+				temp = html.content;
+			}
+
+			if (temp != html.content) {
+				temp = html.content;
+
+				if (html.length != 0) {
+					var htm = '';
+					//console.log(html.content);
+
+					htm += '<tr>';
+					htm += '<td>' + html.time + '\t' + '</td>';
+					htm += '<td>' + 'speaker' + html.speaker + '</td>';
+					htm += '<td>' + html.content + '</td>';
+
+					htm += '</tr>';
+					htm += '<tr>';
+					htm += '<td colspan="3"><input  type="text" style="height:5px; width:2000px; text-align:left;"></textarea></td>';
+					htm += '</tr>';
+
+					$("#speakTable").append(htm);
+
+				}
+			}
+		}
+	});
+}, 500);
+
+
+$(document).on("click", "#record_end2", function() {
+	/*alert('record_end2');*/
+	var memo;
+	var dataArrayToSend = [];
+
+	$("#speakTable tr").each(function() {
+		var len = $(this).find("td").length;
+		if (len == 1) {
+			var memostr = $(this).find("td").eq(0).find('input[type="text"]').val();
+			if (memostr.length != 0) {
+				memo = { memo: memostr };
+				dataArrayToSend.push(memo);
+			}
+		}
+	});
+
+	var list = { list: dataArrayToSend };
+
+	var formObj = $("form[name='actionForm']");
+
+	$("#inputHidden").attr("value", JSON.stringify(list));
+	formObj.attr("method", "post");
+	formObj.submit();
+
+
+});
+
+
+
+
+
+
+
+
 //webkitURL is deprecated but nevertheless
 URL = window.URL || window.webkitURL;
 
@@ -7,18 +81,46 @@ var input; 							//MediaStreamAudioSourceNode we'll be recording
 
 // shim for AudioContext when it's not avb. 
 var AudioContext = window.AudioContext || window.webkitAudioContext;
-var audioContext //audio context to help us record
+var audioContext = new AudioContext(); //audio context to help us record
+var chkHearMic = document.getElementById("chk-hear-mic")
 
 var recordButton = document.getElementById("record_start");
 var stopButton = document.getElementById("record_end0");
 var pauseButton = document.getElementById("record_pause");
 var resumeButton = document.getElementById("record_restart");
 
+
+const analyser = audioContext.createAnalyser()
+function makeSound(stream) {
+	const source = audioContext.createMediaStreamSource(stream)
+	source.connect(analyser)
+	analyser.connect(audioContext.destination)
+    }
+if (navigator.mediaDevices) {
+	console.log('getUserMedia supported.')
+	const constraints = {
+		audio: true
+	}
+	navigator.mediaDevices.getUserMedia(constraints)
+		.then(stream => {
+			chkHearMic.onchange = e => {
+				if(e.target.checked == true) {
+					audioContext.resume()
+					makeSound(stream)
+				} else {
+					audioContext.suspend()
+				}
+			}
+		})
+	}
+                
+
 //add events to those 2 buttons
 recordButton.addEventListener("click", startRecording);
 stopButton.addEventListener("click", stopRecording);
 pauseButton.addEventListener("click", pauseRecording);
 resumeButton.addEventListener("click", resumeRecording);
+
 function startRecording() {
 	console.log("recordButton clicked");
 
@@ -41,7 +143,22 @@ function startRecording() {
     	We're using the standard promise based getUserMedia() 
     	https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
 	*/
-
+	
+	$("#record_start").val("Recording");
+	$("#record_start").attr("disabled", "disabled");
+	$("#record_start").css({ background: "#ff6666", color: "#ffffff" });
+	$("#record_pause").attr("disabled", false);
+	$("#record_pause").css({ background: "#56BAED", color: "#ffffff" });
+	$("#record_end0").attr("disabled", false);
+	$("#record_end0").css({ background: "#56BAED", color: "#ffffff" });
+	$.ajax({
+		url: "startRecording",
+		type: "post",
+		success: function(html) {
+		}
+	});
+	
+	
 	navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
 		console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
 
@@ -50,7 +167,7 @@ function startRecording() {
 			sampleRate might change after getUserMedia is called, like it does on macOS when recording through AirPods
 			the sampleRate defaults to the one set in your OS for your playback device
 		*/
-		audioContext = new AudioContext();
+		/*audioContext = new AudioContext();*/
 
 		//update the format 
 		document.getElementById("formats").innerHTML="Format: 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz"
@@ -72,12 +189,16 @@ function startRecording() {
 
 		console.log("Recording started");
 
-	}).catch(function(err) {
+	}).catch(function() {
 	  	//enable the record button if getUserMedia() fails
     	recordButton.disabled = false;
     	stopButton.disabled = true;
     	pauseButton.disabled = true
 	});
+	
+	
+	
+	
 }
 
 function pauseRecording(){
@@ -87,7 +208,17 @@ function pauseRecording(){
 		
 		pauseButton.disabled = true;
 		resumeButton.disabled = false;
-	
+		
+	$.ajax({
+		url: "pauseRecording",
+		type: "post",
+		success: function() {
+			$("#record_pause").attr("disabled", true);
+			$("#record_pause").css({ background: "#ff6666", color: "#ffffff" });
+			$("#record_restart").attr("disabled", false);
+			$("#record_restart").css({ background: "#56BAED", color: "#ffffff" });
+		}
+	});
 }
 
 function resumeRecording(){
@@ -98,6 +229,16 @@ function resumeRecording(){
 		pauseButton.disabled = false;
 		resumeButton.disabled = true;
 		
+		$.ajax({
+		url: "restartRecording",
+		type: "post",
+		success: function() {
+			$("#record_pause").attr("disabled", false);
+			$("#record_pause").css({ background: "#56BAED", color: "#ffffff" });
+			$("#record_restart").attr("disabled", true);
+			$("#record_restart").css({ background: "#ff6666", color: "#ffffff" });
+		}
+	});
 }
 
 
@@ -122,6 +263,11 @@ function stopRecording() {
 
 	//create the wav blob and pass it on to createDownloadLink
 	rec.exportWAV(createDownloadLink);
+	
+	/*alert('record_end0');*/
+	$("#record_end0").attr("hidden", true);
+	var bodyHtml = '<input type="button" name="record_end2" id="record_end2" value="Confirm" style="background-color: #56BAED onclick="record_end">';
+	$("#mainDiv").append(bodyHtml);
 }
 
 function createDownloadLink(blob) {
@@ -174,3 +320,7 @@ function createDownloadLink(blob) {
 	//add the li element to the ol
 	recordingsList.appendChild(li);
 }
+
+
+
+});

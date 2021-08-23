@@ -16,6 +16,10 @@
 	<input type="button" name="record_restart" id="record_restart" value="Restart" disabled="disabled" style="background-color: #ff6666 ">
 	<input type="button" name="record_end0" id="record_end0" value="Stop" disabled="disabled" style="background-color: #ff6666 ">
 </div>
+	<br>
+	<input type=checkbox id="chk-hear-mic" style="margin-left: 20px" >
+	<label for="chk-hear-mic">Monitoring</label>
+	
    
 	<div id="controls">
 		<button id="recordButton" hidden="">Record</button>
@@ -59,134 +63,6 @@
 
 
 
-<script type="text/javascript">
-$(document).ready(function(){
-	var temp='';
-	var repeatflag=false;
-	$("#record_start").click(function(){
-
-
-		$("#record_start").val("Recording");
-    $("#record_start").attr("disabled","disabled");
-
-		$("#record_start").css({ background:"#ff6666" , color:"#ffffff" });
-		$("#record_pause").attr("disabled",false);
-		$("#record_pause").css({ background:"#56BAED" , color:"#ffffff" });
-		$("#record_end0").attr("disabled",false);
-		$("#record_end0").css({ background:"#56BAED" , color:"#ffffff" });
-		$.ajax ({
-			url : "startRecording",
-			type : "post",
-			success : function(html){
-			}
-		});
-	});
-	timer = setInterval( function () {
-	    $.ajax ({
-			url : "infiniteReq",
-			type : "get",
-			success : function (html) {
-				if(repeatflag==false){
-					repeatflag=true;
-					temp=html.content;
-				}
-				
-	        	if(temp != html.content){
-	        		temp=html.content;
-	        		
-		        	if(html.length != 0){
-		        		var htm = '';
-		        		//console.log(html.content);
-		        		
-		        		htm += '<tr>';
-		        		htm += '<td>'+html.time+'\t'+'</td>';
-		        		htm += '<td>'+'speaker'+html.speaker+'</td>';
-		        		htm += '<td>'+html.content+'</td>';
-		        		
-		        		htm += '</tr>';
-		        		htm += '<tr>';
-		        		htm += '<td colspan="3"><input  type="text" style="height:5px; width:2000px; text-align:left;"></textarea></td>';
-		        		htm += '</tr>';
-		        		
-		        		$("#speakTable").append(htm);
-		        	
-					}
-				}
-			} 
-		});
-	}, 500);
-});
-
-$("#record_pause").click(function(){
-		$.ajax ({
-			url : "pauseRecording",
-			type : "post",
-			success : function(html){
-				$("#record_pause").attr("disabled",true);
-				$("#record_pause").css({ background:"#ff6666" , color:"#ffffff" });
-				$("#record_restart").attr("disabled",false);
-				$("#record_restart").css({ background:"#56BAED" , color:"#ffffff" });
-			}
-		});
-});
-
-$("#record_restart").click(function(){
-	$.ajax ({
-		url : "restartRecording",
-		type : "post",
-		success : function(html){
-			$("#record_pause").attr("disabled",false);
-			$("#record_pause").css({ background:"#56BAED" , color:"#ffffff" });
-			$("#record_restart").attr("disabled",true);
-			$("#record_restart").css({ background:"#ff6666" , color:"#ffffff" });
-		}
-	});
-});
-
-$("#record_end0").on("click", function() {
-	alert('record_end0');
-	$("#record_end0").attr("hidden",true);
-	var bodyHtml = '<input type="button" name="record_end2" id="record_end2" value="Confirm" style="background-color: #56BAED onclick="record_end">';
-	$("#mainDiv").append(bodyHtml);
-	
-	/* $("#mainDiv").append('<button type="button" id="btn2">버튼 #2</button>'); */
-	
-
-	
-});
-
-
-$(document).on("click","#record_end2", function() {
-	alert('record_end2');
-	var memo;
-	var dataArrayToSend = [];
-	var meetingId=$("#meetingId").val();
-
-	$("#speakTable tr").each(function(){
-	var len = $(this).find("td").length;
-		if(len==1){
-			var memostr = $(this).find("td").eq(0).find('input[type="text"]').val();
-			if(memostr.length != 0){
-				memo = {memo:memostr};
-				dataArrayToSend.push(memo);
-				
-			}
-		}
-	});
-	
-	var list={list:dataArrayToSend};
-	
-	var formObj = $("form[name='actionForm']");
-	
-	$("#inputHidden").attr("value",JSON.stringify(list));
-	formObj.attr("method", "post");
-	formObj.submit();
-
-	
-
-});
-
-</script>
 
 </th:block>
 </html>
