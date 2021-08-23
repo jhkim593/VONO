@@ -51,22 +51,22 @@
     const soundClips = document.getElementById("sound-clips")
     const chkHearMic = document.getElementById("chk-hear-mic")
 
-    const audioCtx = new(window.AudioContext || window.webkitAudioContext)() // 오디오 컨텍스트 정의
+    const AudioContext = new(window.AudioContext || window.webkitAudioContext)() // 오디오 컨텍스트 정의
 
-    const analyser = audioCtx.createAnalyser()
-    //        const distortion = audioCtx.createWaveShaper()
-    //        const gainNode = audioCtx.createGain()
-    //        const biquadFilter = audioCtx.createBiquadFilter()
+    const analyser = AudioContext.createAnalyser()
+    //        const distortion = AudioContext.createWaveShaper()
+    //        const gainNode = AudioContext.createGain()
+    //        const biquadFilter = AudioContext.createBiquadFilter()
 
     function makeSound(stream) {
-        const source = audioCtx.createMediaStreamSource(stream)
+        const source = AudioContext.createMediaStreamSource(stream)
 
         source.connect(analyser)
         //            analyser.connect(distortion)
         //            distortion.connect(biquadFilter)
         //            biquadFilter.connect(gainNode)
-        //            gainNode.connect(audioCtx.destination) // connecting the different audio graph nodes together
-        analyser.connect(audioCtx.destination)
+        //            gainNode.connect(AudioContext.destination) // connecting the different audio graph nodes together
+        analyser.connect(AudioContext.destination)
 
     }
 
@@ -85,10 +85,10 @@
                 
                 chkHearMic.onchange = e => {
                     if(e.target.checked == true) {
-                        audioCtx.resume()
+                        AudioContext.resume()
                         makeSound(stream)
                     } else {
-                        audioCtx.suspend()
+                        AudioContext.suspend()
                     }
                 }
                 
