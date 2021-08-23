@@ -10,19 +10,21 @@
 	 <div class="row" >
       				<table>
         			 	<tr th:each="list : ${listName}">
-      						<div class="card" id="folderCard">
-								<div class="card-body">
-      					 		
-      					 		<img width="90px" src="img/file.png" th:title="${list.name}" class="folderRightClick" th:id="${list.id}">
-      					 		
-								 <p id="txt_line" class="card-text">
-         				 		 <a href="getmtingLogList" th:text="${list.name}" th:onclick="fuckGoogle([[${list.id}]]);"></a></p>
-      					 		
-         				   		</div>
-         				   	</div>
-        			 	</tr>
+ 					<div class="card" id="folderCard">
+						<div class="card-body">
+ 							<img width="90px" src="img/file.png" class="folderRightClick" th:id="${list.id}" th:title="${list.name}">
+							<p id="txt_line" class="card-text">
+         				 	<b> <a th:onclick="getmeetingdetail([[${list.id}]]);"  th:text="${list.name}" ></a></b></p>
+         				   		
+						</div>
+					</div>
+ 				</tr> 
+ 				
 					</table>
       			</div>
+      	 <div class="modal fade" id="MoaModal1" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+  		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content">
+  		<!-- 회의록 보기 --></div></div></div>
       			</div>
     
         

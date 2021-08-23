@@ -1,8 +1,14 @@
-function fuckGoogle(id){
-   location.href='meeting?id='+id;
+function getmeetingdetail(id){
+	
+   location.href='getMeetingSimple?id='+id;
 }
 let meetingID = 0;
-console.clear(); // clear console spam while writing
+//console.clear(); // clear console spam while writing
+function getmeetingdetail(id){
+   $('#MoaModal1 .modal-content').load("getMeetingSimple?id="+id);
+   $('#MoaModal1').modal();
+}
+
 
 (function($) {
 	
@@ -184,7 +190,7 @@ $('.folderRightClick').cmenu({
     fn: 'on_move'
 	}],
   on_preview: function() {
-	location.href='getmtingLogList?id='+meetingID;
+	let url = 'meetingdetail?meetingId='+meetingID;
   },
   
   on_delete: function() {

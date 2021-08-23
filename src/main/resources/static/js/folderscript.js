@@ -1,4 +1,4 @@
-function fuckGoogle(id){
+function getmeetinglogList(id){
 	location.href='getmtingLogList?id='+id;
 }
 let getfolderID = 0;
