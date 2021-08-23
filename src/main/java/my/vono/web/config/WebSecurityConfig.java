@@ -45,15 +45,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       http.csrf().disable();
       http
          .authorizeRequests()
-            .antMatchers("/user/**", "/newMeeting/**", "/wasteBasket/**").authenticated()
-            //.anyRequest().permitAll()
+            .antMatchers("/user/**", "/newMeeting/**", "/wasteBasket/**","/folderList/**").authenticated()
+            
             .and()
          .formLogin()
             .loginPage("/")
             // form action /login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행해줌
             .loginProcessingUrl("/login")
             // 로그인 성공시 돌아가는 url
-            .defaultSuccessUrl("/newMeeting")
+            .defaultSuccessUrl("/folderList")
             .failureUrl("/?error=true")// 로그인 실패 후 이동 페이지
             .usernameParameter("name")
             .passwordParameter("pw")
@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           .oauth2Login()
             .loginPage("/")
             // 구글 로그인이 완료된 뒤의 후처리
-            .defaultSuccessUrl("/newMeeting")
+            .defaultSuccessUrl("/folderList")
             .userInfoEndpoint()
             .userService(customOauthUserService);
          
