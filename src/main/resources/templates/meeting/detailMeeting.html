@@ -6,6 +6,7 @@
 
  
 <th:block layout:fragment="content">
+<script src="js/app.js"></script>
 	<!-- Begin Page Content -->
 	<!-- 여기서부터 작성 시작 -->
 	<div class="container-fluid">
@@ -80,6 +81,10 @@
 			<input type='button' id="addMemoBtn"  style="margin-left:10px;" value="ADD Memo">
 			
 			<input type="button" style=" margin-left:15px;"  id="updateBtn" value="update">
+			<input type="button" style="margin-left:20px;" id="downLoadBtn" value="downLoad">
+			
+			<div th:value="${meeting.recToTextUrl}" hidden="" id="textToUrl"></div>
+			<input type="hidden" th:value="${meeting.recToTextUrl}" id="textToUrl2"></div>
 
 
 		</div>
@@ -93,8 +98,10 @@
 	
 <link th:href="@{css/wasteBasket.css}" rel="stylesheet">
 
+
 <script>
 $(document).ready(function(){
+
 		$(function()
 
 		{
@@ -188,6 +195,16 @@ $(document).ready(function(){
 				
 
 				
+				
+			});
+			
+			$("#downLoadBtn").click(function(){
+			    
+			    
+			    const url= $("#textToUrl2").val();
+
+			   
+				location.href="download?url="+url;
 				
 			});
 		});
