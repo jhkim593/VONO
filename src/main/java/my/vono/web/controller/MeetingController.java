@@ -109,7 +109,8 @@ public class MeetingController {
 		InfiniteStreamRecognize.StreamRestart(model, "");
 		return "녹화재시작";
 	}
-
+	
+	//질문!! DB에 Meeting이 올라가는 구문이 어느것인가?
 	@RequestMapping("endRecording")
 	public String endRecording(Model model, @RequestParam("inputHidden") String inputHidden,
 			@RequestParam("mt_name") String mt_name, @RequestParam("mt_date") String mt_date,
@@ -140,7 +141,8 @@ public class MeetingController {
 
 			String filename = InfiniteStreamRecognize.StreamEnd(model, memoStr, "");
 			meetingDto.setRecToTextUrl(filename);
-			
+			meetingService.createMeeting(meetingDto, custom.getMember().getId());
+			System.out.println("meetingDto : "+meetingDto.getRecFileUrl());
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

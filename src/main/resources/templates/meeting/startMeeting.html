@@ -21,12 +21,7 @@
 	<label for="chk-hear-mic">Monitoring</label>
 	
    
-	<div id="controls">
-		<button id="recordButton" hidden="">Record</button>
-	  	<button id="pauseButton" disabled hidden="">Pause</button>
-	  	<button id="resumeButton" disabled hidden="">Resume</button>
-	  	<button id="stopButton" disabled hidden="">Stop</button>
-    </div>
+
     <div id="formats" hidden="">Format: start recording to see sample rate</div>
   	<p><strong>Recording files:</strong></p>
   	<ol id="recordingsList"></ol>
@@ -42,7 +37,7 @@
 		<input th:value="${date}" id="mt_date" name="mt_date">
 		<input th:value="${participant}" id="mt_participant" name="mt_participant">
 		<input th:value="${content}" id="mt_content" name="mt_content">
-		<input id="mt_href" name="mt_href">
+		<input value="" id="mt_href" name="mt_href">
 	</form>
 	
 
