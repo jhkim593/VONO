@@ -80,6 +80,8 @@ public class InfiniteStreamRecognize {
   private static ByteString tempByteString;
   public static StreamingRecognitionResult result;
   public static String res;
+  public static double correctedTime;
+  public static double correctedTimeTemp=0;
   //계속 써져야 하는 자원 밖으로(여기) 꺼내보기
 	//.xlsx 확장자 지원
 	static XSSFWorkbook xssfWb = new XSSFWorkbook(); // .xlsx
@@ -108,7 +110,23 @@ public class InfiniteStreamRecognize {
     		
     	} else if(!targetDataLine.isRunning()) {
     		System.err.println(" targetDataLine.isRunning() is false");
+    		
+    		//sharedQueue = new LinkedBlockingQueue();
+    		restartCounter = 0;
+    		//audioInput = new ArrayList<ByteString>();
+    		//lastAudioInput = new ArrayList<ByteString>();
+    		resultEndTimeInMS = 0;
+    		isFinalEndTime = 0;
+    		finalRequestEndTime = 0;
+    		newStream = true;
+    		bridgingOffset = 0;
+    		lastTranscriptWasFinal = false;
+    		
+    		correctedTimeTemp+=correctedTime;
+    		correctedTimeTemp+=2000;
+    		
     		targetDataLine.start();
+    		
     	}
     } catch (Exception e) {
       System.out.println("Exception caught: " + e);
@@ -248,8 +266,8 @@ public class InfiniteStreamRecognize {
               resultEndTimeInMS =
                   (int)
                       ((resultEndTime.getSeconds() * 1000) + (resultEndTime.getNanos() / 1000000));
-              double correctedTime =
-                  resultEndTimeInMS - bridgingOffset + (STREAMING_LIMIT * restartCounter);
+              correctedTime =
+                  resultEndTimeInMS - bridgingOffset + (STREAMING_LIMIT * restartCounter) - correctedTimeTemp;
 
               SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
               

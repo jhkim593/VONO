@@ -147,7 +147,6 @@ public class MeetingController {
 	    }
 	    
 
-	      
 	      return "meeting/newMeeting";
 
 	}
