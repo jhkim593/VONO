@@ -18,7 +18,7 @@
       					 		<img width="90px" src="img/folder.png" th:title="${list.id}" class="folderRightClick" th:id="${list.id}" >
       					 		
 								 <p id="txt_line" class="card-text">
-         				 		 <a th:text="${list.name}" th:onclick="fuckGoogle([[${list.id}]]);"></a></p>
+         				 		 <a th:text="${list.name}" th:onclick="getmeetinglogList([[${list.id}]]);"></a></p>
       					 		
          				   		</div>
          				   	</div>

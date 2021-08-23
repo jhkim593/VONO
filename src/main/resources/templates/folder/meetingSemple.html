@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+</head>
+<body>
+<div class="modal-header" >
+		<h5 class="modal-title" style=" visibility: hidden;"> <span th:text="${meetingView.name}" ></span></h5>
+
+        <a class="btn-close" data-dismiss="modal" aria-label="Close"  style="text-align: right;"><i class="material-icons">close</i></a>
+      </div>
+      
+      <div class="modal-body">
+      	<form>
+         <table>
+        	 <tr>
+	       		 <div class="mb-3">
+		           Title:<span style="float: right;" th:text="${#temporals.format(meetingView.create_date, 'yy-MM-dd')}" ></span>
+		            <input type="text" class="form-control" th:value="${meetingView.name}" >
+	          	</div>
+	           	<div class="mb-3">
+	           		Participant:<input type="text" class="form-control" th:value="${meetingView.participant}" >
+	          	</div>
+	          	<div>
+	          		<a th:href="'meeting?id='+${meetingView.id}">디테일</a>
+	          	</div>
+	        </tr>
+        </table>	
+        </form>
+      
+      </div>
+      <div class="modal-footer">
+       
+      </div>
+	</body>
+</html>

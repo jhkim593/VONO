@@ -16,10 +16,10 @@
       						<div class="card" id="folderCard">
 								<div class="card-body">
       					 		
-      					 		<img width="90px" src="img/folder.png" th:title="${list.id}" class="folderRightClick" th:id="${list.id}" >
+      					 		<img width="90px" src="img/folder.png" th:title="${list.id}" class="folderRightClick" th:id="${list.id}" th:onclick="movefolder([[${list.id}]],[[${meetingID}]]);">
       					 		
 								 <p id="txt_line" class="card-text">
-         				 		 <a th:text="${list.name}" th:onclick="fuckGoogle([[${list.id}]],[[${meetingID}]]);"></a></p>
+         				 		 <a th:text="${list.name}" th:onclick="movefolder([[${list.id}]],[[${meetingID}]]);"></a></p>
       					 		
          				   		</div>
          				   	</div>
