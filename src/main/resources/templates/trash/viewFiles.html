@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="modal-header" th:each="mv:${meetingView.meeting}">
-         <h5 class="modal-title"><i class="far fa-file"></i> <span th:text="${mv.name}"></span></h5>
+      <h5 class="modal-title"><i class="far fa-file"></i> <span th:text="${mv.name}"></span></h5>
         <a class="btn-close" data-dismiss="modal" aria-label="Close"><i class="material-icons">close</i></a>
       </div>
       
@@ -27,7 +27,7 @@
         </table>	
         </form>
         
-        <span  style="font-size: 10px;">※Can't be modified on Trash tab</span>
+        <span style="font-size: 13px;">※ Can't be modified on Trash tab</span>
       </div>
       <div class="modal-footer">
        

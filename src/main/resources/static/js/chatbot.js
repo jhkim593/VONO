@@ -104,6 +104,9 @@ function qna(str) {
 	}
 	if(message=="Who's Porori?"){
 		message="what is porori";
+	}
+	else if(message=="What's VONOBot?"){
+		message="who are you";
 	}$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 	$.ajax({
 		url: 'sendMsg',
@@ -114,6 +117,9 @@ function qna(str) {
 		dataType: "text",
 		traditional: true,
 		success: function(data) {
+			if(data=="잘 이해하지 못했어요. 쉽게 설명해주시면 더 좋은 대답을 할 수 있어요."){
+				data="Sorry, I didn't understand. If you explain it easily, I can give you a better answer.";
+				}
 			$('<li class="sent"><p> ' + data + '</p></li>').appendTo($('.messages ul'));
 			$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 		},
