@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -146,23 +147,9 @@ public class MeetingController {
 	    }
 
 
-
 	      return "meeting/newMeeting";
 
 	}
-
-//	@GetMapping("/meeting/insert")
-//	public String meetingInsert(){
-//     return "";	
-
-//}
-
-	// 회의록 목록
-//   @GetMapping("/meetings")
-//   public String meetings(){
-//    return "";   
-//}
-
 
    // 회의록 작성
    @ResponseBody
@@ -369,10 +356,19 @@ public class MeetingController {
 
     @RequestMapping("getmtingLogList")
 	public String getAllFolders(Model m,@RequestParam(required = false, defaultValue = "") Long id) {
-//    	System.out.println("겟 아이디"+ id);
     	m.addAttribute("listName", meetingService.folderMeetingList(id));
 		return "folder/meetingList";
 	}
 
 
+    @RequestMapping("istrashfile")
+	public String istrashfile(@ModelAttribute("getfolderID") Long id) {
+    	meetingService.deleteMeeting(id);
+		return "folder/meetingList";
+	}
+    @RequestMapping("movefile")
+   	public String movefile(@RequestParam(required = false , value = "id") Long folderID ,@RequestParam(required = false, value = "meetingID") Long id ) {
+       	meetingService.moveMeeting1(id, folderID);
+   		return "folder/folderList";
+   	}
 }
