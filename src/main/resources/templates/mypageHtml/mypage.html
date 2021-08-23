@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="~{layout/defaultNoChat}">
+      layout:decorator="~{layout/default}">
+ 
+ 
 
 <th:block layout:fragment="content">
 
@@ -11,16 +13,14 @@
     <div class="container-fluid">
      <div class="signup-form">
      
-         <form action="mypage" method="post" name="meberJoinForm" class="form-horizontal" enctype="multipart/form-data">
+         <form action="mypage" method="post" name="mypageUpdate" class="form-horizontal" enctype="multipart/form-data">
 				
-     
-					     	<div class="row">
+       	<div class="row">
 					        	<div class="col-8 signuptitle">
-									<h2>MyPage</h2>
-									<p><span th:text="${info_name}" ></span>,Welcome to VONO!</p>
+									<h2>Edit MYPAGE</h2>
 								</div>	
 					      	</div>			
-					        <div class="form-group row">
+					       <div class="form-group row">
 								<label class="col-form-label col-4">ID</label>
 								<div class="col-8">
 					                <p  class="form-control" th:text="${info_loginid}"  ></p>
@@ -28,53 +28,51 @@
 					            <div id="usingId_chk"></div>
 					        </div>
 					
-					 
 					        <div class="form-group row">
 								<label class="col-form-label col-4">Name</label>
 								<div class="col-8">
-					               
-					                <p  class="form-control" th:text="${info_name}"  ></p>
+					                 <input type="text" class="form-control" id="name" name="name" th:value="${info_name}" required="required">
+					         
 					            </div>        	
 					        </div>
 					        
 					        <div class="form-group row">
 								<label class="col-form-label col-4">Email</label>
 								<div class="col-8">
-					                
-					                <p  class="form-control" th:text="${info_email}"  ></p> </div>        	 
+					                   <input type="text" class="form-control" id="email" name="email" th:value="${info_email}" required="required">
+					          </div>        	 
 					            <div id="mail_chk"></div>
 					        </div>
 					        <div class="form-group row">
 								<label class="col-form-label col-4">Phone</label>
 								<div class="col-8">
-					             
-					                <p  class="form-control" th:text="${info_phone}"  ></p>   </div>   
+					                <input type="tel" class="form-control" id="phone" name="phone" th:value="${info_phone}" >
+					            </div>   
 					            <div id="phone_chk"></div>     	
 					        </div>
 					        <div class="form-group row">
 								<label class="col-form-label col-4">Job</label>
 								<div class="col-8">
-					          
-					                <p  class="form-control" th:text="${info_job}"  ></p>   </div>   
+					                <input type="text" class="form-control" id="job" name="job" th:value="${info_job}" >
+					            </div>   
 					            <div id="phone_chk"></div>     	
 					        </div>
-					         <div class="form-group row">
-								<label class="col-form-label col-4">Provider</label>
-								<div class="col-8">
-					          
-					                <p  class="form-control" th:text="${info_provider}"  ></p>   </div>   
-					            <div id="phone_chk"></div>     	
-					        </div>
-							
-							<div class="form-group row">
+					        
+					        <div class="form-group row">
 								<div class="col-8 offset-4">
-									<button type="submit" id="update" onclick="location.href='update.html'" class="btn btn-primary btn-lg">modify</button>
+									<button type="submit" id="update"  class="btn btn-primary btn-lg">회원정보 수정</button>
 								</div>  
 								</div>
 								
+								<!-- 개인정보방침 modal창 내용 -->  
+								<!-- <div id="dialog" title="수정완료">
+									<p>
+									수정하시겠습니까?
+									</p>
+								</div> -->
+						
 							
 					    </form>
-						<div class="text-center"> <a href="mypage/delete">VONO Withdrawal</a></div>
 					</div>
     </div>
     
