@@ -42,7 +42,8 @@ $(document).on("click", "#record_end2", function() {
 	/*alert('record_end2');*/
 	var memo;
 	var dataArrayToSend = [];
-
+	alert($("#mt_href").val());
+	
 	$("#speakTable tr").each(function() {
 		var len = $(this).find("td").length;
 		if (len == 1) {
@@ -288,8 +289,9 @@ function createDownloadLink(blob) {
 	link.href = url;
 	link.download = filename+".wav"; //download forces the browser to donwload the file using the  filename
 	link.innerHTML = "Save to disk";
-    console.log(link);
-
+	
+	$("#mt_href").attr("value",link.href);
+	
 	//add the new audio element to li
 	li.appendChild(au);
 	
