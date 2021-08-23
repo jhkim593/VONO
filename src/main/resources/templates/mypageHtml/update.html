@@ -12,10 +12,10 @@
 	<!-- 여기서부터 작성 시작 -->
         <div class="container-fluid">
      <div class="signup-form">
-			<form action="mypage/update" method="post" name="meberJoinForm" class="form-horizontal" enctype="multipart/form-data">
+			<form action="update" method="get" name="mypageUpdate" class="form-horizontal" >
 					      	<div class="row">
 					        	<div class="col-8 signuptitle">
-									<h2>Edit MyProfile</h2>
+									<h2>Edit MYPAGE</h2>
 								</div>	
 					      	</div>			
 					       <div class="form-group row">
@@ -55,17 +55,24 @@
 					            </div>   
 					            <div id="phone_chk"></div>     	
 					        </div>
+					        
+					        <div class="form-group row">
+								<div class="col-8 offset-4">
+									<button type="submit" id="update"  class="btn btn-primary btn-lg">edit info</button>
+								</div>  
+								</div>
 								
 								<!-- 개인정보방침 modal창 내용 -->  
-								<div id="dialog" title="modify done">
+								<!-- <div id="dialog" title="수정완료">
 									<p>
-									want to modify?
+									수정하시겠습니까?
 									</p>
-								</div>
+								</div> -->
+								 </form>
 							</div>	
 							      
-				 </form>
-						<div class="text-center"> <a href="mypage">Go to MyPage</a></div>
+				
+						
 					</div>
        
    
