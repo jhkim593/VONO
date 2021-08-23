@@ -18,7 +18,7 @@ public class ExcelReader {
 		public static MeetingDetailDto excelReader(String URL) throws Exception{
 			 List<MeetingLogVO> list = new ArrayList<MeetingLogVO>();
 			  List<String>memo=new ArrayList<>();
-			 System.out.println("준비");
+			 
 			String fileURL= "C:\\VONO\\"+URL;
 			FileInputStream file = new FileInputStream(fileURL);
 	        XSSFWorkbook workbook = new XSSFWorkbook(file);
@@ -65,9 +65,9 @@ public class ExcelReader {
 	                    	vo.setSpeaker(value);
 	                    }else {
 	                    	vo.setContent(value);
-	                    	list.add(vo);
 	                    }
 	                }
+	                list.add(vo);
 
 	                }
 	            }
@@ -115,11 +115,12 @@ public class ExcelReader {
 	            }
 	      
 	        //추가적인 메모 내용이생길시 시트를 바꿔 저장 저장 위치만 보고 특정 저장위치에 서 값을 읽어옴 
-//	        for(MeetingLogVO m:list) {
-//	        	System.out.println(m.getContent());
-//	        	System.out.println(m.getSpeaker());
-//	        	System.out.println(m.getTime());
-//	        }
+	        System.out.println("==================gg");
+	        for(MeetingLogVO m:list) {
+	        	System.out.println(m.getContent());
+	        	System.out.println(m.getSpeaker());
+	        	System.out.println(m.getTime());
+	        }
 	       return new MeetingDetailDto(list,memo);
 		}
 }
