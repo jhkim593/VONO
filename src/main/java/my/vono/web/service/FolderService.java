@@ -60,6 +60,7 @@ public class FolderService {
 	public void trashFolder(FolderDto folderDto) {
 
 		Folder folder = folderDAO.findById(folderDto.getId()).orElseThrow(FolderNotFoundException::new);
+		if(folder.getName().equals("Basic"))throw new BasicFolderRenameException();
 		folder.changeIs_trashTrue();
 		for (Meeting meeting : folder.getMeetings()) {
 			meeting.changeIs_trashTrue();
@@ -69,6 +70,7 @@ public class FolderService {
 	public void trashFolder1(Long folderID) {
 
 		Folder folder = folderDAO.findById(folderID).orElseThrow(FolderNotFoundException::new);
+		if(folder.getName().equals("Basic"))throw new BasicFolderRenameException();
 		folder.changeIs_trashTrue();
 		for (Meeting meeting : folder.getMeetings()) {
 			meeting.changeIs_trashTrue();
@@ -85,7 +87,7 @@ public class FolderService {
 	public void renameFolder(FolderDto folderDto) {
 
 		Folder folder = folderDAO.findById(folderDto.getId()).orElseThrow(FolderNotFoundException::new);
-		if(folder.getName().equals("기본폴더")) {
+		if(folder.getName().equals("Basic")) {
 			throw new BasicFolderRenameException();
 		}
 

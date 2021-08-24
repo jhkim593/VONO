@@ -35,7 +35,7 @@ public class MemberService {
 		Member member=Member.createMemeber(memberVO.getLogin_id(), memberVO.getPw(), null,
 				memberVO.getName(),memberVO.getEmail(), memberVO.getPhone(), memberVO.getJob());
 
-        Folder folder=Folder.createFolder("기본폴더", member);
+        Folder folder=Folder.createFolder("Basic", member);
 
 		
 	    memberDAO.save(member);

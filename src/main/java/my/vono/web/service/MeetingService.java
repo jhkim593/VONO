@@ -43,7 +43,7 @@ public class MeetingService {
 		folder=folderDAO.findById(meetingDto.getFolder_id()).orElseThrow(FolderNotFoundException::new);
 		}
 		else {
-			folder=folderDAO.findFolderByName("기본폴더" ,memberId).orElseThrow(FolderNotFoundException::new);
+			folder=folderDAO.findFolderByName("Basic" ,memberId).orElseThrow(FolderNotFoundException::new);
 
 		}
 		System.out.println(folder.getName());

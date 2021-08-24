@@ -1,10 +1,6 @@
 package my.vono.web.config.oauth;
 
-import java.util.Map;
-
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -14,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import my.vono.web.config.auth.CustomUserDetails;
+import my.vono.web.entity.Folder;
 import my.vono.web.entity.Member;
+import my.vono.web.model.folder.FolderDAO;
 import my.vono.web.model.user.MemberDAO;
 
 @Service
@@ -23,6 +21,7 @@ public class CustomOauthUserService extends DefaultOAuth2UserService{
 	
 	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	private final MemberDAO memberDAO;
+	private final FolderDAO folderDAO;
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -60,6 +59,9 @@ public class CustomOauthUserService extends DefaultOAuth2UserService{
 					.provider(provider)
 					.build();
 			memberDAO.save(member);
+			
+			 Folder folder=Folder.createFolder("Basic", member);
+			  folderDAO.save(folder);
 		}
 		
 		return new CustomUserDetails(member, new SimpleGrantedAuthority(member.getRole()), oauth2User.getAttributes());
