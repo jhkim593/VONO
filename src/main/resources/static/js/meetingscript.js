@@ -194,10 +194,11 @@ $('.folderRightClick').cmenu({
   },
   
   on_delete: function() {
-	$.post("istrashfile",
-			{meetingID},function(){
-			location.href='folderList';
-					});
+	location.href='istrashfile?id='+meetingID;
+	//$.post("istrashfile",
+	//		{meetingID},function(){
+	//		location.href='folderList';
+	//				});
 },
   on_move: function(){
 	location.href='movefolderList?id='+meetingID;
