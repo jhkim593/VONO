@@ -390,10 +390,15 @@ public class MeetingController {
 	}
 
 	@RequestMapping("istrashfile")
-	public String istrashfile(@ModelAttribute("getfolderID") Long id) {
+	public String istrashfile(@RequestParam(required = false, defaultValue = "id")Long id) {
 		meetingService.deleteMeeting(id);
 		return "folder/meetingList";
 	}
+//	@RequestMapping("istrashfile")
+	//public String istrashfile(@ModelAttribute("getfolderID") Long id) {
+//		meetingService.deleteMeeting(id);
+//		return "folder/meetingList";
+//	}
 
     @RequestMapping("movefile")
    	public String movefile(@RequestParam(required = false , value = "id") Long folderID ,@RequestParam(required = false, value = "meetingID") Long id ) {
