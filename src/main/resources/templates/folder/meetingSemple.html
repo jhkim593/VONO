@@ -19,7 +19,10 @@
 		            <input type="text" class="form-control" th:value="${meetingView.name}" >
 	          	</div>
 	           	<div class="mb-3">
-	           		Participant:<input type="text" class="form-control" th:value="${meetingView.participant}" >
+	           		Participants:<input type="text" class="form-control" th:value="${meetingView.participant}" >
+	          	</div>
+	          	<div class="mb-3">
+	           		Contents:<input type="text" class="form-control" th:value="${meetingView.content}" >
 	          	</div>
 	          	<div>
 	          		<a th:href="'meeting?id='+${meetingView.id}">디테일</a>

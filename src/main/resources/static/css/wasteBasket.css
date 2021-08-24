@@ -3,7 +3,7 @@ a{
 	cursor:pointer;
 }
 #txt_line {
-	width: 120px;
+	width: 100px;
 	padding: 0 5px;
 	overflow: hidden;
 	text-overflow: ellipsis;
