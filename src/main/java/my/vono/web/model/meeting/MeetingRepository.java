@@ -10,7 +10,7 @@ import my.vono.web.entity.Folder;
 import my.vono.web.entity.Meeting;
 
 
-public interface MeetingDAO extends JpaRepository<Meeting,Long>{
+public interface MeetingRepository extends JpaRepository<Meeting,Long>{
 	
 	@Query("select m from Meeting m where m.is_trash=true and m.member.id=:id and m.folder.id is null")
 	List<Meeting>findTrashMeetingByMemberId(@Param("id")Long id);

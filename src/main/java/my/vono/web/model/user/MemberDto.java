@@ -4,7 +4,7 @@ import javax.persistence.Column;
 
 import my.vono.web.entity.Member;
 
-public class MemberDTO {
+public class MemberDto {
 	private Long id;
 
 	private String login_id;
@@ -28,7 +28,7 @@ public class MemberDTO {
     
     private String role;
    
-    public MemberDTO(Member member) {
+    public MemberDto(Member member) {
 
     
 	    	this.id=member.getId();

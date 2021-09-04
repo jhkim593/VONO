@@ -91,7 +91,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="11" language="java" name="my.vono.web.model.folder.FolderDAO" project="VONO" 
+  <interface id="11" language="java" name="my.vono.web.model.folder.FolderRepository" project="VONO"
     file="/VONO/src/main/java/my/vono/web/model/folder/FolderDAO.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="66" width="173" x="308" y="361"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -100,7 +100,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="12" language="java" name="my.vono.web.model.meeting.MeetingDAO" project="VONO" 
+  <interface id="12" language="java" name="my.vono.web.model.meeting.MeetingRepository" project="VONO"
     file="/VONO/src/main/java/my/vono/web/model/meeting/MeetingDAO.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="66" width="187" x="591" y="351"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 

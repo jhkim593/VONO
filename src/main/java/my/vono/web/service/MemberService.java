@@ -2,7 +2,6 @@ package my.vono.web.service;
 
 import java.util.Optional;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import my.vono.web.entity.Folder;
 import my.vono.web.entity.Member;
 import my.vono.web.exception.MemberNotFoundException;
-import my.vono.web.model.folder.FolderDAO;
-import my.vono.web.model.user.MemberDAO;
+import my.vono.web.model.folder.FolderRepository;
+import my.vono.web.model.user.MemberRepository;
 import my.vono.web.model.user.MemberVO;
 
 @Service
@@ -21,8 +20,8 @@ import my.vono.web.model.user.MemberVO;
 @RequiredArgsConstructor
 public class MemberService {
 	
-	private final MemberDAO memberDAO;
-	private final FolderDAO folderDAO;
+	private final MemberRepository memberRepository;
+	private final FolderRepository folderRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
 
 	public void defaultSignUp(MemberVO memberVO) {
@@ -38,8 +37,8 @@ public class MemberService {
         Folder folder=Folder.createFolder("Basic", member);
 
 		
-	    memberDAO.save(member);
-	    folderDAO.save(folder);
+	    memberRepository.save(member);
+	    folderRepository.save(folder);
 	    
 	}
 
@@ -54,7 +53,7 @@ public class MemberService {
 //    }
     
     public MemberVO detailMember(Long id) {
-    	Optional<Member>findMember=memberDAO.findById(id);
+    	Optional<Member>findMember= memberRepository.findById(id);
     	if(findMember.isPresent()) {
     		Member member=findMember.get();
     		return MemberVO.createMemberVO(member);
@@ -63,7 +62,7 @@ public class MemberService {
     }
     
     public void updateMember(MemberVO memberVO) {
-    	Member findMember=memberDAO.findById(memberVO.getId()).orElseThrow(MemberNotFoundException::new);
+    	Member findMember= memberRepository.findById(memberVO.getId()).orElseThrow(MemberNotFoundException::new);
     		
     		findMember.updateMember(memberVO.getName(),memberVO.getEmail(),memberVO.getPhone(),memberVO.getJob());
     		
@@ -71,10 +70,10 @@ public class MemberService {
     	
     
     public void deleteMember(Long id) {
-    	Optional<Member>findMember=memberDAO.findById(id);
+    	Optional<Member>findMember= memberRepository.findById(id);
     	if(findMember.isPresent()) {
     		Member member=findMember.get();
-    		memberDAO.delete(member);
+    		memberRepository.delete(member);
     		
     	}
     	

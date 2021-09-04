@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import my.vono.web.entity.Folder;
 
 
-public interface FolderDAO extends JpaRepository<Folder, Long> {
+public interface FolderRepository extends JpaRepository<Folder, Long> {
 	
 	
 	

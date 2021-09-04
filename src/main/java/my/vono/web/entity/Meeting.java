@@ -66,7 +66,8 @@ public class Meeting {
 	   private String recFileUrl;
 
 	
-	public static Meeting createMeeting(String name,String content,String participant,Folder folder ,String recToTextUrl,String recFileUrl) {
+	public static Meeting createMeeting(String name,String content,String participant,Folder folder ,
+										String recToTextUrl,String recFileUrl) {
 		Meeting meeting=new Meeting();
 		meeting.name=name;
 		meeting.content=content;

@@ -88,7 +88,7 @@ public class FolderController {
 	@RequestMapping("istrashfolder")
 	public String deletefolder(@ModelAttribute("getfolderID") Long folderID) {
 		
-			folderService.trashFolder1(folderID);
+			folderService.trashFolder(folderID);
 		return "redirect:/folderList";
 	}
 	
@@ -129,19 +129,19 @@ public class FolderController {
 
 	}
 
-	@ResponseBody
-	@PostMapping("/folder/trash")
-	public ResponseEntity<?> trashFolder(@RequestBody FolderDto folderDto) {
-
-		try {
-			folderService.trashFolder(folderDto);
-			return new ResponseEntity<>(new DefaultResponseDto<>(true, "휴지통 이동 성공", null), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new DefaultResponseDto<>(false, "휴지통 이동 실패", null), HttpStatus.OK);
-
-		}
-
-	}
+//	@ResponseBody
+//	@PostMapping("/folder/trash")
+//	public ResponseEntity<?> trashFolder(@RequestBody FolderDto folderDto) {
+//
+//		try {
+//			folderService.trashFolder(folderDto);
+//			return new ResponseEntity<>(new DefaultResponseDto<>(true, "휴지통 이동 성공", null), HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(new DefaultResponseDto<>(false, "휴지통 이동 실패", null), HttpStatus.OK);
+//
+//		}
+//
+//	}
 
 	@PostMapping("/folder/rename")
 	@ResponseBody

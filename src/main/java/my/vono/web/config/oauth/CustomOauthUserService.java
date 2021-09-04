@@ -12,16 +12,16 @@ import lombok.RequiredArgsConstructor;
 import my.vono.web.config.auth.CustomUserDetails;
 import my.vono.web.entity.Folder;
 import my.vono.web.entity.Member;
-import my.vono.web.model.folder.FolderDAO;
-import my.vono.web.model.user.MemberDAO;
+import my.vono.web.model.folder.FolderRepository;
+import my.vono.web.model.user.MemberRepository;
 
 @Service
 @RequiredArgsConstructor
 public class CustomOauthUserService extends DefaultOAuth2UserService{
 	
 	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	private final MemberDAO memberDAO;
-	private final FolderDAO folderDAO;
+	private final MemberRepository memberRepository;
+	private final FolderRepository folderRepository;
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -47,7 +47,7 @@ public class CustomOauthUserService extends DefaultOAuth2UserService{
 		System.out.println(role);
 
 		// 이미 회원가입이 되어있는 경우
-		Member member = memberDAO.findByEmail(email);
+		Member member = memberRepository.findByEmail(email);
 		
 		if(member == null) {
 			member = Member.builder()
@@ -58,10 +58,10 @@ public class CustomOauthUserService extends DefaultOAuth2UserService{
 					.role(role)
 					.provider(provider)
 					.build();
-			memberDAO.save(member);
+			memberRepository.save(member);
 			
 			 Folder folder=Folder.createFolder("Basic", member);
-			  folderDAO.save(folder);
+			  folderRepository.save(folder);
 		}
 		
 		return new CustomUserDetails(member, new SimpleGrantedAuthority(member.getRole()), oauth2User.getAttributes());

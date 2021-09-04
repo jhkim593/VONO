@@ -3,7 +3,6 @@ package my.vono.web.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +33,6 @@ import my.vono.web.model.meeting.MeetingDto;
 import my.vono.web.model.response.DefaultResponseDto;
 import my.vono.web.service.MeetingService;
 import my.vono.web.service.WasteBasketService;
-import net.bytebuddy.asm.Advice.Return;
 
 @Controller
 @RequiredArgsConstructor
@@ -155,17 +152,17 @@ public class MeetingController {
 	}
 
 	// 회의록 작성
-	@ResponseBody
-	@PostMapping("/meeting/write")
-	public ResponseEntity<?> meetingWrite(@RequestBody MeetingDto meetingDto,
-			@AuthenticationPrincipal CustomUserDetails custom) {
-		try {
-			meetingService.createMeeting(meetingDto, custom.getMember().getId());
-			return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 생성에 성공하였습니다.", null), HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 생성에 실패하였습니다.", null), HttpStatus.OK);
-		}
-	}
+//	@ResponseBody
+//	@PostMapping("/meeting/write")
+//	public ResponseEntity<?> meetingWrite(@RequestBody MeetingDto meetingDto,
+//			@AuthenticationPrincipal CustomUserDetails custom) {
+//		try {
+//			meetingService.createMeeting(meetingDto, custom.getMember().getId());
+//			return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 생성에 성공하였습니다.", null), HttpStatus.CREATED);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 생성에 실패하였습니다.", null), HttpStatus.OK);
+//		}
+//	}
 
 	// 회의록 휴지통
 	@ResponseBody
@@ -190,18 +187,18 @@ public class MeetingController {
 //      }
 //   }
 
-	@ResponseBody
-	@PostMapping("/meeting/move")
-	public ResponseEntity<?> MoveMeeting(@RequestBody MeetingDto meetingDto,
-			@AuthenticationPrincipal CustomUserDetails custom) {
-		try {
-			System.out.println(meetingDto.getFolderName());
-			meetingService.moveMeeting(meetingDto.getFolderName(), meetingDto.getId(), custom);
-			return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 이동 성공", null), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 이동 실패", null), HttpStatus.OK);
-		}
-	}
+//	@ResponseBody
+//	@PostMapping("/meeting/move")
+//	public ResponseEntity<?> MoveMeeting(@RequestBody MeetingDto meetingDto,
+//			@AuthenticationPrincipal CustomUserDetails custom) {
+//		try {
+//			System.out.println(meetingDto.getFolderName());
+//			meetingService.moveMeeting(meetingDto.getFolderName(), meetingDto.getId(), custom);
+//			return new ResponseEntity<>(new DefaultResponseDto<>(true, "회의록 이동 성공", null), HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(new DefaultResponseDto<>(false, "회의록 이동 실패", null), HttpStatus.OK);
+//		}
+//	}
 
 //======================================   
 
@@ -402,7 +399,7 @@ public class MeetingController {
 
     @RequestMapping("movefile")
    	public String movefile(@RequestParam(required = false , value = "id") Long folderID ,@RequestParam(required = false, value = "meetingID") Long id ) {
-       	meetingService.moveMeeting1(id, folderID);
+       	meetingService.moveMeeting(id, folderID);
    		return "redirect:/folderList";
    	}
     

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import my.vono.web.model.folder.FolderRepository;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -13,23 +14,20 @@ import my.vono.web.entity.Meeting;
 import my.vono.web.entity.Member;
 import my.vono.web.exception.BasicFolderRenameException;
 import my.vono.web.exception.FolderAlreadyExistException;
-import my.vono.web.exception.FolderIsNotTrashException;
 import my.vono.web.exception.FolderNotFoundException;
-import my.vono.web.exception.MeetingNotFoundException;
 import my.vono.web.exception.MemberNotFoundException;
-import my.vono.web.model.folder.FolderDAO;
 import my.vono.web.model.folder.FolderDto;
 import my.vono.web.model.folder.FolderSimpleDto;
-import my.vono.web.model.meeting.MeetingDAO;
-import my.vono.web.model.user.MemberDAO;
+import my.vono.web.model.meeting.MeetingRepository;
+import my.vono.web.model.user.MemberRepository;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class FolderService {
-	private final FolderDAO folderDAO;
-	private final MemberDAO memberDAO;
-	private final MeetingDAO meetingDAO;
+	private final FolderRepository folderRepository;
+	private final MemberRepository memberRepository;
+	private final MeetingRepository meetingRepository;
 	
 	//기본폴더 안지워 지게 설정?
 	// 폴더 인서트 
@@ -40,36 +38,36 @@ public class FolderService {
 			throw new FolderAlreadyExistException();
 		}
 
-		Member member = memberDAO.findById(memberId).orElseThrow(MemberNotFoundException::new);
+		Member member = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
 
 		// 확인
 
-		folderDAO.save(Folder.createFolder(folderName, member));
+		folderRepository.save(Folder.createFolder(folderName, member));
 
 	}
 
 	// 폴더 이름 중복확인
 	public Boolean validFolder(String name , Long memberId) {
-		if (folderDAO.findFolderByName(name , memberId) ==null) {
+		if (folderRepository.findFolderByName(name , memberId).isPresent()) {
 			return true;
 		}
 		return false;
 
 	}
 
-	public void trashFolder(FolderDto folderDto) {
+//	public void trashFolder(FolderDto folderDto) {
+//
+//		Folder folder = folderRepository.findById(folderDto.getId()).orElseThrow(FolderNotFoundException::new);
+//		if(folder.getName().equals("Basic"))throw new BasicFolderRenameException();
+//		folder.changeIs_trashTrue();
+//		for (Meeting meeting : folder.getMeetings()) {
+//			meeting.changeIs_trashTrue();
+//		}
+//
+//	}
+	public void trashFolder(Long folderID) {
 
-		Folder folder = folderDAO.findById(folderDto.getId()).orElseThrow(FolderNotFoundException::new);
-		if(folder.getName().equals("Basic"))throw new BasicFolderRenameException();
-		folder.changeIs_trashTrue();
-		for (Meeting meeting : folder.getMeetings()) {
-			meeting.changeIs_trashTrue();
-		}
-
-	}
-	public void trashFolder1(Long folderID) {
-
-		Folder folder = folderDAO.findById(folderID).orElseThrow(FolderNotFoundException::new);
+		Folder folder = folderRepository.findById(folderID).orElseThrow(FolderNotFoundException::new);
 		if(folder.getName().equals("Basic"))throw new BasicFolderRenameException();
 		folder.changeIs_trashTrue();
 		for (Meeting meeting : folder.getMeetings()) {
@@ -79,14 +77,14 @@ public class FolderService {
 	}
 
 	public List<FolderSimpleDto> findFolders(Long member_id) {
-		return folderDAO.findFolderByMemberId(member_id).stream().map(f -> new FolderSimpleDto(f))
+		return folderRepository.findFolderByMemberId(member_id).stream().map(f -> new FolderSimpleDto(f))
 				.collect(Collectors.toList());
 
 	}
 
 	public void renameFolder(FolderDto folderDto) {
 
-		Folder folder = folderDAO.findById(folderDto.getId()).orElseThrow(FolderNotFoundException::new);
+		Folder folder = folderRepository.findById(folderDto.getId()).orElseThrow(FolderNotFoundException::new);
 		if(folder.getName().equals("Basic")) {
 			throw new BasicFolderRenameException();
 		}
@@ -111,7 +109,7 @@ public class FolderService {
 //	}
 
 	public FolderDto detailFolder(Long folderId) {
-		Folder folder = folderDAO.findById(folderId).orElseThrow(FolderNotFoundException::new);
+		Folder folder = folderRepository.findById(folderId).orElseThrow(FolderNotFoundException::new);
 		return new FolderDto(folder);
 
 	}
