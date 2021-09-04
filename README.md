@@ -2,7 +2,7 @@
 
 1. 폴더 리스트
 
-<img src="https://user-images.githubusercontent.com/53510936/132104244-a586f725-0499-4a5b-ae19-d61a7f29fc31.png"  width="700" height="350"/>  <img src="https://user-images.githubusercontent.com/53510936/132104383-73a7489d-a0ac-4625-8d23-606cbf9caa27.png"  width="200" height="350"/>                                                                                                                                           
+<img src="https://user-images.githubusercontent.com/53510936/132104244-a586f725-0499-4a5b-ae19-d61a7f29fc31.png"  width="600" height="350"/>  <img src="https://user-images.githubusercontent.com/53510936/132104383-73a7489d-a0ac-4625-8d23-606cbf9caa27.png"  width="200" height="350"/>                                                                                                                                           
 <br/>
 ***
 
