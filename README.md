@@ -18,7 +18,7 @@
 <br/>
 
 
-3.  대화록 상세보기 (내용 및 화자 수정, 액셀 파일로 다운로드)
+3.  대화록 상세보기 (내용 및 화자 수정, 메모 추가, 액셀 파일로 다운로드)
   
 <img src="https://user-images.githubusercontent.com/53510936/132106795-cc76cbe0-24fb-4c2a-bf88-b6d11f040795.png"  width="700" height="350"/>
 <br/><img src="https://user-images.githubusercontent.com/53510936/132106611-5c24bc15-0634-4520-9c23-5eab62455a40.png"  width="700" height="350"/>
